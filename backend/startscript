@@ -1,0 +1,25 @@
+#!/bin/sh
+base_path=/srv/gwas-app
+app_path=$base_path/gwas-web-app
+backend=$app_path/backend
+
+python_env="/srv/py-venvs/current"
+cd $backend
+sh $python_env/bin/activate
+export PYTHONPATH=$base_path/GWASModules/:$app_path/:$base_path/GWASModules/variation/src/
+
+case "$1" in
+start)
+$python_env/bin/python __init__.py
+;;
+stop)
+echo "not implemented"
+;;
+restart)
+echo "not implemented"
+;;
+*)
+echo $"Usage: $0 {start|stop|restart}"
+exit 1
+esac
+
