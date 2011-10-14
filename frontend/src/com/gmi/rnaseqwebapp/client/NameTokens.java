@@ -6,7 +6,8 @@ public class NameTokens {
 	public static final String accessionspage = "accessionspage";
 	public static final String helppage = "helppage";
 	public static final String resultslistpage = "resultslistpage";
-
+	public static final String phenotypepage = "!phenotypepage";
+	
 	public static String getHomepage() {
 		return homepage;
 	}
@@ -24,7 +25,7 @@ public class NameTokens {
 		return resultslistpage;
 	}
 
-	
-	
-
+	public static String getPhenotypepage() {
+		return phenotypepage;
+	}
 }

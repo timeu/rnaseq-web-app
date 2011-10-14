@@ -14,6 +14,8 @@ import com.gmi.rnaseqwebapp.client.mvp.help.HelpPresenter;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypePresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeDetailPresenter;
 
 
 @GinModules({ClientDispatchModule.class,ClientModule.class})
@@ -28,4 +30,6 @@ public interface ClientGinjector extends Ginjector{
 	ClientData getClientData();
 	AsyncProvider<AnalysisPresenter> getAnalysisPresenter();
 	AsyncProvider<ResultsListPresenter> getResultsListPresenter();
+	AsyncProvider<PhenotypePresenter> getPhenotypePresenter();
+	AsyncProvider<PhenotypeDetailPresenter> getPhenotypeDetailPresenter();
 }

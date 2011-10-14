@@ -1,0 +1,41 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default'>
+	
+	<ui:with field="mainRes" type="com.gmi.rnaseqwebapp.client.resources.MyResources" />
+
+	<ui:style>
+		.content_container {
+		    border-color: #D0D0D0;
+		    border-style: solid;
+		    border-width: 1px;
+		}
+	</ui:style>
+	<g:DockLayoutPanel>
+		<g:west size="120">
+			<g:HTMLPanel addStyleNames="{mainRes.style.tree_container}">
+				<div class="{mainRes.style.tree_header}"><span>Environment</span>
+				</div>
+				<div>
+					<g:Hyperlink ui:field="environmentOverviewLink" text="Overview" />
+				</div>
+				<div class="{mainRes.style.tree_header}"><span>Results</span>
+				</div>
+				<div>
+					<g:Hyperlink ui:field="KWlink" text="KW"/>
+					<g:Hyperlink ui:field="LMlink" text="LM"/>
+					<g:Hyperlink ui:field="EXlink" text="EMMAX"/>
+				</div>
+				<div class="{mainRes.style.tree_header}"><span>Step-Wise</span>
+				</div>
+			</g:HTMLPanel>
+		</g:west>
+		<g:center>
+			<g:SimpleLayoutPanel ui:field="container" addStyleNames="{mainRes.style.content_container}" />
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

@@ -1,0 +1,40 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:gviz="urn:import:com.google.gwt.visualization.client.visualizations.corechart"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default'>
+	
+	<ui:with field="mainRes" type="com.gmi.rnaseqwebapp.client.resources.MyResources" />
+	<ui:style>
+	.download_link {
+			float:right;
+		}
+	</ui:style>
+	
+	<g:TabLayoutPanel ui:field="gwas_tabpanel" barHeight="2" barUnit="EM">
+		<g:tab>
+			<g:header>Plots</g:header>
+			<g:DockLayoutPanel>
+				<g:north size="32.0">
+					<g:HTMLPanel>
+						 Genes: <g:SuggestBox ui:field="searchGene"></g:SuggestBox>
+			         	<a ui:field="download_link" target="_blank" class="{style.download_link}">Download Results</a>
+					</g:HTMLPanel>
+				</g:north>
+				<g:center>
+					<g:ScrollPanel>
+						<g:FlowPanel ui:field="gwas_container"  />
+					</g:ScrollPanel>
+				</g:center>
+			</g:DockLayoutPanel>
+		</g:tab>
+		<g:tab>
+			<g:header>Statistics</g:header>
+			<g:ScrollPanel/>
+		</g:tab>
+	</g:TabLayoutPanel>
+</ui:UiBinder>
