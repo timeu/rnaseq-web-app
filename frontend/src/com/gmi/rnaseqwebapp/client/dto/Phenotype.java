@@ -112,6 +112,16 @@ public class Phenotype extends BaseModel {
 			return (value == null) ||  (type.getEnd() <= value.intValue());
 		}
 	}
+
+	public Environment getEnvironmentFromName(String name) {
+		for (Environment environment : getEnvironments()) 
+		{
+			if (name != null && environment.getName().equals(name))
+				return environment;
+		}
+		return null;
+		
+	}
 	
 	/*public static <S> List<Phenotype> filter(List<Phenotype> phenotypes, List<PhenotypePredicate<S>> predicates) {
 		List<Phenotype> filtered_list = new ArrayList<Phenotype>();
