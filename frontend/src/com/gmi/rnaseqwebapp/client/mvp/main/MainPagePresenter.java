@@ -11,17 +11,21 @@ import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gmi.rnaseqwebapp.client.event.LoadingIndicatorEvent;
 import com.gmi.rnaseqwebapp.client.event.LoadingIndicatorEvent.LoadingIndicatorHandler;
+import com.gmi.rnaseqwebapp.client.events.DisplayNotificationEvent;
+import com.gmi.rnaseqwebapp.client.events.DisplayNotificationEvent.DisplayNotificationHandler;
 import com.google.inject.Inject;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.gwtplatform.mvp.client.proxy.RevealRootLayoutContentEvent;
 
 public class MainPagePresenter extends
-		Presenter<MainPagePresenter.MyView, MainPagePresenter.MyProxy> implements LoadingIndicatorHandler{
+		Presenter<MainPagePresenter.MyView, MainPagePresenter.MyProxy> implements LoadingIndicatorHandler,DisplayNotificationHandler{
 
 	public interface MyView extends View {
 		void setActiveNavigationItem(String nameToken);
 		void showLoadingIndicator(boolean visible);
+		void showNotification(String caption, String message, int level,
+				int duration);
 	}
 	
 	@ContentSlot
@@ -62,5 +66,11 @@ public class MainPagePresenter extends
 	@Override
 	public void onProcessLoadingIndicator(LoadingIndicatorEvent event) {
 		getView().showLoadingIndicator(event.getShow());
+	}
+
+	@ProxyEvent
+	@Override
+	public void onDisplayNotifcation(DisplayNotificationEvent event) {
+		getView().showNotification(event.getCaption(), event.getMessage(), event.getLevel(), event.getDuration());
 	}
 }
