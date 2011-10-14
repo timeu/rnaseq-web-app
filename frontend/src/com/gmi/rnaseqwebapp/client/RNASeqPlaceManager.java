@@ -5,6 +5,7 @@ import at.gmi.nordborglab.visualizations.geochart.client.GeoChart;
 import com.gmi.rnaseqwebapp.client.gin.DefaultPlace;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.visualization.client.visualizations.MotionChart;
 import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.proxy.PlaceManagerImpl;
@@ -35,7 +36,7 @@ public class RNASeqPlaceManager extends PlaceManagerImpl {
 				RNASeqPlaceManager.super.revealCurrentPlace();
 				
 			}
-		}, CoreChart.PACKAGE, GeoChart.PACKAGE);	
+		}, CoreChart.PACKAGE, GeoChart.PACKAGE,MotionChart.PACKAGE);	
 	}
 
 }
