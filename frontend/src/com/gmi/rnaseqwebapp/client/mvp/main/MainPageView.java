@@ -1,7 +1,9 @@
 package com.gmi.rnaseqwebapp.client.mvp.main;
 
 import com.gwtplatform.mvp.client.ViewImpl;
+import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gmi.rnaseqwebapp.client.ui.LoadingIndicator;
+import com.gmi.rnaseqwebapp.client.ui.NotificationPopup;
 import com.gmi.rnaseqwebapp.client.ui.SlidingPanel;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -20,6 +22,8 @@ public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
 
 	public interface Binder extends UiBinder<Widget, MainPageView> {
 	}
+	
+	protected final NotificationPopup notificationPopup = new NotificationPopup();
 	
 	@UiField MyStyle style;
 	@UiField InlineHyperlink homeLink;
@@ -50,7 +54,7 @@ public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
 		InlineHyperlink currentLink = null;
 		if (nameToken.equals(homeLink.getTargetHistoryToken())) 
 			currentLink = homeLink;
-		else if (nameToken.equals(analysisLink.getTargetHistoryToken()))
+		else if (nameToken.equals(analysisLink.getTargetHistoryToken()) || nameToken.equals(NameTokens.phenotypepage))
 			currentLink = analysisLink;
 		/*else if (nameToken.equals(phenotypeLink.getTargetHistoryToken()))
 			currentLink = phenotypeLink;*/
@@ -83,5 +87,14 @@ public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
 	    if (content != null) {
 	    	contentContainer.setWidget(content);
 	    }
+	}
+
+	@Override
+	public void showNotification(String caption, String message, int level,
+			int duration) {
+		notificationPopup.setNotificatonContent(caption,message,level);
+		notificationPopup.show();
+		notificationPopup.center();
+		
 	}
 }
