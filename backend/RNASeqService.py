@@ -9,6 +9,7 @@ from datetime import datetime
 from JBrowseDataSource import DataSource as JBrowseDataSource 
 import cherrypy
 import cPickle
+from variation.src.rnaseq_records import RNASeqRecords 
 
 class RNASeqService:
     base_path = "/net/gmi.oeaw.ac.at/gwasapp/rnaseq-web/"
@@ -25,8 +26,9 @@ class RNASeqService:
     phenotype_file = base_path + "phenotypes_fake.pickled"
     
     def __init__(self):
-        self.data_file = tables.openFile(self.hdf5_filename, "r")
-        self.accessions = self._getAccessions()
+        self.rnaseq_records = RNASeqRecords(self.hdf5_filename)
+        self.accessions,self.accessions_ix = self.rnaseq_records.getAccessions()
+        #self.accessions_ix = dict((p['ecotype'], i) for i, p in enumerate(people))
         gene_annot_file = open(self.gene_annot_file, 'rb')
         self.gene_annotation = cPickle.load(gene_annot_file)
         gene_annot_file.close()
@@ -56,17 +58,7 @@ class RNASeqService:
         data_table.LoadData(data)
         return data_table.ToJSon(columns_order=column_ls)
     
-    def _getAccessions(self):
         
-        table = self.data_file.root.accessions.infos
-        accessions = []
-        datasets = table.getEnum('dataset')
-        for row in table:
-            collection_date = datetime.fromtimestamp(int(row['collection_date']))
-            collection_date = datetime.strftime(collection_date, '%d.%m.%Y')
-            accession = {'accession_id':row['accession_id'], 'collection_date':collection_date, 'collector':unicode(row['collector'], 'latin1'), 'country':row['country_ISO'], 'dataset':datasets.__call__(row['dataset']), 'latitude':row['latitude'], 'longitude':row['longitude'], 'name':unicode(row['name'], 'utf8')}
-            accessions.append(accession)
-        return accessions
     
     def _getPhenotypes(self, range_start,range_length,name='', chr='', start='', end=''):
         phenotypes_to_filter = []
@@ -97,6 +89,49 @@ class RNASeqService:
             phenotypes_to_return.append(phenotypes_to_filter[i])
         return phenotypes_to_return,count,range_start
     
+    def _getHistogramDataTable(self,phenotype,environment,dataset='Fullset',transformation='raw'):
+        column_name_type_ls = [("x_axis", ("string","Phenotype Value")), \
+                            ("frequency",("number", "Frequency"))]
+        description = dict(column_name_type_ls)
+        data_table = gviz_api.DataTable(description)
+        data_table.LoadData(self.rnaseq_records.get_phenotype_bins(phenotype,environment,dataset,transformation))
+        column_ls = [row[0] for row in column_name_type_ls]
+        return data_table.ToJSon(columns_order=column_ls)
+    
+    def _getCombinedHistogramDataTable(self,phenotype,dataset='Fullset',transformation='raw'):
+        column_name_type_ls = [("x_axis", ("string","Phenotype Value")), \
+                            ("frequency",("number", "10 C ")),
+                            ("frequency_alt",("number","16 C"))]
+        description = dict(column_name_type_ls)
+        data_table = gviz_api.DataTable(description)
+        data_table.LoadData(self.rnaseq_records.get_phenotype_bins(phenotype,'both',dataset,transformation))
+        column_ls = [row[0] for row in column_name_type_ls]
+        return data_table.ToJSon(columns_order=column_ls)
+    
+    def _getPhenotypeExplorerData(self,phenotype,environment,dataset,transformation,phen_vals = None):
+        import datetime
+        result = {}
+        column_name_type_ls = [("label", ("string","ID Name Phenotype")),("date", ("date", "Date")),\
+                               ("lon",("number", "Longitude")),  ("lat",("number", "Latitude")), \
+                               ("phenotype", ("number", "Phenotype")),("name", ("string", "Native Name")),\
+                               ("country", ("string", "Country")) ]
+        if phen_vals == None:
+            phen_vals = self.rnaseq_records.get_phenotype_values(phenotype, environment, dataset, transformation)
+        data = []
+        for i, ecotype in enumerate(phen_vals['ecotype']):
+            accession = self.accessions[self.accessions_ix.get(ecotype,-1)]
+            if accession is not None:
+                value = phen_vals['value'][i]
+                label = '%s ID:%s Phenotype:%s.'%(accession['name'], ecotype, value)
+                data.append({'label':label,'date':datetime.date(2009,2,3),'accession_id':ecotype,\
+                             'lon':accession['longitude'],'lat':accession['latitude'],\
+                             'phenotype':value,'name':accession['name'],'country':accession['country']})
+        data_table = gviz_api.DataTable(dict(column_name_type_ls))
+        data_table.LoadData(data)
+        column_ls = [row[0] for row in column_name_type_ls]
+        result= data_table.ToJSon(columns_order=column_ls)
+        return result
+    
     @cherrypy.expose
     def getAccessions(self):
         return {'accessions':self.accessions}
@@ -106,6 +141,52 @@ class RNASeqService:
     def getPhenotypes(self, range_start=0, range_length=1000, name='', chr='', start='', end=''):
         phenotypes, count,range_start = self._getPhenotypes(int(range_start), int(range_length), name, chr, start, end)
         return {'phenotypes':phenotypes, 'count':count, 'start':int(range_start),'length':int(range_length)}
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getPhenotypeData(self,id):
+        retval = {}
+        phenotypes = self._getPhenotypes(0,1,id)
+        phenotype_info = phenotypes[0][0]
+        phenotype = self.rnaseq_records.get_phenotype_info(id)
+        phenotype['start'] = phenotype_info['start']
+        phenotype['end'] = phenotype_info['end']
+        phenotype['chr'] = phenotype_info['chr']
+        phenotype['phenotype_id'] = phenotype_info['phenotype_id']
+        retval['phenotype'] = phenotype;
+        retval['histogramdataTable'] = self._getCombinedHistogramDataTable(id)
+        return retval
+    
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getPhenotypeMotionChartData(self,phenotype,environment,dataset,transformation):
+        return {"data":self._getPhenotypeExplorerData(phenotype,environment,dataset,transformation)}
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getGWASData(self,phenotype,environment,dataset,transformation,result):
+        try:
+            import math
+            retval = {}
+            association_result = self.rnaseq_records.get_results_by_chromosome(phenotype,environment,dataset,transformation,result)
+            
+            description = [('position',"number", "Position"),('value','number','-log Pvalue')]
+            chr2data ={}
+            for i in range(1,6):
+                data = zip(association_result[i]['position'],association_result[i]['score'])
+                data_table = gviz_api.DataTable(description)
+                data_table.LoadData(data)
+                chr2data[i] =  data_table.ToJSon(columns_order=("position", "value")) 
+            retval['chr2data'] = chr2data
+            retval['chr2length'] = association_result['chromosome_ends']
+            retval['max_value'] = association_result['max_score']
+            if 'no_of_tests' in association_result:
+                retval['bonferroniThreshold'] = -math.log10(1.0/(association_result['no_of_tests']*20.0))
+            else:
+                retval['bonferroniThreshold'] = -math.log10(1.0/(55000000.0*20.0))
+        except Exception, err:
+            retval ={"status":"ERROR","statustext":"%s"%str(err)}
+        return retval
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
