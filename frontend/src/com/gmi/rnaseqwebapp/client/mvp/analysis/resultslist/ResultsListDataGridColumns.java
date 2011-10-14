@@ -7,7 +7,12 @@ import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 
 public interface ResultsListDataGridColumns {
 	
@@ -69,6 +74,35 @@ public interface ResultsListDataGridColumns {
 		public Number getValue(Phenotype object) {
 			return object.getEnd();
 		}
+	}
+	
+	public static class DetailsColumn extends Column<Phenotype,Hyperlink> {
+		
+		String nameToken;
+		
+		public DetailsColumn(String nameToken) {
+			super(new HyperlinkCell());
+			this.nameToken = nameToken;
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public Hyperlink getValue(Phenotype object) {
+			String url = "!phenotypepage;id="+object.getName();
+			return new Hyperlink("Details", url);
+		}
+		
+	}
+	
+	
+	public static class HyperlinkCell extends AbstractCell<Hyperlink> {
+
+		@Override
+		public void render(com.google.gwt.cell.client.Cell.Context context,
+				Hyperlink link, SafeHtmlBuilder sb) {
+			sb.append(SafeHtmlUtils.fromTrustedString(link.toString()));
+		}
+		
 	}
 	
 }

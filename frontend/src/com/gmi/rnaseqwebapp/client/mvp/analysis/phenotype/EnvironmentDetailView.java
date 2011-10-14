@@ -2,7 +2,6 @@ package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
 import com.gmi.rnaseqwebapp.client.dto.Environment;
 import com.gmi.rnaseqwebapp.client.ui.ResizeableColumnChart;
-import com.gmi.rnaseqwebapp.client.ui.ResizeableMotionChart;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ResizeEvent;

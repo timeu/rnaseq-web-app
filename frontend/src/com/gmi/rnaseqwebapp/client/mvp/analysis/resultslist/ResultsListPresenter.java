@@ -54,6 +54,8 @@ import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 
@@ -100,25 +102,24 @@ public class ResultsListPresenter extends
 	protected boolean isPolling = false;
 	protected boolean isSearchTermExapended = false;
 	protected final ClientData clientData;
-	protected final DataSource jBrowseDataSource;
 	protected Phenotypes currentPhenotypes;
+	protected final PlaceManager placeManager;
 
 	@Inject
 	public ResultsListPresenter(final EventBus eventBus, final MyView view,
 			final MyProxy proxy,final DispatchAsync dispatch,final PhenotypesReader phenotypesReader,
-			final ClientData clientData,DataSource jBrowseDataSource) {
+			final ClientData clientData,final PlaceManager placeManager) {
 		super(eventBus, view, proxy);
-		this.jBrowseDataSource = jBrowseDataSource;
 		this.dispatch = dispatch;
 		this.phenotypesReader = phenotypesReader;
 		this.clientData = clientData;
+		this.placeManager = placeManager;
 		phenotypePredicates.put(CRITERIA.Name,new Phenotype.PhenotypeNamePredicate(""));
 		phenotypePredicates.put(CRITERIA.Chr,new Phenotype.PhenotypeChrPredicate(""));
 		phenotypePredicates.put(CRITERIA.Start,new Phenotype.PhenotypeStartPredicate(null));
 		phenotypePredicates.put(CRITERIA.End,new Phenotype.PhenotypeEndPredicate(null));
 		getView().setSearchTerms(phenotypePredicates);
 		getView().setChrSizes(clientData.getChrSizes());
-		
 	}
 
 	@Override

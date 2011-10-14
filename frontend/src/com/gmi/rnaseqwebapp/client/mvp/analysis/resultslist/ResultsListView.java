@@ -13,6 +13,7 @@ import at.gmi.nordborglab.widgets.geneviewer.client.event.HighlightGeneEvent;
 import at.gmi.nordborglab.widgets.geneviewer.client.event.HighlightGeneHandler;
 
 import com.gwtplatform.mvp.client.ViewImpl;
+import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype.PhenotypePredicate;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype.PhenotypePredicate.CRITERIA;
@@ -21,6 +22,7 @@ import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridC
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.ChrColumn;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.StartColumn;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.EndColumn;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.DetailsColumn;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.gmi.rnaseqwebapp.client.ui.HasSearchHandlers;
 import com.gmi.rnaseqwebapp.client.ui.SearchTextBox;
@@ -132,13 +134,14 @@ public class ResultsListView extends ViewImpl implements
 		dataGrid.addColumn(new ChrColumn(searchTerms.get(CRITERIA.Chr)),"Chr");
 		dataGrid.addColumn(new StartColumn(),"Start");
 		dataGrid.addColumn(new EndColumn(),"End");
+		dataGrid.addColumn(new DetailsColumn(NameTokens.phenotypepage),"Action");
 		
 		dataGrid.setColumnWidth(dataGrid.getColumn(0),80,Unit.PX );
 		dataGrid.setColumnWidth(dataGrid.getColumn(1),60, Unit.PCT);
 		dataGrid.setColumnWidth(dataGrid.getColumn(2),50, Unit.PX);
 		dataGrid.setColumnWidth(dataGrid.getColumn(3),20, Unit.PCT);
 		dataGrid.setColumnWidth(dataGrid.getColumn(4),20, Unit.PCT);
-		
+		dataGrid.setColumnWidth(dataGrid.getColumn(5),100,Unit.PX);
 	}
 	
 	@Override
@@ -262,7 +265,7 @@ public class ResultsListView extends ViewImpl implements
 		if (currentChr != chr)  {
 			currentChr = chr;
 			geneViewer.setChromosome("Chr"+currentChr);
-			geneViewer.setViewRegion(0, chrSizes.get(chr));
+			geneViewer.setViewRegion(0, chrSizes.get(chr-1));
 		}
 		geneViewer.updateZoom(start, end);
 	}
