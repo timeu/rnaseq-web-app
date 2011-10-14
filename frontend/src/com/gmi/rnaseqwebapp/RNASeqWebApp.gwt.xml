@@ -9,8 +9,8 @@
 	<inherits name="com.google.gwt.inject.Inject" />
 	<inherits name='com.gwtplatform.mvp.Mvp' />
 	<inherits name='com.gwtplatform.dispatch.Dispatch' />
-	<inherits
-		name="at.gmi.nordborglab.widgets.geneviewer.GeneViewer" />
+	<inherits name="at.gmi.nordborglab.widgets.geneviewer.GeneViewer" />
+	<inherits name="at.gmi.nordborglab.widgets.gwasgeneviewer.GWASGeneViewer" />
 	<inherits name="at.gmi.nordborglab.visualizations.geochart.GeoChart" />
 	<inherits name="com.google.gwt.resources.Resources" />
 	<inherits name='com.google.gwt.visualization.Visualization' />
