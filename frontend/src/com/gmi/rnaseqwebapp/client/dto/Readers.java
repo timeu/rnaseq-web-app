@@ -11,4 +11,12 @@ public interface Readers {
 	public interface AccessionReader extends JsonReader<Accession> {}
 	
 	public interface AccessionsReader extends JsonReader<Accessions> {}
+	
+	public interface DatasetReader extends JsonReader<Dataset> {}
+	
+	public interface EnvironmentReader extends JsonReader<Environment> {}
+	
+	public interface TransformationReader extends JsonReader<Transformation> {}
+	
+	public interface GWASResultReader extends JsonReader<GWASResult> {}
 }
