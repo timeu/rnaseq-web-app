@@ -6,6 +6,7 @@ Created on Nov 16, 2010
 
 import os.path
 import RNASeqService
+from variation.src import rnaseq_records
 import cherrypy
 from cherrypy import _cperror
 import simplejson
@@ -33,7 +34,7 @@ class Root:
         accession_list = self.gwas.getAccessions()
         json_accessions = simplejson.dumps(accession_list,separators=(',',':'))
         json_locationdistribution = self.gwas.getLocationDistributionData()
-        json_chr_sizes = [30424404,23454534,19692149,26973736,18577244]
+        json_chr_sizes = rnaseq_records.chromosome_ends
         content = """
 <!doctype html>
 <html>
