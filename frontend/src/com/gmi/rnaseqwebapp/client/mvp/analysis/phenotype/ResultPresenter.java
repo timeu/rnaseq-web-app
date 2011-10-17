@@ -9,6 +9,7 @@ import com.gmi.rnaseqwebapp.client.dispatch.CustomCallback;
 import com.gmi.rnaseqwebapp.client.dto.Cofactor;
 import com.gmi.rnaseqwebapp.client.dto.GWASResult;
 import com.gmi.rnaseqwebapp.client.dto.ResultData;
+import com.gmi.rnaseqwebapp.client.events.DisplayNotificationEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.inject.Inject;
@@ -47,18 +48,24 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> {
 	@Override
 	protected void onReset() {
 		super.onReset();
-		String download_url = "/gwas/downloadAssociationData?phenotype="+gwasResult.getPhenotype()+"&environment="+gwasResult.getEnvironment()+"&dataset="+gwasResult.getDataset()+"&transformation="+gwasResult.getTransformation()+"&result"+gwasResult.getName();
-		getView().setDownloadURL(download_url);
-		dispatch.execute(new GetGWASDataAction(gwasResult), new CustomCallback<GetGWASDataActionResult>(getEventBus()) {
-
-			@Override
-			public void onSuccess(GetGWASDataActionResult result) {
-				ResultData info = result.getResultData();
-				dataTables = info.getAssociationTables();
-				getView().drawAssociationCharts(dataTables,gwasResult.getCofactors(),clientData.getChrSizes(),info.getMaxScore(),info.getBonferroniThreshold());
-			}
-			
-		});
+		if (gwasResult == null) {
+			DisplayNotificationEvent.fireError(getEventBus(), "Error", "No GWAS result found");
+		}
+		else
+		{
+			String download_url = "/gwas/downloadAssociationData?phenotype="+gwasResult.getPhenotype()+"&environment="+gwasResult.getEnvironment()+"&dataset="+gwasResult.getDataset()+"&transformation="+gwasResult.getTransformation()+"&result"+gwasResult.getName();
+			getView().setDownloadURL(download_url);
+			dispatch.execute(new GetGWASDataAction(gwasResult), new CustomCallback<GetGWASDataActionResult>(getEventBus()) {
+	
+				@Override
+				public void onSuccess(GetGWASDataActionResult result) {
+					ResultData info = result.getResultData();
+					dataTables = info.getAssociationTables();
+					getView().drawAssociationCharts(dataTables,gwasResult.getCofactors(),clientData.getChrSizes(),info.getMaxScore(),info.getBonferroniThreshold());
+				}
+				
+			});
+		}
 	}
 	
 	@Override
