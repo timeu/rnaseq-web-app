@@ -7,37 +7,54 @@
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
 	ui:generateLocales='default'>
 
+	<ui:with field="mainRes" type="com.gmi.rnaseqwebapp.client.resources.MyResources" />
+
 	<ui:style>
+	
+	    .header_row {
+			padding: 7px 5px;
+			border-bottom:2px solid  #666;
+			color:#333;
+		}
+		.header_title {
+			font-weight:bold;
+		}
+		.header_info {
+			float:right;
+
+		}
 		.menu {
 			list-style: none;
+			display:inline;
+			padding:7px 5px;
 	    }
 	    .menu li {
-			float: left;
-			padding: 0 20px;
+			display:inline;
+			color:#5793BD;
+			cursor:pointer;
+			padding:7px 5px;
 		}
+		
 	</ui:style>
 	<g:DockLayoutPanel unit="EM">
-		<g:north size="3.8">
-			<g:HTMLPanel>
+		<g:north size="2.3">
+			<g:HTMLPanel addStyleNames="{style.header_row}">
 				<div>
-					<g:InlineLabel ui:field="phenotype_info" />
-				</div>
-				<div>
-					<div >
+						<g:InlineLabel ui:field="phenotype_name" addStyleNames="{style.header_title}"/>
 						<ul class="{style.menu}">
-						<li>
-						 <g:InlineHyperlink ui:field="overviewLink" >Overview</g:InlineHyperlink> 
+						<li class="{mainRes.style.indicator_small_icon}" ui:field="overview_item">
+						 <g:InlineHyperlink ui:field="overviewLink">Overview</g:InlineHyperlink> 
 						</li>
-						<li >
-							<g:InlineHyperlink ui:field="T16Link" >16 C</g:InlineHyperlink> 
+						<li ui:field="t16_item">
+							<g:InlineHyperlink ui:field="T16Link"  >16°C</g:InlineHyperlink> 
 						</li>
-						<li >
-							<g:InlineHyperlink ui:field="T10Link" >10 C</g:InlineHyperlink> 
+						<li ui:field="t10_item">
+							<g:InlineHyperlink ui:field="T10Link" >10°C</g:InlineHyperlink> 
 						</li>
 						</ul>
+   					    <g:InlineLabel ui:field="phenotype_info" addStyleNames="{style.header_info}"/>
 					</div>
-				
-				</div>
+
 			</g:HTMLPanel>
 		</g:north>
 		<g:center>
