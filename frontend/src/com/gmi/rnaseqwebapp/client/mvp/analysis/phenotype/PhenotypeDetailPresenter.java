@@ -1,21 +1,22 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
-import com.gwtplatform.mvp.client.Presenter;
+
 import com.gwtplatform.mvp.client.PresenterWidget;
 import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
-import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
-import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.google.inject.Inject;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.visualization.client.DataTable;
-import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gmi.rnaseqwebapp.client.dto.Environment;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypePresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeDetailView.NAV_ITEMS;
+
 
 public class PhenotypeDetailPresenter
 		extends
@@ -24,6 +25,10 @@ public class PhenotypeDetailPresenter
 	public interface MyView extends View {
 
 		void setLinkParameter(Environment environment);
+
+		void setActiveLink(NAV_ITEMS link);
+
+		HasSelectionHandlers<Suggestion> getSeachBoxHandler();
 	}
 
 	public static final Object TYPE_SetMainContent = new Object();
@@ -51,6 +56,14 @@ public class PhenotypeDetailPresenter
 	@Override
 	protected void onBind() {
 		super.onBind();
+		registerHandler(getView().getSeachBoxHandler().addSelectionHandler(new SelectionHandler<Suggestion>() {
+
+			@Override
+			public void onSelection(SelectionEvent<Suggestion> event) {
+				PlaceRequest request = new PlaceRequest(NameTokens.phenotypepage).with("id", event.getSelectedItem().getReplacementString()).with("env", environment.getName());
+				placeManager.revealPlace(request);
+			}
+		}));
 	}
 	
 	@Override
@@ -60,10 +73,13 @@ public class PhenotypeDetailPresenter
 		String result = currentPlace.getParameter("result", "");
 		getView().setLinkParameter(environment);
 		if (result.equals("")) {
+			getView().setActiveLink(NAV_ITEMS.Overview);
 			environmentDetailPresenter.setData(environment,histogramDataTable);
 			setInSlot(TYPE_SetMainContent,environmentDetailPresenter);
+			
 		}
 		else {
+			getView().setActiveLink(NAV_ITEMS.valueOf(result));
 			resultPresenter.setData(environment.getDatasets().get(0).getTransformations().get(0).getResultFromName(result));
 			setInSlot(TYPE_SetMainContent,resultPresenter);
 		}
