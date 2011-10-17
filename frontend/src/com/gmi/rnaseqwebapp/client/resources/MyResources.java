@@ -42,6 +42,7 @@ public interface MyResources extends ClientBundle {
 		 String help_image_container();
 		 String help_image_close_link();
 		 String header();
+		 String indicator_small_icon();
 	 }
 	 
 	 @Source("logo.png")
@@ -54,6 +55,8 @@ public interface MyResources extends ClientBundle {
 	 ImageResource search_black();
 	 
 	
+	 @Source("indicator_small.png")
+	 ImageResource indicator_small();
 	 
 	 @Source("style.css")
 	 MainStyle style();

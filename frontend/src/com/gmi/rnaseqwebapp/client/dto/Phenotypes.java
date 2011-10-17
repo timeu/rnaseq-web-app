@@ -40,5 +40,9 @@ public class Phenotypes {
 		this.phenotypes = list;
 		this.count = list.size();
 	}
+
+	public boolean hasMore() {
+		return count > phenotypes.size();
+	}
 	
 }

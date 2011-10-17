@@ -539,4 +539,19 @@
   	top: -15px;
 }
 
+@sprite .indicator_small_icon  {
+    gwt-image:'indicator_small';
+    background-position:50% 101%;
+    background-color: transparent;
+    color: #333;
+	cursor: default;
+	font-weight: bold
+}
+
+.indicator_small_icon a,.indicator_small_icon a:visited, .indicator_small_icon a:hover{
+	color:#333;
+	text-decactoration:none;
+	cursor:default;
+}
+
 

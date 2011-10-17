@@ -200,6 +200,38 @@ class RNASeqService:
         except Exception,err:
             retval =  {"status":"ERROR","statustext":"%s" %str(err)}
         return retval
+    
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getGeneFromName(self,query):
+        try:
+            if self.__datasource == None:
+                self.__datasource = JBrowseDataSource(self.base_jbrowse_path,self.track_folder)
+            genes = []
+            gene = self.__datasource.getGeneFromName(query)
+            retval = {'status': 'OK','gene':gene}
+        except Exception,err:
+            retval =  {"status":"ERROR","statustext":"%s" %str(err)}
+        return retval
+    
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getGenesFromQuery(self,query):
+        try:
+            if self.__datasource == None:
+                self.__datasource = JBrowseDataSource(self.base_jbrowse_path,self.track_folder)
+            genes = []
+            genes = self.__datasource.getGenesFromQuery(query)
+            isMore = False
+            count=0
+            if len(genes) > 20:
+                count = len(genes)
+                genes = genes[0:20]
+                isMore = True
+            retval = {'status': 'OK','isMore':isMore,'count':count,'genes':genes}
+        except Exception,err:
+            retval =  {"status":"ERROR","statustext":"%s" %str(err)}
+        return retval
 
     @cherrypy.expose
     @cherrypy.tools.json_out()

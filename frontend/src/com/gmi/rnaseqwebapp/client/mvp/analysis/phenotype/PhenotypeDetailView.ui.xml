@@ -6,29 +6,91 @@
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
 	ui:generateLocales='default'>
 	
-	<ui:with field="mainRes" type="com.gmi.rnaseqwebapp.client.resources.MyResources" />
 
-	<ui:style>
+	<ui:with field="mainRes" type="com.gmi.rnaseqwebapp.client.resources.MyResources" /> 
+	<ui:image field="search_white" src="../../../resources/search_white.png" />
+	<ui:style ui:field='style' type='com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeDetailView.MyStyle'>
+		.nav_item_selected, .nav_item_selected:hover {
+			background-color:#D5D5D5;
+		}
+
 		.content_container {
 		    border-color: #D0D0D0;
 		    border-style: solid;
 		    border-width: 1px;
 		}
+		.nav_container {
+			margin-top:5px;
+			background-color:#FAFAFA;
+		}
+		.nav_list {
+			list-style:none;
+			margin:0;
+			padding:8px 0px 8px 4px;
+	
+		}
+		
+		.nav_item {
+		}
+		
+		
+		
+		.nav_item a {
+			color:#444444;
+			padding: 6px 0 6px 8px;
+			display:inline-block;
+			width:100%;
+			 -webkit-transition: literal("all 130ms ease-in-out 0s");
+		    -moz-transition: literal("all 130ms ease-in-out 0s");
+		    -o-transition: literal("all 130ms ease-in-out 0s");
+		    transition: literal("all 130ms ease-in-out 0s");
+		}
+		.nav_item a:hover {
+			background-color:#ECECEC;
+			text-decoration:none;
+		}
+		.seach_container {
+			margin:8px 8px 8px 6px;
+		}
+		
+        @sprite .search_box {
+			gwt-image:'search_white';
+			background-position:5px 5px;
+			background-color:white;
+			padding:5px 0 5px 25px;
+		}
 	</ui:style>
+
 	<g:DockLayoutPanel>
-		<g:west size="120">
-			<g:HTMLPanel addStyleNames="{mainRes.style.tree_container}">
+		<g:west size="150.0">
+			<g:HTMLPanel addStyleNames="{mainRes.style.tree_container} {style.nav_container}">
+				<div class="{style.seach_container}">
+					<g:SuggestBox ui:field="search_phenotypes" addStyleNames="{style.search_box}" width="110px" />
+				</div>
 				<div class="{mainRes.style.tree_header}"><span>Environment</span>
 				</div>
 				<div>
-					<g:Hyperlink ui:field="environmentOverviewLink" text="Overview" />
+					<ul class="{style.nav_list}">
+						<li class="{style.nav_item}" >
+							<g:InlineHyperlink ui:field="environmentOverviewLink" text="Overview"  addStyleNames="{style.nav_item_selected}"/>
+						</li>
+					</ul>
+					
 				</div>
 				<div class="{mainRes.style.tree_header}"><span>Results</span>
 				</div>
 				<div>
-					<g:Hyperlink ui:field="KWlink" text="KW"/>
-					<g:Hyperlink ui:field="LMlink" text="LM"/>
-					<g:Hyperlink ui:field="EXlink" text="EMMAX"/>
+					<ul class="{style.nav_list}">
+					<li class="{style.nav_item}"  >
+						<g:InlineHyperlink ui:field="KWlink" text="KW"/>
+					</li>
+					<li class="{style.nav_item}" >
+						<g:InlineHyperlink ui:field="LMlink" text="LM" />
+					</li>
+					<li class="{style.nav_item}">
+						<g:InlineHyperlink ui:field="EXlink" text="EMMAX" />
+					</li>
+					</ul>
 				</div>
 				<div class="{mainRes.style.tree_header}"><span>Step-Wise</span>
 				</div>

@@ -23,6 +23,7 @@ import com.gmi.rnaseqwebapp.client.dispatch.CustomCallback;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypeReader;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeView.NAV_ITEMS;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
 
@@ -33,6 +34,8 @@ public class PhenotypePresenter extends
 
 		void showPhenotypeInfo(Phenotype phenotype);
 		// TODO Put your view methods here
+
+		void setActiveLink(NAV_ITEMS item);
 	}
 
 	@ProxyCodeSplit
@@ -80,11 +83,13 @@ public class PhenotypePresenter extends
 			if (currentPlace.getParameterNames().size() == 1) {
 				phenotypeOverviewPresenter.setData(phenotype,histogramDataTable);
 				setInSlot(TYPE_SetMainContent, phenotypeOverviewPresenter);
+				getView().setActiveLink(NAV_ITEMS.Overview);
 			}
 			else {
 				String env = currentPlace.getParameter("env", "");
 				phenotypeDetailPresenter.setData(phenotype,phenotype.getEnvironmentFromName(env),getSingleHistogramDataTable(env));
 				setInSlot(TYPE_SetMainContent, phenotypeDetailPresenter);
+				getView().setActiveLink(NAV_ITEMS.valueOf(env));
 			}
 		}
 	}
