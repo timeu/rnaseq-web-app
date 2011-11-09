@@ -4,7 +4,9 @@ Created on Sep 12, 2011
 @author: uemit.seren
 '''
 import gviz_api, os
+import h5py
 import tables
+import numpy,math
 from datetime import datetime
 from JBrowseDataSource import DataSource as JBrowseDataSource 
 import cherrypy
@@ -22,6 +24,7 @@ class RNASeqService:
     __datasource = None
     _lazyArrayChunks = [{}, {}, {}, {}, {}]
     hdf5_filename = base_path + "rnaseq_data.hdf5"
+    genomeStats_hdf5_filename = base_path+ 'genestats.hdf5'
     gene_annot_file = base_path + "genome_annotation.pickled"
     phenotype_file = base_path + "phenotypes_fake.pickled"
     
@@ -35,6 +38,10 @@ class RNASeqService:
         phenotype_file = open(self.phenotype_file,'rb')
         self.phenotypes = cPickle.load(phenotype_file)
         phenotype_file.close()
+        self.genomestats_file = h5py.File(self.genomeStats_hdf5_filename,'r')
+        self.genome_wide_stats =   [{'name':'genecount','label':'# Genes','isStackable':False,'isStepPlot':True}, \
+                    {'name':'Dn'},{'name':'Ds'},{'name':'Pn'},{'name':'Ps'},{'name':'MK_test'}, \
+                    {'name':'Pn/Ps'},{'name':'Dn/Ds'},{'name':'alpha'},{'name':'pesudo_tajima_d_s','label':'Tajima D (synonymous)'},{'name':'pesudo_tajima_d_ns','label':'Tajima D (non-synonymous)'}]
             
     
     def _getLocationDistribution(self):
@@ -131,6 +138,15 @@ class RNASeqService:
         column_ls = [row[0] for row in column_name_type_ls]
         result= data_table.ToJSon(columns_order=column_ls)
         return result
+    
+    def _getGeneCountHistogramData(self,chr):
+        if self.__datasource == None:
+            self.__datasource = JBrowseDataSource(self.base_jbrowse_path,self.track_folder)
+        bpPerBin,histogramData = self.__datasource.getGeneHistogram(chr)
+        binCount = len(histogramData)
+        maxValue = max(histogramData)
+        positions = [i*bpPerBin for i in range(0,binCount+1)]
+        return zip(positions,histogramData)
     
     @cherrypy.expose
     def getAccessions(self):
@@ -240,6 +256,54 @@ class RNASeqService:
             gene_parts = gene.split('.')
             description = self.gene_annotation[gene_parts[0]][gene]['functional_description']['computational_description']
             retval = {'status': 'OK','description':description}
+        except Exception,err:
+            retval =  {"status":"ERROR","statustext":"%s" %str(err)}
+        return retval
+    
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getGenomeStatsList(self):
+        try:
+            retval = {'status': 'OK','stats':self.genome_wide_stats}
+        except Exception,err:
+            retval =  {"status":"ERROR","statustext":"%s" %str(err)}
+        return retval
+    
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getGenomeStatsData(self,stats,chr):
+        try:
+            if chr == "null":
+                chr = "Chr1"
+            description = [('position',"number", "Position")]
+            stats = stats.split(',')
+            if 'genecount' in stats:
+                description.append(('genecount',"number","# genes"))
+                data = self._getGeneCountHistogramData(chr)
+            else:
+                group = self.genomestats_file['GeneStats']
+                stats_list = group['headers'][:]
+                chr_numbers = ['chr1','chr2','chr3','chr4','chr5']
+                chr_num = chr_numbers.index(chr.lower())
+                stats_ix = [numpy.where(stats_list ==stat)[0][0] for stat in stats]
+                stats_ix.sort()
+                stats = stats_list[stats_ix,0]
+                chr_region = group.attrs['chr_regions'][chr_num]
+                stats_values = group['stats'][chr_region[0]:chr_region[1],stats_ix]
+                positions = group['positions'][chr_region[0]:chr_region[1],1]
+                
+                for stat in stats:
+                    stat_label = stat
+                    stat_data = next((genome_stat for genome_stat in self.genome_wide_stats if genome_stat['name'] == stat), None)
+                    if stat_data is not None and 'label' in stat_data:
+                        stat_label = stat_data['label']
+                    description.append((stat,"number",stat_label))
+                stats_values_trans = stats_values.transpose().tolist()
+                stats_values_trans_filtered = [map(lambda value: None if  math.isnan(value) else value,values) for values in stats_values_trans]
+                data = zip(positions.tolist(),*(stats_values_trans_filtered))
+            data_table = gviz_api.DataTable(description)
+            data_table.LoadData(data)
+            retval = {'status': 'OK','data':data_table.ToJSon()}
         except Exception,err:
             retval =  {"status":"ERROR","statustext":"%s" %str(err)}
         return retval
