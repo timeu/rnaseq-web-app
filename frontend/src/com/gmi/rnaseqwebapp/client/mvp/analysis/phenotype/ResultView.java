@@ -9,6 +9,7 @@ import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.ServerSugges
 import at.gmi.nordborglab.widgets.gwasgeneviewer.client.GWASGeneViewer;
 
 import com.gmi.rnaseqwebapp.client.dto.Cofactor;
+import com.gmi.rnaseqwebapp.client.ui.ResizeableFlowPanel;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -33,7 +34,7 @@ public class ResultView extends ViewImpl implements ResultPresenter.MyView {
 	}
 	
 	@UiField AnchorElement download_link; 
-	@UiField FlowPanel gwas_container;
+	@UiField ResizeableFlowPanel gwas_container;
 	private final DataSource geneDataSource;
 	private String[] colors = {"blue", "green", "red", "cyan", "purple"};
 	private String[] gene_mark_colors = {"red", "red", "blue", "red", "green"};
@@ -79,14 +80,13 @@ public class ResultView extends ViewImpl implements ResultPresenter.MyView {
 		clearAssociationCharts();
 		Integer i = 1;
 		java.util.Iterator<DataTable> iterator = dataTables.iterator();
-		int width = gwas_container.getOffsetWidth() - 70;
 		
 		while(iterator.hasNext())
 		{
 			DataTable dataTable = iterator.next();
 			String color = colors[i%colors.length];
 			String gene_marker_color = gene_mark_colors[i%gene_mark_colors.length];
-			GWASGeneViewer chart = new GWASGeneViewer("Chr"+i.toString(), color, gene_marker_color, width,geneDataSource);
+			GWASGeneViewer chart = new GWASGeneViewer("Chr"+i.toString(), color, gene_marker_color,geneDataSource);
 			gwasGeneViewers.add(chart);
 			for (Cofactor cofactor: cofactors){
 				if (cofactor.getChr() == i)

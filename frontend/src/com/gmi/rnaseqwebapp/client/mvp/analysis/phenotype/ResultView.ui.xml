@@ -4,6 +4,7 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'
 	xmlns:gviz="urn:import:com.google.gwt.visualization.client.visualizations.corechart"
 	xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:gui="urn:import:com.gmi.rnaseqwebapp.client.ui"
 	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
 	ui:generateLocales='default'>
@@ -27,7 +28,7 @@
 				</g:north>
 				<g:center>
 					<g:ScrollPanel>
-						<g:FlowPanel ui:field="gwas_container"  />
+						<gui:ResizeableFlowPanel ui:field="gwas_container"  />
 					</g:ScrollPanel>
 				</g:center>
 			</g:DockLayoutPanel>

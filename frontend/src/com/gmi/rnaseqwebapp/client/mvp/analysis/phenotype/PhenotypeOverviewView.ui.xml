@@ -22,7 +22,7 @@
 			<g:layer top="0px" height="300px" left="0px" right="0px">
 			<g:HTMLPanel height="290px" addStyleNames="{style.container} {mainRes.style.box_shadow}">
 				<g:ResizeLayoutPanel height="280px" addStyleNames="{style.genecontainer}">
-					<gview:GeneViewer ui:field="geneViewer" dynamicWidth="true" />
+					<gview:GeneViewer ui:field="geneViewer" width="100%" />
 				</g:ResizeLayoutPanel>
 			</g:HTMLPanel>
 			</g:layer>

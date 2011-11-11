@@ -100,7 +100,7 @@ public class ResultsListView extends ViewImpl implements
 	    pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 	    pager.setDisplay(dataGrid);
 		widget = binder.createAndBindUi(this);
-		geneViewer.setSize(0, 300);
+		geneViewer.setHeight("300px");
 		btn_filter_chr_all.addStyleName(mainRes.style().round_button_selected());
 		Search_Start.getElement().setAttribute("placeHolder", "Start (Search on Enter)");
 		Search_End.getElement().setAttribute("placeHolder", "End (Search on Enter)");
