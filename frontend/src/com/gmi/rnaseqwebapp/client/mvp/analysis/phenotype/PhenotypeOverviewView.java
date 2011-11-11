@@ -41,7 +41,7 @@ public class PhenotypeOverviewView extends ViewImpl implements
 	@Inject
 	public PhenotypeOverviewView(final Binder binder,final DataSource jBrowseDataSource) {
 		widget = binder.createAndBindUi(this);
-		geneViewer.setSize(0, 250);
+		geneViewer.setHeight("250px");
 		geneViewer.setDataSource(jBrowseDataSource);
 	}
 

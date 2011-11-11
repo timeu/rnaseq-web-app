@@ -28,7 +28,7 @@
 	</ui:style>
 	<g:DockLayoutPanel unit="EM"  ui:field="container" width="">
 		<g:north size="25">
-			<gview:GeneViewer ui:field="geneViewer" dynamicWidth="true" />
+			<gview:GeneViewer ui:field="geneViewer" width="100%" />
 		</g:north>
 		<g:center>
 			<g:DockLayoutPanel unit="EM" >
