@@ -1,6 +1,6 @@
 package com.gmi.rnaseqwebapp.client;
 
-import at.gmi.nordborglab.visualizations.geochart.client.GeoChart;
+import at.gmi.nordborglab.widgets.geochart.client.GeoChart;
 
 import com.gmi.rnaseqwebapp.client.gin.DefaultPlace;
 import com.google.gwt.event.shared.EventBus;

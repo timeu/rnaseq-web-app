@@ -2,7 +2,7 @@ package com.gmi.rnaseqwebapp.client.mvp.accessions;
 
 import java.util.HashMap;
 
-import at.gmi.nordborglab.visualizations.geochart.client.GeoChart;
+import at.gmi.nordborglab.widgets.geochart.client.GeoChart;
 
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.gmi.rnaseqwebapp.client.dto.Accession;
