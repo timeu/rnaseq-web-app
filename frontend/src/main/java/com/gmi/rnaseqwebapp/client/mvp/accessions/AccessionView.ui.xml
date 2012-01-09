@@ -5,7 +5,7 @@
 	xmlns:gm='urn:import:com.google.gwt.maps.client'
 	xmlns:c="urn:import:com.google.gwt.user.cellview.client"
 	xmlns:gviz="urn:import:com.google.gwt.visualization.client.visualizations"
-	xmlns:nviz="urn:import:at.gmi.nordborglab.visualizations.geochart.client"
+	xmlns:nviz="urn:import:at.gmi.nordborglab.widgets.geochart.client"
 	xmlns:gui="urn:import:com.gmi.rnaseqwebapp.client.ui"
 	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
