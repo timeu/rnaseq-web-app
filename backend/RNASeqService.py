@@ -11,7 +11,7 @@ from datetime import datetime
 from JBrowseDataSource import DataSource as JBrowseDataSource 
 import cherrypy
 import cPickle
-from variation.src.rnaseq_records import RNASeqRecords 
+from rnaseq_records import RNASeqRecords 
 
 class RNASeqService:
     base_path = "/net/gmi.oeaw.ac.at/gwasapp/rnaseq-web/"
@@ -189,7 +189,7 @@ class RNASeqService:
             description = [('position',"number", "Position"),('value','number','-log Pvalue')]
             chr2data ={}
             for i in range(1,6):
-                data = zip(association_result[i]['position'],association_result[i]['score'])
+                data = zip(association_result[i]['position'].tolist(),association_result[i]['score'].tolist())
                 data_table = gviz_api.DataTable(description)
                 data_table.LoadData(data)
                 chr2data[i] =  data_table.ToJSon(columns_order=("position", "value")) 
