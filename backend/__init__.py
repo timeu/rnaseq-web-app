@@ -6,7 +6,7 @@ Created on Nov 16, 2010
 
 import os.path
 import RNASeqService
-from variation.src import rnaseq_records
+import rnaseq_records
 import cherrypy
 from cherrypy import _cperror
 import simplejson
