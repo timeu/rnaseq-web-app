@@ -60,13 +60,13 @@ public class PhenotypeOverviewPresenter extends
 	protected void onReset() {
 		super.onReset();
 		getView().setGeneViewerRegion(phenotype.getChr(),phenotype.getStart()-50,phenotype.getEnd()+50);
+		getView().setHistogramData(histogram);
+		getView().forceLayout();
 	}
 	
 	@Override
 	protected void onReveal() {
 		super.onReveal();
-		getView().setHistogramData(histogram);
-		getView().forceLayout();
 		/*dispatch.execute(new GetPhenotypeOverviewDataAction(phenotype), new CustomCallback<GetPhenotypeOverviewDataActionResult>(getEventBus()) {
 			
 		});*/
