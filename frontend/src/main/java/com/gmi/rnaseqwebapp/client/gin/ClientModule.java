@@ -8,7 +8,9 @@ import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.JBrowseDataS
 import com.gmi.rnaseqwebapp.client.ClientData;
 import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gmi.rnaseqwebapp.client.RNASeqPlaceManager;
+import com.gmi.rnaseqwebapp.client.dto.Cofactor;
 import com.gmi.rnaseqwebapp.client.dto.Readers.AccessionReader;
+import com.gmi.rnaseqwebapp.client.dto.Readers.CofactorReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.DatasetReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.EnvironmentReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.GWASResultReader;
@@ -66,6 +68,7 @@ public class ClientModule extends AbstractPresenterModule {
 	    bind(DatasetReader.class).asEagerSingleton();
 	    bind(TransformationReader.class).asEagerSingleton();
 	    bind(GWASResultReader.class).asEagerSingleton();
+	    bind(CofactorReader.class).asEagerSingleton();
 	    
 	    bind(DataSource.class).toProvider(JBrowseDataSourceProvider.class).in(Singleton.class);
 	    

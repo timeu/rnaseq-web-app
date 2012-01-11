@@ -1,5 +1,6 @@
 package com.gmi.rnaseqwebapp.client.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GWASResult extends BaseModel {
@@ -10,7 +11,9 @@ public class GWASResult extends BaseModel {
 	String environment;
 	String dataset;
 	String transformation;
-	List<Cofactor> cofactors;
+	Integer step = 0;
+	//Cofactor cofactor;
+	//private List<Cofactor> cofactors =null;
 	
 	public String getName() {
 		return name;
@@ -27,8 +30,19 @@ public class GWASResult extends BaseModel {
 	public String getTransformation() {
 		return transformation;
 	}
-	public List<Cofactor> getCofactors() {
-		return cofactors;
+	
+	public Integer getStep() {
+		return step;
 	}
+	/*public List<Cofactor> getCofactors() {
+		if (cofactors == null) {
+			cofactors = new ArrayList<Cofactor>();
+			if (cofactor != null) {
+				for (GWASResult result: getTr)
+			}
+		}
+		return cofactors;
+	}*/
+	
 	
 }

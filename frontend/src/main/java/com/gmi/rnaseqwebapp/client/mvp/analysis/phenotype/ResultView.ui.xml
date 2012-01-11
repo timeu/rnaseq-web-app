@@ -14,6 +14,17 @@
 	.download_link {
 			float:right;
 		}
+		
+		.container, .chart_container{
+			margin-top:10px;
+			clear:both;
+		}
+		.chart_container {
+			width:610px;
+		}	
+		
+		
+
 	</ui:style>
 	
 	<g:TabLayoutPanel ui:field="gwas_tabpanel" barHeight="2" barUnit="EM">
@@ -35,7 +46,24 @@
 		</g:tab>
 		<g:tab>
 			<g:header>Statistics</g:header>
-			<g:ScrollPanel/>
+			<g:ScrollPanel> 
+	            <g:FlowPanel ui:field="container_cofactor" >
+	      		    <g:HTMLPanel addStyleNames="{mainRes.style.box_shadow} {style.container}">
+	      			    <div class="{mainRes.style.box_container}">
+			       		   <c:CellTable ui:field="cofactorTable" width="100%" addStyleNames="{mainRes.style.cellTable}"></c:CellTable>
+  			            </div>
+			           <div class="{mainRes.style.clearfix}"></div>
+			        </g:HTMLPanel>
+			        <g:HTMLPanel addStyleNames="{mainRes.style.box_shadow} {style.chart_container}">
+			      	   <div class ="{mainRes.style.box_container}">
+			      		   Statistic:<g:ListBox ui:field="statistic_type"></g:ListBox>
+			      		   <g:HTMLPanel ui:field="statistic_container">
+				       		   <gviz:LineChart ui:field="statistic_chart" visible="false"></gviz:LineChart>
+			       		   </g:HTMLPanel>
+			       	    </div>
+			     </g:HTMLPanel>
+	     </g:FlowPanel>
+	 </g:ScrollPanel>
 		</g:tab>
 	</g:TabLayoutPanel>
 </ui:UiBinder>

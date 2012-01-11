@@ -9,7 +9,7 @@ public class Transformation extends BaseModel {
 	String phenotype;
 	String environment;
 	String dataset;
-	
+	List<Cofactor> cofactors;
 	List<GWASResult> results;
 	
 	
@@ -36,6 +36,16 @@ public class Transformation extends BaseModel {
 				return result;
 		}
 		return null;
+	}
+	
+	public List<Cofactor> getCofactors() {
+		return cofactors;
+	}
+	
+	public List<Cofactor> getCofactors(int step) {
+		if (step > cofactors.size())
+			return cofactors;
+		return cofactors.subList(0, step);
 	}
 	
 }

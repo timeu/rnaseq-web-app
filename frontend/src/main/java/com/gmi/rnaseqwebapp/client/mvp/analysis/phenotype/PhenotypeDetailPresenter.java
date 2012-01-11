@@ -14,8 +14,10 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.visualization.client.DataTable;
 import com.gmi.rnaseqwebapp.client.dto.Environment;
+import com.gmi.rnaseqwebapp.client.dto.GWASResult;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeDetailView.NAV_ITEMS;
+import com.gmi.rnaseqwebapp.client.dto.Transformation;
+
 
 
 public class PhenotypeDetailPresenter
@@ -26,7 +28,7 @@ public class PhenotypeDetailPresenter
 
 		void setLinkParameter(Environment environment);
 
-		void setActiveLink(NAV_ITEMS link);
+		void setActiveLink(String link);
 
 		HasSelectionHandlers<Suggestion> getSeachBoxHandler();
 	}
@@ -73,14 +75,16 @@ public class PhenotypeDetailPresenter
 		String result = currentPlace.getParameter("result", "");
 		getView().setLinkParameter(environment);
 		if (result.equals("")) {
-			getView().setActiveLink(NAV_ITEMS.Overview);
+			getView().setActiveLink("Overview");
 			environmentDetailPresenter.setData(environment,histogramDataTable);
 			setInSlot(TYPE_SetMainContent,environmentDetailPresenter);
 			
 		}
 		else {
-			getView().setActiveLink(NAV_ITEMS.valueOf(result));
-			resultPresenter.setData(environment.getDatasets().get(0).getTransformations().get(0).getResultFromName(result));
+			getView().setActiveLink(result);
+			Transformation transformation = environment.getDatasets().get(0).getTransformations().get(0);
+			GWASResult gwa_result = transformation.getResultFromName(result);
+			resultPresenter.setData(gwa_result,transformation.getCofactors(gwa_result.getStep()+1));
 			setInSlot(TYPE_SetMainContent,resultPresenter);
 		}
 	}

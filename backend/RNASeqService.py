@@ -12,6 +12,74 @@ from JBrowseDataSource import DataSource as JBrowseDataSource
 import cherrypy
 import cPickle
 from rnaseq_records import RNASeqRecords 
+from gviz_api import *
+
+@staticmethod
+def SingleValueToJSPerf(value, value_type, escape_func=None):
+    if escape_func is None:
+        escape_func = gviz_api.DataTable._EscapeValue
+    if isinstance(value, tuple):
+        # In case of a tuple, we run the same function on the value itself and
+        # add the formatted value.
+        if (len(value) not in [2, 3] or
+          (len(value) == 3 and not isinstance(value[2], dict))):
+            raise DataTableException("Wrong format for value and formatting - %s." %
+                                 str(value))
+        if not isinstance(value[1], types.StringTypes + (types.NoneType,)):
+            raise DataTableException("Formatted value is not string, given %s." %
+                                 type(value[1]))
+        js_value = DataTable.SingleValueToJS(value[0], value_type)
+        if value[1] is None:
+            return (js_value, None)
+        return (js_value, escape_func(value[1]))
+
+    # The standard case - no formatting.
+    t_value = type(value)
+    if value is None:
+        return "null"
+    if value_type == "boolean":
+        if value:
+            return "true"
+        return "false"
+    elif value_type == "number":
+        if isinstance(value, (int, long, float)):
+            if isinstance(value,float):
+                return "%.2f" % value
+            else:
+                return str(value)
+        raise DataTableException("Wrong type %s when expected number" % t_value)
+
+    elif value_type == "string":
+        if isinstance(value, tuple):
+            raise DataTableException("Tuple is not allowed as string value.")
+        return escape_func(value)
+
+    elif value_type == "date":
+        if not isinstance(value, (datetime.date, datetime.datetime)):
+            raise DataTableException("Wrong type %s when expected date" % t_value)
+        # We need to shift the month by 1 to match JS Date format
+        return "new Date(%d,%d,%d)" % (value.year, value.month - 1, value.day)
+
+    elif value_type == "timeofday":
+        if not isinstance(value, (datetime.time, datetime.datetime)):
+            raise DataTableException("Wrong type %s when expected time" % t_value)
+        return "[%d,%d,%d]" % (value.hour, value.minute, value.second)
+
+    elif value_type == "datetime":
+        if not isinstance(value, datetime.datetime):
+            raise DataTableException("Wrong type %s when expected datetime" %
+                                 t_value)
+        return "new Date(%d,%d,%d,%d,%d,%d)" % (value.year,
+                                              value.month - 1,  # To match JS
+                                              value.day,
+                                              value.hour,
+                                              value.minute,
+                                              value.second)
+    # If we got here, it means the given value_type was not one of the
+    # supported types.
+    raise DataTableException("Unsupported type %s" % value_type)
+
+gviz_api.DataTable.SingleValueToJS =  SingleValueToJSPerf
 
 class RNASeqService:
     base_path = "/net/gmi.oeaw.ac.at/gwasapp/rnaseq-web/"

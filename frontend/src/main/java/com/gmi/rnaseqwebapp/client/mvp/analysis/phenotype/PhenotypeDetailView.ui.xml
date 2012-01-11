@@ -94,6 +94,7 @@
 				</div>
 				<div class="{mainRes.style.tree_header}"><span>Step-Wise</span>
 				</div>
+				<g:HTMLPanel ui:field="step_wise_container" />
 			</g:HTMLPanel>
 		</g:west>
 		<g:center>
