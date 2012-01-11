@@ -5,13 +5,26 @@ import com.gmi.rnaseqwebapp.client.dto.Environment;
 import com.gmi.rnaseqwebapp.client.dto.GWASResult;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypesReader;
 import com.gmi.rnaseqwebapp.client.dto.Transformation;
+import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.gmi.rnaseqwebapp.client.ui.PhenotypeSuggestOracle;
+import com.google.gwt.dom.client.AnchorElement;
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.LIElement;
+import com.google.gwt.dom.client.LinkElement;
+import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -32,23 +45,29 @@ public class PhenotypeDetailView extends ViewImpl implements
 	
 	interface MyStyle extends CssResource {
 	    String nav_item_selected();
+	    String nav_item();
+	    String nav_list();
 	}
 	
 	@UiField SimpleLayoutPanel container;
 	@UiField(provided=true) SuggestBox search_phenotypes;
+	@UiField(provided=true) MyResources mainRes;
 	@UiField Hyperlink environmentOverviewLink;
 	@UiField Hyperlink KWlink;
 	@UiField Hyperlink EXlink;
 	@UiField Hyperlink LMlink;
 	@UiField MyStyle style;
+	@UiField HTMLPanel step_wise_container;
 	
-	public enum NAV_ITEMS {Overview,KW,LM,EX};
+	//public enum NAV_ITEMS {Overview,KW,LM,EX};
 	
 	private final PlaceManager placeManager;
 
 	@Inject
-	public PhenotypeDetailView(final Binder binder, final PlaceManager placeManager, final PhenotypesReader phenotypesReader) {
+	public PhenotypeDetailView(final Binder binder, final PlaceManager placeManager, 
+			final PhenotypesReader phenotypesReader,final MyResources resources) {
 		search_phenotypes = new SuggestBox(new PhenotypeSuggestOracle(phenotypesReader));
+		this.mainRes = resources;
 		this.placeManager = placeManager;
 		widget = binder.createAndBindUi(this);
 		search_phenotypes.getElement().setAttribute("placeHolder", "Search");
@@ -70,6 +89,11 @@ public class PhenotypeDetailView extends ViewImpl implements
 		LMlink.setVisible(false);
 		EXlink.setTargetHistoryToken(placeManager.buildHistoryToken(request.with("result", "EX")));
 		EXlink.setVisible(false);
+		step_wise_container.clear();
+		step_wise_container.getElement().setInnerHTML("");
+		UListElement step_wise_list = Document.get().createULElement();
+		step_wise_container.getElement().appendChild(step_wise_list);
+		step_wise_list.setClassName(style.nav_list());
 		Transformation transformation = environment.getDatasets().get(0).getTransformations().get(0);
 		for (GWASResult result: transformation.getGWASResults()) {
 			String resultName = result.getName();
@@ -79,31 +103,63 @@ public class PhenotypeDetailView extends ViewImpl implements
 				LMlink.setVisible(true);
 			else if (resultName.equals("EX"))
 				EXlink.setVisible(true);
+			else {
+				LIElement li = Document.get().createLIElement();
+				li.setClassName(style.nav_item());
+				step_wise_list.appendChild(li);
+				InlineHyperlink link = new InlineHyperlink();
+				//AnchorElement link = Document.get().createAnchorElement();
+				link.setTargetHistoryToken(placeManager.buildHistoryToken(request.with("result", result.getName())));
+				link.getElement().setAttribute("result", result.getName());
+				link.setText("Step " + result.getStep());
+				li.appendChild(link.getElement());
+			}
 		}
 	}
 	
 	@Override
-	public void setActiveLink(NAV_ITEMS link) {
+	public void setActiveLink(String link) {
 		String nav_item_selected = style.nav_item_selected();
 		environmentOverviewLink.removeStyleName(nav_item_selected);
 		KWlink.removeStyleName(nav_item_selected);
 		LMlink.removeStyleName(nav_item_selected);
 		EXlink.removeStyleName(nav_item_selected);
-		switch (link) {
-			case Overview:
-				environmentOverviewLink.addStyleName(nav_item_selected);
-				break;
-			case KW:
-				KWlink.addStyleName(nav_item_selected);
-				break;
-			case LM:
-				LMlink.addStyleName(nav_item_selected);
-				break;
-			case EX:
-				EXlink.addStyleName(nav_item_selected);
-				break;
+		removeStyleNameForStepWise();
+		if (link.equals("Overview")) 
+			environmentOverviewLink.addStyleName(nav_item_selected);
+		else if (link.equals("KW"))
+			KWlink.addStyleName(nav_item_selected);
+		else if (link.equals("LM"))
+			LMlink.addStyleName(nav_item_selected);
+		else if (link.equals("EX")) 		
+			EXlink.addStyleName(nav_item_selected);
+		else {
+			setStepWiseSelected(link);
 		}
 		
+	}
+	
+	private void removeStyleNameForStepWise() {
+		UListElement li_elem = step_wise_container.getElement().getFirstChildElement().cast();
+		NodeList<Node> li_items = li_elem.getChildNodes();
+		for (int i = 0;i<li_items.getLength();i++) {
+			Element elem = li_items.getItem(i).cast();
+			AnchorElement link = elem.getFirstChild().cast();
+			//InlineHyperlink link =  elem.getFirstChildElement()
+			//link.removeStyleName(style.nav_item_selected());
+			link.setClassName("");
+		}
+	}
+	
+	private void setStepWiseSelected(String selected_link) {
+		UListElement li_elem = step_wise_container.getElement().getFirstChildElement().cast();
+		NodeList<Node> li_items = li_elem.getChildNodes();
+		for (int i = 0;i<li_items.getLength();i++) {
+			Element elem = li_items.getItem(i).cast();
+			AnchorElement link = elem.getFirstChild().cast();
+			if (link.getAttribute("result").equals(selected_link))
+				link.setClassName(style.nav_item_selected());
+		}
 	}
 
 	@Override
