@@ -10,7 +10,7 @@ public class Cofactor extends BaseModel{
 	double bic;
 	double ebic;
 	double mbic;
-	double max_cof_pval;
+	double mbonf;
 	double pseudo_heritability;
 	
 	
@@ -43,8 +43,8 @@ public class Cofactor extends BaseModel{
 		return ebic;
 	}
 
-	public double getMaxCofPval() {
-		return max_cof_pval;
+	public double getMbonf() {
+		return mbonf;
 	}
 
 	public double getPseudoHeritability() {

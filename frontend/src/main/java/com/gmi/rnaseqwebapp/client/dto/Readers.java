@@ -19,4 +19,6 @@ public interface Readers {
 	public interface TransformationReader extends JsonReader<Transformation> {}
 	
 	public interface GWASResultReader extends JsonReader<GWASResult> {}
+	
+	public interface CofactorReader extends JsonReader<Cofactor> {}
 }
