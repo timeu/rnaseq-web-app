@@ -104,8 +104,8 @@ class RNASeqService:
         self.gene_annotation = cPickle.load(gene_annot_file)
         gene_annot_file.close()
         phenotype_file = open(self.phenotype_file,'rb')
-        self.phenotypes = cPickle.load(phenotype_file)
-        phenotype_file.close()
+        #self.phenotypes = cPickle.load(phenotype_file)
+        #phenotype_file.close()
         self.genomestats_file = h5py.File(self.genomeStats_hdf5_filename,'r')
         self.genome_wide_stats =   [{'name':'genecount','label':'# Genes','isStackable':False,'isStepPlot':True}, \
                     {'name':'Dn'},{'name':'Ds'},{'name':'Pn'},{'name':'Ps'},{'name':'MK_test'}, \
@@ -136,6 +136,9 @@ class RNASeqService:
         
     
     def _getPhenotypes(self, range_start,range_length,name='', chr='', start='', end=''):
+        return self.rnaseq_records.getPhenotypes(range_start, range_length, name, chr, start, end)
+        
+        """ OLD IMPLEMENTATION
         phenotypes_to_filter = []
         phenotypes_to_return = []
         stop = int(range_start)+int(range_length)
@@ -163,7 +166,8 @@ class RNASeqService:
         for i in range(range_start,stop):
             phenotypes_to_return.append(phenotypes_to_filter[i])
         return phenotypes_to_return,count,range_start
-    
+        """
+        
     def _getHistogramDataTable(self,phenotype,environment,dataset='Fullset',transformation='raw'):
         column_name_type_ls = [("x_axis", ("string","Phenotype Value")), \
                             ("frequency",("number", "Frequency"))]
