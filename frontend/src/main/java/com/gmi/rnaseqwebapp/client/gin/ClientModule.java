@@ -8,7 +8,6 @@ import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.JBrowseDataS
 import com.gmi.rnaseqwebapp.client.ClientData;
 import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gmi.rnaseqwebapp.client.RNASeqPlaceManager;
-import com.gmi.rnaseqwebapp.client.dto.Cofactor;
 import com.gmi.rnaseqwebapp.client.dto.Readers.AccessionReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.CisVsTransStatReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.CofactorReader;
@@ -34,6 +33,8 @@ import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeOverviewPrese
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeOverviewView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypePresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeView;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.ResultPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.ResultView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.topsnpslist.TopSNPsListPresenter;
@@ -54,8 +55,6 @@ import com.gwtplatform.mvp.client.annotations.GaAccount;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
 import com.gwtplatform.mvp.client.googleanalytics.GoogleAnalyticsNavigationTracker;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.ResultPresenter;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.ResultView;
 
 
 
