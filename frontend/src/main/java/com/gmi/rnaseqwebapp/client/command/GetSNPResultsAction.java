@@ -43,7 +43,7 @@ public class GetSNPResultsAction extends RequestBuilderActionImpl<GetSNPResultsA
 	}
 	
 	private String getSearchTermParameters()  {
-		return SNPResultPredicate.toString(searchTerms);
+		return SNPResultPredicate.toRequestString(searchTerms);
 		/*StringBuilder sb = new StringBuilder();
 		if (searchTerms != null && searchTerms.size() > 0)
 		{
