@@ -2,8 +2,10 @@ package com.gmi.rnaseqwebapp.client.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
+import com.gmi.rnaseqwebapp.client.dto.SNPResult.SNPResultPredicate;
 import com.google.gwt.regexp.shared.RegExp;
 
 
@@ -59,5 +61,24 @@ public abstract class AbstractDtoPredicate<T, S> implements DtoPredicate<T,S>,Se
 				filtered_list.add(item);
 		}
 		return filtered_list;
+	}
+	
+	public static <T> String toRequestString(Collection<? extends AbstractDtoPredicate<T,?>> predicates ) {
+		StringBuilder sb = new StringBuilder();
+		if (predicates != null && predicates.size() > 0)
+		{
+			Iterator<? extends AbstractDtoPredicate<T,?>> iterator = predicates.iterator();
+			while(iterator.hasNext()) {
+				AbstractDtoPredicate<T,?> predicate = iterator.next();
+				if (predicate.getValue() != null) {
+					sb.append("&");
+					sb.append(predicate.getKey().toLowerCase());
+					sb.append("=");
+					sb.append(predicate.getValue());
+				}
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 }
