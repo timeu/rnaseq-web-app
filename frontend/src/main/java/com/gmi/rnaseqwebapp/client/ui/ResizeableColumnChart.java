@@ -2,6 +2,7 @@ package com.gmi.rnaseqwebapp.client.ui;
 
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.visualization.client.AbstractDataTable;
+import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.google.gwt.visualization.client.visualizations.corechart.Options;
 
@@ -23,6 +24,13 @@ public class ResizeableColumnChart extends ColumnChart implements
 		options.setWidth(getParent().getOffsetWidth());
 		options.setHeight(getParent().getOffsetHeight());
 		draw(data, options);
+	}
+
+
+	public void draw2(AbstractDataTable data2, Options options) {
+		this.data = data2;
+		this.options = options;
+		draw(data2,options);
 	}
 
 }
