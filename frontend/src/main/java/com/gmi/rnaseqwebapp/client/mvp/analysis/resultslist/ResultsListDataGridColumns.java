@@ -1,20 +1,29 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist;
 
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
+import com.gmi.rnaseqwebapp.client.ui.ColoredCell;
 import com.gmi.rnaseqwebapp.client.ui.HighlightCell;
+import com.gmi.rnaseqwebapp.client.ui.HyperlinkCell;
 import com.gmi.rnaseqwebapp.client.util.SearchTermHighlight;
 import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.safecss.shared.SafeStyles;
+import com.google.gwt.safecss.shared.SafeStylesUtils;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.gwtplatform.mvp.client.proxy.PlaceManager;
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
+
 
 public interface ResultsListDataGridColumns {
+	
+	static Float bonferroniThreshold = new Float(7.53); 
+	
+	
 	
 	public static class PhenotypeIdColumn extends Column<Phenotype,Number> {
 
@@ -51,6 +60,71 @@ public interface ResultsListDataGridColumns {
 			return object.getChr().toString();
 		}
 	}
+	public static class MaxScore10Column extends Column<Phenotype,Number> {
+
+		public MaxScore10Column() {
+			super(new ColoredCell(bonferroniThreshold));
+		}
+
+		@Override
+		public Number getValue(Phenotype object) {
+			return object.getMaxScore10C();
+		}
+		
+	}
+	
+	public static class MaxScore16Column extends Column<Phenotype,Number> {
+
+		public MaxScore16Column() {
+			super(new ColoredCell(bonferroniThreshold));
+		}
+
+		@Override
+		public Number getValue(Phenotype object) {
+			return object.getMaxScore16C();
+		}
+	}
+	
+	public static class MaxScoreFullColumn extends Column<Phenotype,Number> {
+
+		public MaxScoreFullColumn() {
+			super(new ColoredCell(bonferroniThreshold));
+		}
+
+		@Override
+		public Number getValue(Phenotype object) {
+			return object.getMaxScoreFull();
+		}
+	}
+	
+	public static class PseudoHeritability10Column extends Column<Phenotype,Number> {
+
+		public PseudoHeritability10Column() {
+			super(new NumberCell());
+		}
+
+		@Override
+		public Number getValue(Phenotype object) {
+			return object.getPseudoHeritability10C();
+		}
+		
+	}
+	
+	public static class PseudoHeritability16Column extends Column<Phenotype,Number> {
+
+		public PseudoHeritability16Column() {
+			super(new NumberCell());
+		}
+
+		@Override
+		public Number getValue(Phenotype object) {
+			return object.getPseudoHeritability16C();
+		}
+		
+	}
+	
+	
+	
 	
 	public static class StartColumn extends Column<Phenotype,Number> {
 		
@@ -93,16 +167,4 @@ public interface ResultsListDataGridColumns {
 		}
 		
 	}
-	
-	
-	public static class HyperlinkCell extends AbstractCell<Hyperlink> {
-
-		@Override
-		public void render(com.google.gwt.cell.client.Cell.Context context,
-				Hyperlink link, SafeHtmlBuilder sb) {
-			sb.append(SafeHtmlUtils.fromTrustedString(link.toString()));
-		}
-		
-	}
-	
 }

@@ -53,10 +53,10 @@
 										<table border="0" cellpadding="0" cellspacing="0" class="{mainRes.style.filterbox_search_criterias}">
 											<colgroup>
 												<col style="width:80px"></col>
-												<col style="width:60%"></col>
-												<col style="width:50px"></col>
-												<col style="width:20%"></col>
-												<col style="width:20%"></col>
+												<col style="width:285px"></col>
+												<col style="width:70%"></col>
+												<col style="width:285px"></col>
+												<col style="width:285px"></col>
 												<col style="width:100px"></col>
 											</colgroup>
 											<tbody>
