@@ -43,11 +43,6 @@ public class PhenotypeDetailView extends ViewImpl implements
 	public interface Binder extends UiBinder<Widget, PhenotypeDetailView> {
 	}
 	
-	interface MyStyle extends CssResource {
-	    String nav_item_selected();
-	    String nav_item();
-	    String nav_list();
-	}
 	
 	@UiField SimpleLayoutPanel container;
 	@UiField(provided=true) SuggestBox search_phenotypes;
@@ -56,7 +51,6 @@ public class PhenotypeDetailView extends ViewImpl implements
 	@UiField Hyperlink KWlink;
 	@UiField Hyperlink EXlink;
 	@UiField Hyperlink LMlink;
-	@UiField MyStyle style;
 	@UiField HTMLPanel step_wise_container;
 	
 	//public enum NAV_ITEMS {Overview,KW,LM,EX};
@@ -66,8 +60,8 @@ public class PhenotypeDetailView extends ViewImpl implements
 	@Inject
 	public PhenotypeDetailView(final Binder binder, final PlaceManager placeManager, 
 			final PhenotypesReader phenotypesReader,final MyResources resources) {
-		search_phenotypes = new SuggestBox(new PhenotypeSuggestOracle(phenotypesReader));
 		this.mainRes = resources;
+		search_phenotypes = new SuggestBox(new PhenotypeSuggestOracle(phenotypesReader));
 		this.placeManager = placeManager;
 		widget = binder.createAndBindUi(this);
 		search_phenotypes.getElement().setAttribute("placeHolder", "Search");
@@ -93,7 +87,7 @@ public class PhenotypeDetailView extends ViewImpl implements
 		step_wise_container.getElement().setInnerHTML("");
 		UListElement step_wise_list = Document.get().createULElement();
 		step_wise_container.getElement().appendChild(step_wise_list);
-		step_wise_list.setClassName(style.nav_list());
+		step_wise_list.setClassName(mainRes.style().nav_list());
 		Transformation transformation = environment.getDatasets().get(0).getTransformations().get(0);
 		for (GWASResult result: transformation.getGWASResults()) {
 			String resultName = result.getName();
@@ -105,7 +99,7 @@ public class PhenotypeDetailView extends ViewImpl implements
 				EXlink.setVisible(true);
 			else {
 				LIElement li = Document.get().createLIElement();
-				li.setClassName(style.nav_item());
+				li.setClassName(mainRes.style().nav_item());
 				step_wise_list.appendChild(li);
 				InlineHyperlink link = new InlineHyperlink();
 				//AnchorElement link = Document.get().createAnchorElement();
@@ -119,7 +113,7 @@ public class PhenotypeDetailView extends ViewImpl implements
 	
 	@Override
 	public void setActiveLink(String link) {
-		String nav_item_selected = style.nav_item_selected();
+		String nav_item_selected = mainRes.style().nav_item_selected();
 		environmentOverviewLink.removeStyleName(nav_item_selected);
 		KWlink.removeStyleName(nav_item_selected);
 		LMlink.removeStyleName(nav_item_selected);
@@ -158,7 +152,7 @@ public class PhenotypeDetailView extends ViewImpl implements
 			Element elem = li_items.getItem(i).cast();
 			AnchorElement link = elem.getFirstChild().cast();
 			if (link.getAttribute("result").equals(selected_link))
-				link.setClassName(style.nav_item_selected());
+				link.setClassName(mainRes.style().nav_item_selected());
 		}
 	}
 
