@@ -129,6 +129,10 @@ public class CisVsTransView extends ViewImpl implements CisVsTransPresenter.MyVi
 		options.setBackgroundColor("#FAFAFA");
 		options.setHeight(chartHeight);
 		options.setWidth(chart_container.getOffsetWidth());
+		Options animation_options = Options.create();
+		animation_options.set("duration", 1000.0);
+		animation_options.set("easing", "out");
+		options.set("animation", animation_options);
 		return options;
 	}
 	
