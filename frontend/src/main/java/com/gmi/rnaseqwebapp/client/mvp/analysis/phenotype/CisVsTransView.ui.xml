@@ -15,12 +15,12 @@
 	
 
 	<g:LayoutPanel addStyleNames="{style.container} {mainRes.style.box_shadow}">
-	    <g:layer top="10px" height="210px" >
+	    <g:layer top="5px" height="220px" >
 		    <g:ResizeLayoutPanel>
 			    <c:CellTable ui:field="table" width="100%" addStyleNames="{mainRes.style.cellTable}" />
 			</g:ResizeLayoutPanel>
 		</g:layer>
-		<g:layer top="215px" bottom="0px">
+		<g:layer top="230px" bottom="0px">
 			<g:ResizeLayoutPanel ui:field="chart_container" />
 		</g:layer>
 	</g:LayoutPanel>
