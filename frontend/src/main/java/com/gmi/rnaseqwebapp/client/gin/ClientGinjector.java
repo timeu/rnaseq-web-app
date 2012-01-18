@@ -14,6 +14,8 @@ import com.gmi.rnaseqwebapp.client.mvp.help.HelpPresenter;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.topsnpslist.TopSNPsListPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.CisVsTransPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypePresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeDetailPresenter;
 
@@ -32,4 +34,6 @@ public interface ClientGinjector extends Ginjector{
 	AsyncProvider<ResultsListPresenter> getResultsListPresenter();
 	AsyncProvider<PhenotypePresenter> getPhenotypePresenter();
 	AsyncProvider<PhenotypeDetailPresenter> getPhenotypeDetailPresenter();
+	AsyncProvider<CisVsTransPresenter> getCisVsTransPresenter();
+	AsyncProvider<TopSNPsListPresenter> getTopSNPsListPresenter();
 }
