@@ -233,7 +233,7 @@ public class TopSNPsListPresenter extends Presenter<TopSNPsListPresenter.MyView,
 		isPolling = false;
 		isSearchTermExpanded = false;
 		String baseDownloadLink = "/gwas/downloadTopResults?environ_type="+environ_type+"&result_type="+result_type;
-		getView().setDownloadLink(baseDownloadLink+AbstractDtoPredicate.toString(snpresultPredicates.values()));
+		getView().setDownloadLink(baseDownloadLink+AbstractDtoPredicate.toRequestString(snpresultPredicates.values()));
 	}
 
 	@Override
