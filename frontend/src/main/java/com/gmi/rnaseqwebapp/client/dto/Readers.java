@@ -21,4 +21,10 @@ public interface Readers {
 	public interface GWASResultReader extends JsonReader<GWASResult> {}
 	
 	public interface CofactorReader extends JsonReader<Cofactor> {}
+	
+	public interface CisVsTransStatReader extends JsonReader<CisVsTransStat> {}
+	
+	public interface SNPResultReader extends JsonReader<SNPResult> {}
+	
+	public interface SNPResultsReader extends JsonReader<SNPResults> {} 
 }
