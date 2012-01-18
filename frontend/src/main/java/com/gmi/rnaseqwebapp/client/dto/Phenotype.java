@@ -24,6 +24,11 @@ public class Phenotype extends BaseModel {
 	Integer chr;
 	Integer start;
 	Integer end;
+	Float maxScore10C;
+	Float maxScore16C;
+	Float maxScoreFull;
+	Float pseudoHeritability10C;
+	Float pseudoHeritability16C;
 	List<Environment> environments;
 	
 	@Override
@@ -51,6 +56,21 @@ public class Phenotype extends BaseModel {
 		return environments;
 	}
 	
+	public Float getMaxScore10C() {
+		return maxScore10C;
+	}
+	public Float getMaxScore16C() {
+		return maxScore16C;
+	}
+	public Float getMaxScoreFull() {
+		return maxScoreFull;
+	}
+	public Float getPseudoHeritability10C() {
+		return pseudoHeritability10C;
+	}
+	public Float getPseudoHeritability16C() {
+		return pseudoHeritability16C;
+	}
 	
 	public static  abstract class PhenotypePredicate<S> extends AbstractDtoPredicate<Phenotype, S> {
 
