@@ -100,7 +100,7 @@ public class ResultsListPresenter extends
 	protected final PhenotypesReader phenotypesReader;
 	protected boolean isSearchModified = false;
 	protected boolean isPolling = false;
-	protected boolean isSearchTermExapended = false;
+	protected boolean isSearchTermExpanded = false;
 	protected final ClientData clientData;
 	protected Phenotypes currentPhenotypes;
 	protected final PlaceManager placeManager;
@@ -153,7 +153,6 @@ public class ResultsListPresenter extends
 		registerHandler(getView().getFilterChromosome4Handlers().addClickHandler(new FilterClickHandler("4")));
 		registerHandler(getView().getFilterChromosome5Handlers().addClickHandler(new FilterClickHandler("5")));
 		registerHandler(getView().getDisplay().getSelectionModel().addSelectionChangeHandler(new DataGridSelectionChangeHandler()));
-		
 	}
 	
 	
@@ -179,7 +178,7 @@ public class ResultsListPresenter extends
 		if (!isPolling) {
 			isPolling = true;
 			final Range range = getView().getDisplay().getVisibleRange();
-			if (currentPhenotypes == null || isSearchTermExapended || (currentPhenotypes.getCount() > currentPhenotypes.getPhenotypes().size()))
+			if (currentPhenotypes == null || isSearchTermExpanded || (currentPhenotypes.getCount() > currentPhenotypes.getPhenotypes().size()))
 				dispatch.execute(new GetPhenotypesAction(range.getStart(),2000, phenotypePredicates.values(),phenotypesReader), new RequestPhenotypeCallback(getEventBus()));
 			else {
 				currentPhenotypes.update(AbstractDtoPredicate.filter(currentPhenotypes.getPhenotypes(), phenotypePredicates.values()));
@@ -193,7 +192,7 @@ public class ResultsListPresenter extends
 		dataProvider.updateRowData(currentPhenotypes.getStart(), currentPhenotypes.getPhenotypes());
 		isSearchModified = false;
 		isPolling = false;
-		isSearchTermExapended = false;
+		isSearchTermExpanded = false;
 		getView().setActiveChromosomeFilter(phenotypePredicates.get(CRITERIA.Chr).getValue());
 		GeneRange gene_range = getChrRange();
 		if (gene_range != null)
@@ -266,7 +265,7 @@ public class ResultsListPresenter extends
 			boolean isRealTimeSearch = getView().getRealTimeCBValue().getValue();
 			String value = getValue(event);
 			predicate.setValue(value);
-			if ((value.equals("A") || value.equals("AT") && !isSearchTermExapended)) 
+			if ((value.equals("A") || value.equals("AT") && !isSearchTermExpanded)) 
 				updateView();
 			else if (isRealTimeSearch || ((event.getNativeKeyCode() == KeyCodes.KEY_ENTER) && isSearchModified ))
 				requestResults();
@@ -311,7 +310,7 @@ public class ResultsListPresenter extends
 		@Override
 		public void onKeyUp(KeyUpEvent event) {
 			if (event.getNativeKeyCode() == KeyCodes.KEY_DELETE || event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE)
-				isSearchTermExapended = true;
+				isSearchTermExpanded = true;
 			isSearchModified = true;
 		}
 			
@@ -355,7 +354,7 @@ public class ResultsListPresenter extends
 		public void onClick(ClickEvent event) {
 			PhenotypeChrPredicate predicate =  (PhenotypeChrPredicate)phenotypePredicates.get(CRITERIA.Chr);
 			if (currentPhenotypes.getCount() == 0 || (!predicate.getValue().equals(chr)));
-				isSearchTermExapended = true;
+				isSearchTermExpanded = true;
 			predicate.setValue(chr);
 			requestResults();
 		}

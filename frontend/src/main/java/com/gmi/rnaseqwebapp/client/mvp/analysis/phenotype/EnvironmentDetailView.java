@@ -1,19 +1,42 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
+import com.gmi.rnaseqwebapp.client.dto.Accession;
+import com.gmi.rnaseqwebapp.client.dto.CisVsTransStat;
 import com.gmi.rnaseqwebapp.client.dto.Environment;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.EnvironmentDetailPresenter.SOURCE;
+import com.gmi.rnaseqwebapp.client.resources.CellTableResources;
 import com.gmi.rnaseqwebapp.client.ui.ResizeableColumnChart;
+import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safecss.shared.SafeStyles;
+import com.google.gwt.safecss.shared.SafeStylesUtils;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.DataTable;
+import com.google.gwt.visualization.client.LegendPosition;
 import com.google.gwt.visualization.client.visualizations.MotionChart;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
+import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
+import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.google.gwt.visualization.client.visualizations.corechart.Options;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
@@ -29,16 +52,22 @@ public class EnvironmentDetailView extends ViewImpl implements
 	private final Widget widget;
 	@UiField ResizeLayoutPanel motionChart_container;
 	@UiField ResizeLayoutPanel phenotype_container;
+	@UiField LayoutPanel cvt_container;
+	
 	private ColumnChart histogram_chart;
+	
+	
 	private DataTable motionchartData;
 	private DataTable histogramData;
 	private MotionChart motionChart;
 	private String environment;
 	
 	private HandlerRegistration resizeHandlerRegistration;
+	
+	
 
 	@Inject
-	public EnvironmentDetailView(final Binder binder) {
+	public EnvironmentDetailView(final Binder binder, final CellTableResources cellTableResources) {
 		widget = binder.createAndBindUi(this);
 	}
 
@@ -65,6 +94,8 @@ public class EnvironmentDetailView extends ViewImpl implements
 		else
 			histogram_chart.draw(histogramData, createColumnchartOptions());
 	}
+	
+	
 	
 	@Override
 	public void drawMotionChart() {
@@ -109,11 +140,27 @@ public class EnvironmentDetailView extends ViewImpl implements
 		histogram_chart = null;
 		motionChart_container.clear();
 		motionChart = null;
+		
 		if (resizeHandlerRegistration != null) {
 			resizeHandlerRegistration.removeHandler();
 			resizeHandlerRegistration = null;
 		}
-		
 	}
+	
+	@Override
+	public void setInSlot(Object slot, Widget content) {
+		if (slot == EnvironmentDetailPresenter.TYPE_RadiusContent) {
+			cvt_container.add(content);
+			cvt_container.setWidgetLeftWidth(content, 0, Unit.PX, 50, Unit.PCT);
+		}
+		else if (slot == EnvironmentDetailPresenter.TYPE_TSSContent) {
+			cvt_container.add(content);
+			cvt_container.setWidgetRightWidth(content, 0, Unit.PX, 50, Unit.PCT);
+		}
+		else {
+			super.setInSlot(slot, content);
+		}
+	}
+	
 	
 }

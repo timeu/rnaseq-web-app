@@ -10,17 +10,22 @@ import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gmi.rnaseqwebapp.client.RNASeqPlaceManager;
 import com.gmi.rnaseqwebapp.client.dto.Cofactor;
 import com.gmi.rnaseqwebapp.client.dto.Readers.AccessionReader;
+import com.gmi.rnaseqwebapp.client.dto.Readers.CisVsTransStatReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.CofactorReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.DatasetReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.EnvironmentReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.GWASResultReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypeReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypesReader;
+import com.gmi.rnaseqwebapp.client.dto.Readers.SNPResultReader;
+import com.gmi.rnaseqwebapp.client.dto.Readers.SNPResultsReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.TransformationReader;
 import com.gmi.rnaseqwebapp.client.mvp.accessions.AccessionPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.accessions.AccessionView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisView;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.CisVsTransPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.CisVsTransView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.EnvironmentDetailPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.EnvironmentDetailView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeDetailPresenter;
@@ -31,6 +36,8 @@ import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypePresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListView;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.topsnpslist.TopSNPsListPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.topsnpslist.TopSNPsListView;
 import com.gmi.rnaseqwebapp.client.mvp.help.HelpPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.help.HelpView;
 import com.gmi.rnaseqwebapp.client.mvp.home.HomePresenter;
@@ -69,6 +76,9 @@ public class ClientModule extends AbstractPresenterModule {
 	    bind(TransformationReader.class).asEagerSingleton();
 	    bind(GWASResultReader.class).asEagerSingleton();
 	    bind(CofactorReader.class).asEagerSingleton();
+	    bind(CisVsTransStatReader.class).asEagerSingleton();
+	    bind(SNPResultReader.class).asEagerSingleton();
+	    bind(SNPResultsReader.class).asEagerSingleton();
 	    
 	    bind(DataSource.class).toProvider(JBrowseDataSourceProvider.class).in(Singleton.class);
 	    
@@ -102,6 +112,10 @@ public class ClientModule extends AbstractPresenterModule {
 		bindPresenter(ResultsListPresenter.class,
 				ResultsListPresenter.MyView.class, ResultsListView.class,
 				ResultsListPresenter.MyProxy.class);
+		
+		bindPresenter(TopSNPsListPresenter.class,
+				TopSNPsListPresenter.MyView.class, TopSNPsListView.class,
+				TopSNPsListPresenter.MyProxy.class);
 
 		bindPresenter(PhenotypePresenter.class,
 				PhenotypePresenter.MyView.class, PhenotypeView.class,
@@ -121,6 +135,9 @@ public class ClientModule extends AbstractPresenterModule {
 
 		bindPresenterWidget(ResultPresenter.class,
 				ResultPresenter.MyView.class, ResultView.class);
+		
+		bindPresenterWidget(CisVsTransPresenter.class,
+				CisVsTransPresenter.MyView.class, CisVsTransView.class);
 	}
 	
 	static class JBrowseDataSourceProvider implements Provider<DataSource> {

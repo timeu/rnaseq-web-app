@@ -13,6 +13,7 @@ import cherrypy
 import cPickle
 from rnaseq_records import RNASeqRecords 
 from gviz_api import *
+from cherrypy.lib.static import serve_file
 
 @staticmethod
 def SingleValueToJSPerf(value, value_type, escape_func=None):
@@ -133,7 +134,38 @@ class RNASeqService:
         data_table.LoadData(data)
         return data_table.ToJSon(columns_order=column_ls)
     
-        
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getTopResults(self,environ_type,result_type,range_start=0,range_length=1000, gene='',snp_chr='',snp_pos ='',gene_chr = '',min_score=''):
+        results, count,range_start = self.rnaseq_records.getTopResults(environ_type,result_type,int(range_start), int(range_length), gene, snp_chr,snp_pos,gene_chr,min_score)
+        return {'results':results, 'count':count, 'start':int(range_start),'length':int(range_length)}
+    
+    
+    
+    @cherrypy.expose
+    @cherrypy.tools.response_headers(headers=[('Content-Type','application/csv'),('Content-disposition','attachment;filename=results.csv')])
+    def downloadAssociationData(self,phenotype,environment,dataset,transformation,result):
+        import StringIO,csv
+        results = self.rnaseq_records.get_results_for_csv(phenotype,environment,dataset,transformation,result)
+        content = ''
+        tempfile = StringIO.StringIO()
+        writer = csv.writer(tempfile,delimiter=',')
+        writer.writerows(results)
+        content = tempfile.getvalue()
+        tempfile.close()
+        return content;
+    
+    
+    """"""
+    @cherrypy.expose
+    def downloadTopResults(self,environ_type,result_type, gene='',snp_chr='',snp_pos ='',gene_chr = '',min_score=''):
+        filename ="%s_%s" % (environ_type,result_type)
+        path = self.base_path + "/%s.tar.gz" % filename
+        if os.path.isfile(path):
+            return serve_file(path,"application/gzip","attachment")
+        else:
+            path = self.base_path+"/%s.csv" %filename
+        return serve_file(path, "application/csv", "attachment")
     
     def _getPhenotypes(self, range_start,range_length,name='', chr='', start='', end=''):
         return self.rnaseq_records.getPhenotypes(range_start, range_length, name, chr, start, end)
@@ -241,6 +273,13 @@ class RNASeqService:
         phenotype['end'] = phenotype_info['end']
         phenotype['chr'] = phenotype_info['chr']
         phenotype['phenotype_id'] = phenotype_info['phenotype_id']
+        phenotype['maxScore10C'] = phenotype_info['maxScore10C']
+        phenotype['maxScore16C'] = phenotype_info['maxScore16C']
+        phenotype['maxScoreFull'] = phenotype_info['maxScoreFull']
+        
+        phenotype['pseudoHeritability10C'] = phenotype_info['pseudoHeritability10C']
+        phenotype['pseudoHeritability16C'] = phenotype_info['pseudoHeritability16C']
+
         retval['phenotype'] = phenotype;
         retval['histogramdataTable'] = self._getCombinedHistogramDataTable(id)
         return retval

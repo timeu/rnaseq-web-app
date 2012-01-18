@@ -23,6 +23,11 @@ import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridC
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.StartColumn;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.EndColumn;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.DetailsColumn;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.MaxScore10Column;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.MaxScore16Column;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.MaxScoreFullColumn;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.PseudoHeritability10Column;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListDataGridColumns.PseudoHeritability16Column;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.gmi.rnaseqwebapp.client.ui.HasSearchHandlers;
 import com.gmi.rnaseqwebapp.client.ui.SearchTextBox;
@@ -131,17 +136,31 @@ public class ResultsListView extends ViewImpl implements
 	public void initDataGrid() {
 		dataGrid.addColumn(new PhenotypeIdColumn(),"ID");
 		dataGrid.addColumn(new NameColumn(searchTerms.get(CRITERIA.Name)),"Name");
+		dataGrid.addColumn(new MaxScore10Column(),"S10C");
+		dataGrid.addColumn(new MaxScore16Column(),"S16C");
+		dataGrid.addColumn(new MaxScoreFullColumn(),"SFull");
+		dataGrid.addColumn(new PseudoHeritability10Column(),"P10C");
+		dataGrid.addColumn(new PseudoHeritability16Column(),"P10C");
 		dataGrid.addColumn(new ChrColumn(searchTerms.get(CRITERIA.Chr)),"Chr");
 		dataGrid.addColumn(new StartColumn(),"Start");
 		dataGrid.addColumn(new EndColumn(),"End");
 		dataGrid.addColumn(new DetailsColumn(NameTokens.phenotypepage),"Action");
 		
 		dataGrid.setColumnWidth(dataGrid.getColumn(0),80,Unit.PX );
-		dataGrid.setColumnWidth(dataGrid.getColumn(1),60, Unit.PCT);
-		dataGrid.setColumnWidth(dataGrid.getColumn(2),50, Unit.PX);
-		dataGrid.setColumnWidth(dataGrid.getColumn(3),20, Unit.PCT);
-		dataGrid.setColumnWidth(dataGrid.getColumn(4),20, Unit.PCT);
-		dataGrid.setColumnWidth(dataGrid.getColumn(5),100,Unit.PX);
+		dataGrid.setColumnWidth(dataGrid.getColumn(1),285, Unit.PX);
+		
+		/*dataGrid.setColumnWidth(dataGrid.getColumn(3),20, Unit.PCT);
+		dataGrid.setColumnWidth(dataGrid.getColumn(4),20, Unit.PCT);*/
+		dataGrid.setColumnWidth(dataGrid.getColumn(2),10, Unit.PCT);
+		dataGrid.setColumnWidth(dataGrid.getColumn(3),10, Unit.PCT);
+		dataGrid.setColumnWidth(dataGrid.getColumn(4),10, Unit.PCT);
+		dataGrid.setColumnWidth(dataGrid.getColumn(5),10, Unit.PCT);
+		dataGrid.setColumnWidth(dataGrid.getColumn(6),10, Unit.PCT);
+		dataGrid.setColumnWidth(dataGrid.getColumn(7),10, Unit.PCT);
+		dataGrid.setColumnWidth(dataGrid.getColumn(7),10, Unit.PCT);
+		dataGrid.setColumnWidth(dataGrid.getColumn(8),285, Unit.PX);
+		dataGrid.setColumnWidth(dataGrid.getColumn(9),285, Unit.PX);
+		dataGrid.setColumnWidth(dataGrid.getColumn(10),100,Unit.PX);
 	}
 	
 	@Override

@@ -558,4 +558,35 @@
 	cursor:default;
 }
 
+.nav_item_selected, .nav_item_selected:hover {
+	background-color:#D5D5D5;
+}
 
+.nav_container {
+	margin-top:5px;
+	background-color:#FAFAFA;
+}
+.nav_list {
+	list-style:none;
+	margin:0;
+	padding:8px 0px 8px 4px;
+}
+
+.nav_item {
+}
+
+
+.nav_item a {
+	color:#444444;
+	padding: 6px 0 6px 8px;
+	display:inline-block;
+	width:100%;
+	 -webkit-transition: literal("all 130ms ease-in-out 0s");
+    -moz-transition: literal("all 130ms ease-in-out 0s");
+    -o-transition: literal("all 130ms ease-in-out 0s");
+    transition: literal("all 130ms ease-in-out 0s");
+}
+.nav_item a:hover {
+	background-color:#ECECEC;
+	text-decoration:none;
+}

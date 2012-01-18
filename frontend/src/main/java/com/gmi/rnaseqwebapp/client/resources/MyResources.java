@@ -43,7 +43,12 @@ public interface MyResources extends ClientBundle {
 		 String help_image_close_link();
 		 String header();
 		 String indicator_small_icon();
+		 String nav_item_selected();
+		 String nav_container();
+		 String nav_list();
+		 String nav_item();
 	 }
+	 
 	 
 	 @Source("logo.png")
 	 ImageResource logo();
@@ -60,4 +65,5 @@ public interface MyResources extends ClientBundle {
 	 
 	 @Source("style.css")
 	 MainStyle style();
+	 
 }

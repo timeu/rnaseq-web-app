@@ -11,6 +11,8 @@ public class Transformation extends BaseModel {
 	String dataset;
 	List<Cofactor> cofactors;
 	List<GWASResult> results;
+	List<CisVsTransStat> tssUpstream;
+	List<CisVsTransStat> radius;
 	
 	
 	public String getName() {
@@ -48,4 +50,11 @@ public class Transformation extends BaseModel {
 		return cofactors.subList(0, step);
 	}
 	
+	public List<CisVsTransStat> getTssUpstream()  {
+		return tssUpstream;
+	}
+	
+	public List<CisVsTransStat> getRadius()  {
+		return radius;
+	}
 }

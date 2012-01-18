@@ -1,30 +1,15 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:c="urn:import:com.google.gwt.user.cellview.client"
 	xmlns:gui="urn:import:com.gmi.rnaseqwebapp.client.ui"
-	xmlns:gview="urn:import:at.gmi.nordborglab.widgets.geneviewer.client"
-	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
-	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
-	ui:generateLocales='default'>
+	xmlns:gview="urn:import:at.gmi.nordborglab.widgets.geneviewer.client">
 	
 	<ui:with field="mainRes" type="com.gmi.rnaseqwebapp.client.resources.MyResources" />
-	
 	<ui:style>
-		.test {
-		left:5px !important;
-		right:5px !important;
-		top:5px !important;
-		bottom:5px !important;
-
-	}
-	
-	.checkbox {
-		vertical-align:middle;
-		display:inline !important;
-
-	}
+		.download_link {
+			margin-right:10px;
+		}
 	</ui:style>
 	<g:DockLayoutPanel unit="EM"  ui:field="container" width="">
 		<g:north size="25">
@@ -37,7 +22,8 @@
 						<div class="{mainRes.style.filterbox_container}">
 							<ul class="{mainRes.style.filterbox}">
 								<li class="{mainRes.style.filterbox_header_row}">
-									<span class="{mainRes.style.filterbox_title}">Filter</span>
+									<span ui:field="top_list" class="{mainRes.style.filterbox_title}">Filter</span>
+									<a class="{style.download_link}" ui:field="download_link">Download CSV</a>
 									<div style="float:right">
 										<b>Select:</b> &nbsp;&nbsp;
 										<g:Button ui:field="btn_filter_chr_all" text="All" stylePrimaryName="{mainRes.style.round_button}" />
@@ -52,20 +38,18 @@
 									<div>
 										<table border="0" cellpadding="0" cellspacing="0" class="{mainRes.style.filterbox_search_criterias}">
 											<colgroup>
-												<col style="width:80px"></col>
 												<col style="width:285px"></col>
-												<col style="width:70%"></col>
-												<col style="width:285px"></col>
-												<col style="width:285px"></col>
-												<col style="width:100px"></col>
+												<col style="width:50%"></col>
+												<col style="width:25%"></col>
+												<col style="width:30%"></col>
 											</colgroup>
 											<tbody>
 												<tr>
-													<td>Realtime: <g:SimpleCheckBox  addStyleNames="{style.checkbox}" ui:field="cb_real_time" ></g:SimpleCheckBox> </td>
+													<!-- <td>Realtime: <g:SimpleCheckBox  addStyleNames="{style.checkbox}" ui:field="cb_real_time" ></g:SimpleCheckBox> </td> -->
 													<td style="padding:0 15px"><gui:SearchTextBox addStyleNames="{mainRes.style.searchbox} {mainRes.style.searchbox_white}" ui:field="Search_Name"></gui:SearchTextBox></td>
 													<td style="padding:0 15px"></td>
-													<td style="padding:0 15px"><gui:SearchTextBox addStyleNames="{mainRes.style.searchbox} {mainRes.style.searchbox_white}" ui:field="Search_Start"></gui:SearchTextBox></td>
-													<td style="padding:0 15px"><gui:SearchTextBox addStyleNames="{mainRes.style.searchbox} {mainRes.style.searchbox_white}" ui:field="Search_End"></gui:SearchTextBox></td>
+													<td style="padding:0 15px"><gui:SearchTextBox addStyleNames="{mainRes.style.searchbox} {mainRes.style.searchbox_white}" ui:field="Search_Score"></gui:SearchTextBox></td>
+													<td style="padding:0 15px"></td>
 												</tr>
 											</tbody>
 										</table>
@@ -82,7 +66,7 @@
 							<
 						</g:layer>
 					</g:LayoutPanel> -->
-					<g:SimpleLayoutPanel addStyleNames="{mainRes.style.box_shadow} {style.test}">
+					<g:SimpleLayoutPanel addStyleNames="{mainRes.style.box_shadow}">
 						<g:LayoutPanel addStyleNames="{mainRes.style.layout_box_container}">
 							<g:layer top="0" bottom="2.8em">
 								<c:DataGrid ui:field="dataGrid" width="100%" height="100%" />
@@ -125,4 +109,4 @@
 			</g:DockLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>
-</ui:UiBinder>
+</ui:UiBinder> 

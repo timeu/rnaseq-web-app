@@ -5,12 +5,10 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.inject.Inject;
 import com.gwtplatform.dispatch.client.actionhandler.caching.Cache;
 
-public class GetPhenotypersActionHandler
-		extends
-		AbstractRequestBuilderCacheClientActionHandler<GetPhenotypesAction, GetPhenotypesActionResult> {
+public class GetSNPResultsActionHandler extends AbstractRequestBuilderCacheClientActionHandler<GetSNPResultsAction, GetSNPResultsActionResult> {
 
 	@Inject
-	protected GetPhenotypersActionHandler(Cache cache, EventBus eventBus) {
-		super(GetPhenotypesAction.class, cache, eventBus, true, false, false);
+	protected GetSNPResultsActionHandler(Cache cache, EventBus eventBus) {
+		super(GetSNPResultsAction.class, cache, eventBus, true, false, false);
 	}
 }

@@ -6,6 +6,8 @@
 	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
 	ui:generateLocales='default'>
+	<ui:with field="mainRes" type="com.gmi.rnaseqwebapp.client.resources.MyResources" />
+	<ui:with type="com.gmi.rnaseqwebapp.client.NameTokens" field="nameTokens"></ui:with>
      <ui:style>
          .container {
 			margin-left:5pt;
@@ -14,12 +16,63 @@
     </ui:style>
 	<g:DockLayoutPanel unit="EM" width="100%" height="100%">
 		<g:west size="10.0">
-			<g:StackLayoutPanel unit="EM">
-				<g:stack>
-					<g:header size='2'>Genes</g:header>
-					<g:Label>Search</g:Label>
-				</g:stack>
-			</g:StackLayoutPanel>
+			<g:HTMLPanel addStyleNames="{mainRes.style.tree_container} {mainRes.style.nav_container}">
+				<div class="{mainRes.style.tree_header}"><span>Phenotypes</span>
+				</div>
+				<div>
+					<ul class="{mainRes.style.nav_list}">
+						<li class="{mainRes.style.nav_item}" >
+							<g:InlineHyperlink ui:field="browseLink" targetHistoryToken="{nameTokens.getResultslistpage}" text="Browse"  addStyleNames="{mainRes.style.nav_item_selected}"/>
+						</li>
+					</ul>
+					
+				</div>
+				<div class="{mainRes.style.tree_header}"><span>Top-SNPs</span>
+				</div>
+				<div class="{mainRes.style.tree_header}"><span>10°C</span></div>
+				<div>
+					<ul class="{mainRes.style.nav_list}">
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink  ui:field="EX10Link"  text="EX" targetHistoryToken="{nameTokens.getTopsnpslistpage10EX}"/>
+					</li>
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink  ui:field="LM10Link" text="LM" targetHistoryToken="{nameTokens.getTopsnpslistpage10LM}"/>
+					</li>
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink  ui:field="KW10Link" text="KW" targetHistoryToken="{nameTokens.getTopsnpslistpage10KW}"/>
+					</li>
+					</ul>
+				</div>
+				<div class="{mainRes.style.tree_header}"><span>16°C</span></div>
+				<div>
+					<ul class="{mainRes.style.nav_list}">
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink  ui:field="EX16Link" text="EX" targetHistoryToken="{nameTokens.getTopsnpslistpage16EX}"/>
+					</li>
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink  ui:field="LM16Link" text="LM" targetHistoryToken="{nameTokens.getTopsnpslistpage16LM}"/>
+					</li>
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink ui:field="KW16Link"  text="KW" targetHistoryToken="{nameTokens.getTopsnpslistpage16KW}"/>
+					</li>
+					</ul>
+				</div>
+				<div class="{mainRes.style.tree_header}"><span>GxE</span></div>
+				<div>
+					<ul class="{mainRes.style.nav_list}">
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink ui:field="GxEFullLink" text="Full" targetHistoryToken="{nameTokens.getTopsnpslistpageGxEFull}"/>
+					</li>
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink ui:field="GxEGeneticLink" text="Genetic" targetHistoryToken="{nameTokens.getTopsnpslistpageGxEGenetic}"/>
+					</li>
+					<li class="{mainRes.style.nav_item}"  >
+						<g:InlineHyperlink ui:field="GxEEnvironLink" text="Environ" targetHistoryToken="{nameTokens.getTopsnpslistpageGxEEnviron}"/>
+					</li>
+					</ul>
+				</div>
+				<g:HTMLPanel ui:field="step_wise_container" />
+			</g:HTMLPanel>
 		</g:west>
 		<g:center>
 			<gwas:SlidingPanel ui:field="contentContainer" addStyleNames="{style.container}">
