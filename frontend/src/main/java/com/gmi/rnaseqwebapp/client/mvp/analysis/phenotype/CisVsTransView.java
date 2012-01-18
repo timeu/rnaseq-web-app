@@ -2,16 +2,9 @@ package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
 import com.gmi.rnaseqwebapp.client.dto.CisVsTransStat;
 import com.gmi.rnaseqwebapp.client.resources.CellTableResources;
+import com.gmi.rnaseqwebapp.client.ui.ColoredCell;
 import com.gmi.rnaseqwebapp.client.ui.ResizeableColumnChart;
 import com.gmi.rnaseqwebapp.client.ui.ResizeableLineChart;
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.safecss.shared.SafeStyles;
-import com.google.gwt.safecss.shared.SafeStylesUtils;
-import com.google.gwt.safehtml.client.SafeHtmlTemplates;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -22,8 +15,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.visualization.client.AbstractDataTable;
-import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
-import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.google.gwt.visualization.client.visualizations.corechart.Options;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
@@ -34,35 +25,7 @@ public class CisVsTransView extends ViewImpl implements CisVsTransPresenter.MyVi
 	public interface Binder extends UiBinder<Widget, CisVsTransView> {
 	}
 	
-	static class ColoredCell extends AbstractCell<Number> {
-		
-		private static Templates templates = GWT.create(Templates.class);
-		
-		interface Templates extends SafeHtmlTemplates {
-			
-			@SafeHtmlTemplates.Template("<div style=\"{0}\">{1}</div>")
-			SafeHtml cell(SafeStyles styles, SafeHtml value);
-		}
-
-
-		@Override
-		public void render(com.google.gwt.cell.client.Cell.Context context,
-				Number value, SafeHtmlBuilder sb) {
-			if (value == null) {
-		        return;
-		      }
-			  String color ="black";
-			  
-			  if (value.floatValue() > 1.3)
-				  color="green";
-			  color = "color:" + color+";";
-		      SafeHtml safeValue = SafeHtmlUtils.fromString(value.toString());
-		      SafeStyles styles = SafeStylesUtils.fromTrustedString(color);
-		      SafeHtml rendered = templates.cell(styles, safeValue);
-		      sb.append(rendered);
-		}
-		
-	}
+	
 	public enum CHART_TYPE  {COLUMN,LINE};
 	private static  Integer chartHeight = 280;
 	private final CellTableResources cellTableResources;
@@ -127,7 +90,7 @@ public class CisVsTransView extends ViewImpl implements CisVsTransPresenter.MyVi
 			}
 			
 		}, "pHg_L");
-		table.addColumn(new Column<CisVsTransStat,Number>(new ColoredCell()) {
+		table.addColumn(new Column<CisVsTransStat,Number>(new ColoredCell(new Float(1.3))) {
 
 			@Override
 			public Number getValue(CisVsTransStat object) {
@@ -169,29 +132,6 @@ public class CisVsTransView extends ViewImpl implements CisVsTransPresenter.MyVi
 		return options;
 	}
 	
-	@Override
-	public void detachCharts() {
-		chart_container.clear();
-		line_chart = null;
-		column_chart = null;
-	}
-	
-	@Override
-	public HasData<CisVsTransStat> getDisplay() {
-		return table;
-	}
-
-	@Override
-	public void drawChart(AbstractDataTable data, CHART_TYPE type) {
-		switch (type) {
-			case COLUMN:
-				drawColumnChart(data);
-				break;
-			case LINE:
-				drawLineChart(data);
-		}
-		
-	}
 	
 	private void drawColumnChart(AbstractDataTable data) {
 		if (line_chart != null) {
@@ -223,21 +163,32 @@ public class CisVsTransView extends ViewImpl implements CisVsTransPresenter.MyVi
 
 
 	@Override
+	public void detachCharts() {
+		chart_container.clear();
+		line_chart = null;
+		column_chart = null;
+	}
+	
+	@Override
+	public HasData<CisVsTransStat> getDisplay() {
+		return table;
+	}
+
+	@Override
+	public void drawChart(AbstractDataTable data, CHART_TYPE type) {
+		switch (type) {
+			case COLUMN:
+				drawColumnChart(data);
+				break;
+			case LINE:
+				drawLineChart(data);
+		}
+		
+	}
+	
+	@Override
 	public void setTitle(String title) {
 		this.title = title;
 		
 	}
-	
-	/*private void drawRadiusColumnChart(DataTable data) {
-		
-	}
-	
-	private void drawRadiusLineChart(AbstractDataTable data) {
-		if (tss_line_chart == null) {
-			tss_line_chart = new LineChart(data, createCVTLineChartOptions(280,tss_chart_container.getOffsetWidth(),"TSS-upstream"));
-			tss_chart_container.add(tss_line_chart);
-		}
-		else
-			tss_line_chart.draw(data, createColumnchartOptions());
-	}*/
 }
