@@ -33,8 +33,6 @@ public class PhenotypePresenter extends
 	public interface MyView extends View {
 
 		void showPhenotypeInfo(Phenotype phenotype);
-		// TODO Put your view methods here
-
 		void setActiveLink(NAV_ITEMS item);
 	}
 
@@ -49,8 +47,9 @@ public class PhenotypePresenter extends
 	private final PlaceManager placeManager;
 	private final DispatchAsync dispatch;
 	private final PhenotypeReader phenotypeReader;
-	private  final PhenotypeOverviewPresenter phenotypeOverviewPresenter;
+	private final PhenotypeOverviewPresenter phenotypeOverviewPresenter;
 	private final PhenotypeDetailPresenter phenotypeDetailPresenter;
+	private final GxEDetailPresenter gxeDetailPresenter; 
 	
 	private Phenotype phenotype;
 	private DataTable histogramDataTable;
@@ -60,11 +59,13 @@ public class PhenotypePresenter extends
 			final MyProxy proxy, final PlaceManager placeManager, 
 			final DispatchAsync dispatch, final PhenotypeReader phenotypeReader,
 			final PhenotypeOverviewPresenter phenotypeOverviewPresenter,
-			final PhenotypeDetailPresenter phenotypeDetailPresenter) {
+			final PhenotypeDetailPresenter phenotypeDetailPresenter,
+			final GxEDetailPresenter gxeDetailPresenter) {
 		super(eventBus, view, proxy);
 		this.placeManager = placeManager;
 		this.dispatch = dispatch;
 		this.phenotypeReader = phenotypeReader;
+		this.gxeDetailPresenter = gxeDetailPresenter;
 		this.phenotypeOverviewPresenter = phenotypeOverviewPresenter;
 		this.phenotypeDetailPresenter = phenotypeDetailPresenter;
 	}
@@ -87,26 +88,19 @@ public class PhenotypePresenter extends
 			}
 			else {
 				String env = currentPlace.getParameter("env", "");
-				phenotypeDetailPresenter.setData(phenotype,phenotype.getEnvironmentFromName(env),getSingleHistogramDataTable(env));
-				setInSlot(TYPE_SetMainContent, phenotypeDetailPresenter);
+				if (env.equals("GxE")) {
+					gxeDetailPresenter.setData(phenotype);
+					setInSlot(TYPE_SetMainContent, gxeDetailPresenter);
+				}
+				else{
+					phenotypeDetailPresenter.setData(phenotype,phenotype.getEnvironmentFromName(env),getSingleHistogramDataTable(env));
+					setInSlot(TYPE_SetMainContent, phenotypeDetailPresenter);
+				}
 				getView().setActiveLink(NAV_ITEMS.valueOf(env));
 			}
 		}
 	}
 
-	/*private DataTable getCombinedDataTable() {
-		DataTable combined = DataTable.create();
-		combined.addColumn(ColumnType.STRING, "Phenotype Value","x-axis");
-		combined.addColumn(ColumnType.NUMBER,"10 °C","y-axis");
-		combined.addColumn(ColumnType.NUMBER,"16 °C","y-axis");
-		combined.addRows(hist10dataTable.getNumberOfRows());
-		for (int i = 0;i<hist10dataTable.getNumberOfRows();i++) {
-			combined.setValue(i, 0, hist10dataTable.getValueString(i, 0));
-			combined.setValue(i, 1, hist10dataTable.getValueInt(i, 1));
-			combined.setValue(i, 1, hist16dataTable.getValueInt(i, 1));
-		}
-		return combined;
-	}*/
 
 	private DataTable getSingleHistogramDataTable(String env) {
 		DataTable dataTable = DataTable.create();

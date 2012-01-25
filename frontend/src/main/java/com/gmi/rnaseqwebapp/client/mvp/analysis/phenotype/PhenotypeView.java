@@ -32,12 +32,14 @@ public class PhenotypeView extends ViewImpl implements
 	@UiField InlineHyperlink overviewLink;
 	@UiField InlineHyperlink T16Link;
 	@UiField InlineHyperlink T10Link;
+	@UiField InlineHyperlink GxELink;
 	@UiField LIElement overview_item;
 	@UiField LIElement t16_item;
 	@UiField LIElement t10_item;
+	@UiField LIElement gxe_item;
 	@UiField(provided=true)final MyResources mainRes;
 	
-	public enum NAV_ITEMS {Overview,T16C,T10C};
+	public enum NAV_ITEMS {Overview,T16C,T10C,GxE};
 	
 	private final PlaceManager placeManager;
 
@@ -62,6 +64,7 @@ public class PhenotypeView extends ViewImpl implements
 		overviewLink.setTargetHistoryToken(placeManager.buildHistoryToken(request));
 		T16Link.setTargetHistoryToken(placeManager.buildHistoryToken(request.with("env", NAV_ITEMS.T16C.toString())));
 		T10Link.setTargetHistoryToken(placeManager.buildHistoryToken(request.with("env", NAV_ITEMS.T10C.toString())));
+		GxELink.setTargetHistoryToken(placeManager.buildHistoryToken(request.with("env", NAV_ITEMS.GxE.toString())));
 	}
 
 	@Override
@@ -78,8 +81,9 @@ public class PhenotypeView extends ViewImpl implements
 	public void setActiveLink(NAV_ITEMS item) {
 		String selected_class_name = mainRes.style().indicator_small_icon();
 		overview_item.removeClassName(selected_class_name);
-		t16_item.removeClassName(mainRes.style().indicator_small_icon());
-		t10_item.removeClassName(mainRes.style().indicator_small_icon());
+		t16_item.removeClassName(selected_class_name);
+		t10_item.removeClassName(selected_class_name);
+		gxe_item.removeClassName(selected_class_name);
 		switch (item) {
 			case Overview:
 				overview_item.addClassName(selected_class_name);
@@ -90,6 +94,8 @@ public class PhenotypeView extends ViewImpl implements
 			case T16C:
 				t16_item.addClassName(selected_class_name);
 				break;
+			case GxE:
+				gxe_item.addClassName(selected_class_name);
 		}
 	}
 }
