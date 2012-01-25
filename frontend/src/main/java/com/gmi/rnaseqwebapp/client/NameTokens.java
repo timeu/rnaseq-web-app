@@ -66,15 +66,15 @@ public class NameTokens {
 	}
 	
 	public static String getTopsnpslistpageGxEFull() {
-		return getTopsnpslistpage(ENV.GxE.toString(), "full");
+		return getTopsnpslistpage(ENV.GxE.toString(), "Full");
 	}
 	
 	public static String getTopsnpslistpageGxEEnviron() {
-		return getTopsnpslistpage(ENV.GxE.toString(), "environ");
+		return getTopsnpslistpage(ENV.GxE.toString(), "Environ");
 	}
 
 	public static String getTopsnpslistpageGxEGenetic() {
-		return getTopsnpslistpage(ENV.GxE.toString(), "genetic");
+		return getTopsnpslistpage(ENV.GxE.toString(), "Genetic");
 	}
 
 	
