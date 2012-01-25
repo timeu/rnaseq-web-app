@@ -110,6 +110,12 @@ public class CisVsTransPresenter extends PresenterWidget<CisVsTransPresenter.MyV
 		return data;
 	}
 	
+	@Override
+	protected void onHide() {
+		super.onHide();
+		getView().detachCharts();
+	}
+	
 	
 	
 

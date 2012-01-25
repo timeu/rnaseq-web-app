@@ -51,6 +51,9 @@
 						<li ui:field="t10_item">
 							<g:InlineHyperlink ui:field="T10Link" >10°C</g:InlineHyperlink> 
 						</li>
+						<li ui:field="gxe_item">
+							<g:InlineHyperlink ui:field="GxELink" >GxE</g:InlineHyperlink> 
+						</li>
 						</ul>
    					    <g:InlineLabel ui:field="phenotype_info" addStyleNames="{style.header_info}"/>
 					</div>

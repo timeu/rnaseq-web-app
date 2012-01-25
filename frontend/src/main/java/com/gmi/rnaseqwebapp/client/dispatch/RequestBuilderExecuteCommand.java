@@ -25,10 +25,15 @@ public class RequestBuilderExecuteCommand<A extends RequestBuilderAction<R>,R ex
 		requestBuilder.setCallback(new RequestCallback() {
 			@Override
 			public void onResponseReceived(Request request, Response response) {
-				if (response.getStatusCode() != 200)
-					dispatchRequest.onFailure(new Exception(response.getText()));
-				else
-					dispatchRequest.onSuccess(action.extractResult(response));
+				try  {
+					if (response.getStatusCode() != 200)
+						dispatchRequest.onFailure(new Exception(response.getText()));
+					else
+						dispatchRequest.onSuccess(action.extractResult(response));
+				}
+				catch (Exception e) {
+					dispatchRequest.onFailure(e);
+				}
 			}
 			
 			@Override

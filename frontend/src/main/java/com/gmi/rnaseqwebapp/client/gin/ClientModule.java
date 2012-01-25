@@ -14,6 +14,7 @@ import com.gmi.rnaseqwebapp.client.dto.Readers.CofactorReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.DatasetReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.EnvironmentReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.GWASResultReader;
+import com.gmi.rnaseqwebapp.client.dto.Readers.GxEResultReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypeReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypesReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.SNPResultReader;
@@ -55,6 +56,8 @@ import com.gwtplatform.mvp.client.annotations.GaAccount;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
 import com.gwtplatform.mvp.client.googleanalytics.GoogleAnalyticsNavigationTracker;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.GxEDetailPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.GxEDetailView;
 
 
 
@@ -78,6 +81,7 @@ public class ClientModule extends AbstractPresenterModule {
 	    bind(CisVsTransStatReader.class).asEagerSingleton();
 	    bind(SNPResultReader.class).asEagerSingleton();
 	    bind(SNPResultsReader.class).asEagerSingleton();
+	    bind(GxEResultReader.class).asEagerSingleton();
 	    
 	    bind(DataSource.class).toProvider(JBrowseDataSourceProvider.class).in(Singleton.class);
 	    
@@ -137,6 +141,9 @@ public class ClientModule extends AbstractPresenterModule {
 		
 		bindPresenterWidget(CisVsTransPresenter.class,
 				CisVsTransPresenter.MyView.class, CisVsTransView.class);
+
+		bindSingletonPresenterWidget(GxEDetailPresenter.class,
+				GxEDetailPresenter.MyView.class, GxEDetailView.class);
 	}
 	
 	static class JBrowseDataSourceProvider implements Provider<DataSource> {

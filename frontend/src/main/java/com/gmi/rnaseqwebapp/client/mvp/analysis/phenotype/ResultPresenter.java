@@ -1,5 +1,6 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gmi.rnaseqwebapp.client.ClientData;
@@ -8,6 +9,7 @@ import com.gmi.rnaseqwebapp.client.command.GetGWASDataActionResult;
 import com.gmi.rnaseqwebapp.client.dispatch.CustomCallback;
 import com.gmi.rnaseqwebapp.client.dto.Cofactor;
 import com.gmi.rnaseqwebapp.client.dto.GWASResult;
+import com.gmi.rnaseqwebapp.client.dto.GxEResult;
 import com.gmi.rnaseqwebapp.client.dto.ResultData;
 import com.gmi.rnaseqwebapp.client.events.DisplayNotificationEvent;
 import com.google.gwt.event.shared.EventBus;
@@ -28,20 +30,25 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 		void setDownloadURL(String url);
 		void drawAssociationCharts(List<DataTable> dataTables,List<Cofactor> cofactors,
 				List<Integer> chrLengths, double maxScore,
-				double bonferroniThreshold);
+				double bonferroniThreshold,boolean isStacked);
 		void drawStatisticPlots(DataView view);
 		HasData<Cofactor> getCofactorDisplay();
 		void reset();
 		void detachCharts();
+		void setIsStacked(boolean isStacked);
 	}
+	
+	public enum TYPE {GxE,GWAS}
 	private boolean refresh = false;
+	private TYPE type = TYPE.GWAS;
 	private GWASResult gwasResult;
-	private List<Cofactor> cofactors;
+	private List<Cofactor> cofactors = new ArrayList<Cofactor>();
 	protected List<DataTable> dataTables = null;
 	private final DispatchAsync dispatch;
 	private final ClientData clientData;
 	protected ListDataProvider<Cofactor> cofactorDataProvider = new ListDataProvider<Cofactor>();
 	protected DataTable statistics_data = null;
+	protected GxEResult gxeResult;
 
 	@Inject
 	public ResultPresenter(final EventBus eventBus, final MyView view,
@@ -62,25 +69,51 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 	protected void onReset() {
 		super.onReset();
 		this.initStatistics();
-		if (gwasResult == null) {
+		if ((gwasResult == null && type == TYPE.GWAS) || (gxeResult == null && type == TYPE.GxE)) {
 			DisplayNotificationEvent.fireError(getEventBus(), "Error", "No GWAS result found");
 		}
 		else if (refresh)
 		{
-			String download_url = "/gwas/downloadAssociationData?phenotype="+gwasResult.getPhenotype()+"&environment="+gwasResult.getEnvironment()+"&dataset="+gwasResult.getDataset()+"&transformation="+gwasResult.getTransformation()+"&result"+gwasResult.getName();
+			String download_url = getDataUrl();
 			getView().setDownloadURL(download_url);
-			dispatch.execute(new GetGWASDataAction(gwasResult), new CustomCallback<GetGWASDataActionResult>(getEventBus()) {
-	
+			GetGWASDataAction action;
+			boolean isStacked = false;
+			if (type == TYPE.GWAS) {
+				action = new GetGWASDataAction(gwasResult);
+			}
+			else {
+				action = new GetGWASDataAction(gxeResult);
+				if (gxeResult.getType() == com.gmi.rnaseqwebapp.client.dto.GxEResult.TYPE.Combined)
+					isStacked = true;
+			}
+			getView().setIsStacked(isStacked);
+			dispatch.execute(action, new CustomCallback<GetGWASDataActionResult>(getEventBus()) {
+		
 				@Override
 				public void onSuccess(GetGWASDataActionResult result) {
+					boolean isStacked = false;
+					if (type == TYPE.GxE && gxeResult.getType() == com.gmi.rnaseqwebapp.client.dto.GxEResult.TYPE.Combined)
+						isStacked= true;
+						
 					ResultData info = result.getResultData();
 					dataTables = info.getAssociationTables();
-					getView().drawAssociationCharts(dataTables,cofactors,clientData.getChrSizes(),info.getMaxScore(),info.getBonferroniThreshold());
+					getView().drawAssociationCharts(dataTables,cofactors,clientData.getChrSizes(),info.getMaxScore(),info.getBonferroniThreshold(),isStacked);
 					cofactorDataProvider.setList(cofactors);
 				}
-				
 			});
 		}
+	}
+	
+	protected String getDataUrl() {
+		String url = "/gwas/downloadAssociationData?phenotype=";
+		if (type == TYPE.GWAS) {
+			url = url+gwasResult.getPhenotype()+"&environment="+gwasResult.getEnvironment()+"&dataset="+gwasResult.getDataset()+"&transformation="+gwasResult.getTransformation()+"&result"+gwasResult.getName();
+		}
+		else
+		{
+			url = url + gxeResult.getPhenotype()+"&result="+gxeResult.getType().toString();
+		}
+		return url;
 	}
 	
 	@Override
@@ -103,6 +136,7 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 	}
 
 	public void setData(GWASResult result,List<Cofactor> cofactors) {
+		this.type = TYPE.GWAS;
 		if (gwasResult != result) {
 			refresh = true;
 			getView().reset();
@@ -112,6 +146,18 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 		
 		this.gwasResult = result;
 		this.cofactors = cofactors;
+	}
+	
+	public void setData(GxEResult gxeResult) {
+		this.type = TYPE.GxE;
+		if (this.gxeResult != gxeResult) {
+			refresh = true;
+			getView().reset();
+		}
+		else
+			refresh = false;
+		
+		this.gxeResult = gxeResult;
 	}
 	
 	private void initStatistics() {

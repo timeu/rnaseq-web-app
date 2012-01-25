@@ -30,6 +30,7 @@ public class Phenotype extends BaseModel {
 	Float pseudoHeritability10C;
 	Float pseudoHeritability16C;
 	List<Environment> environments;
+	List<GxEResult> gxeResults = new ArrayList<GxEResult>();
 	
 	@Override
 	public String getId() {
@@ -70,6 +71,10 @@ public class Phenotype extends BaseModel {
 	}
 	public Float getPseudoHeritability16C() {
 		return pseudoHeritability16C;
+	}
+	
+	public List<GxEResult> getGxEResults()  {
+		return gxeResults;
 	}
 	
 	public static  abstract class PhenotypePredicate<S> extends AbstractDtoPredicate<Phenotype, S> {
@@ -140,7 +145,15 @@ public class Phenotype extends BaseModel {
 				return environment;
 		}
 		return null;
-		
+	}
+	
+	public GxEResult getGxEResultFromType(GxEResult.TYPE type) {
+		for (GxEResult gxeResult : getGxEResults()) 
+		{
+			if (type != null && type == gxeResult.type)
+				return gxeResult;
+		}
+		return null;
 	}
 	
 	/*public static <S> List<Phenotype> filter(List<Phenotype> phenotypes, List<PhenotypePredicate<S>> predicates) {

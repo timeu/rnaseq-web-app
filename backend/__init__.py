@@ -46,7 +46,7 @@ class Root:
             chr_sizes:'%s'
         };
     </script>
-    <script type="text/javascript" language="javascript" src="http://www.google.com/jsapi" > </script>
+    <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi" > </script>
     <script type="text/javascript" language="javascript" src="/gwt/rnaseqwebapp.nocache.js"></script>
     
     <title>RNA-Seq Browser</title>

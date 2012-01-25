@@ -17,11 +17,13 @@ import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -53,6 +55,10 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 	@UiField(provided=true) LineChart statistic_chart;
 	@UiField ListBox statistic_type;
 	@UiField HTMLPanel statistic_container;
+	@UiField HTMLPanel model_container;
+	@UiField CheckBox full_check;
+	@UiField CheckBox genetic_check;
+	@UiField CheckBox environ_check;
 	private final DataSource geneDataSource;
 	private final CellTableResources cellTableResources;
 	private String[] colors = {"blue", "green", "red", "cyan", "purple"};
@@ -177,22 +183,37 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 	@Override
 	public void drawAssociationCharts(List<DataTable> dataTables,
 			List<Cofactor> cofactors, List<Integer> chrLengths,
-			double maxScore, double bonferroniThreshold) {
+			double maxScore, double bonferroniThreshold,boolean isStacked) {
 		clearAssociationCharts();
 		Integer i = 1;
 		java.util.Iterator<DataTable> iterator = dataTables.iterator();
 		List<Cofactor> cofactors_to_add = new ArrayList<Cofactor>();
-		cofactors_to_add.addAll(cofactors.subList(1, cofactors.size()));
+		if (cofactors.size() > 0)
+			cofactors_to_add.addAll(cofactors.subList(1, cofactors.size()));
+		String[] color = null;
+		if (isStacked) {
+			color = new String[] {colors[0],colors[1],colors[2]};
+		}
 		while(iterator.hasNext())
 		{
+			GWASGeneViewer chart =null;
 			DataTable dataTable = iterator.next();
-			String color = colors[i%colors.length];
+			if (!isStacked)
+				color = new String[] {colors[i%colors.length]};
 			String gene_marker_color = gene_mark_colors[i%gene_mark_colors.length];
-			GWASGeneViewer chart = new GWASGeneViewer("Chr"+i.toString(), color, gene_marker_color,geneDataSource);
-			gwasGeneViewers.add(chart);
-			
+			if (gwasGeneViewers.size() >= i)
+				chart = gwasGeneViewers.get((i-1));
+			if (chart == null)
+			{
+				chart = new GWASGeneViewer("Chr"+i.toString(), color, gene_marker_color,geneDataSource);
+				chart.setGeneInfoUrl("http://arabidopsis.org/servlets/TairObject?name={0}&type=gene");
+				gwasGeneViewers.add(chart);
+				gwas_container.add((IsWidget)chart);
+			}
+			else {
+				chart.setColor(color);
+			}
 			Iterator<Cofactor> itr = cofactors_to_add.iterator();
-			
 			while(itr.hasNext()){
 				Cofactor cofactor = itr.next();
 				if (cofactor.getChr() == i)
@@ -201,8 +222,6 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 					itr.remove();
 				}
 			}
-			chart.setGeneInfoUrl("http://arabidopsis.org/servlets/TairObject?name={0}&type=gene");
-			gwas_container.add((IsWidget)chart);
 			chart.draw(dataTable,maxScore,0,chrLengths.get(i-1),bonferroniThreshold);
 			i++;
 		}
@@ -220,8 +239,11 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 
 
 	public void clearAssociationCharts() {
+		/*for (GWASGeneViewer gwasgeneViewer: gwasGeneViewers) {
+			gwasgeneViewer.destroy();
+		}
 		gwas_container.clear();
-		gwasGeneViewers.clear();
+		gwasGeneViewers.clear();*/
 	}
 	
 	private Options createStatsticChartOptions() {
@@ -266,5 +288,33 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 		statistic_container.clear();
 		statistic_chart = null;
 	}
+	
+	@UiHandler({"full_check","genetic_check","environ_check"})
+	public void onClickCheckBox(ValueChangeEvent<Boolean> event) 
+	{
+		CheckBox checkbox = (CheckBox)event.getSource();
+		int id = 0;
+		if (checkbox == full_check) {
+			id = 0;
+		}
+		else if (checkbox == genetic_check) {
+			id = 1;
+		}
+		else if (checkbox == environ_check) {
+			id = 2;
+		}
+		for (GWASGeneViewer gwasgeneViewer: gwasGeneViewers) {
+			gwasgeneViewer.setScatterChartVisibilityForSeries(id, event.getValue());
+		}
+	}
+
+	@Override
+	public void setIsStacked(boolean isStacked) {
+		model_container.setVisible(isStacked);
+		full_check.setValue(true);
+		genetic_check.setValue(true);
+		environ_check.setValue(true);
+	}
+	
 	
 }

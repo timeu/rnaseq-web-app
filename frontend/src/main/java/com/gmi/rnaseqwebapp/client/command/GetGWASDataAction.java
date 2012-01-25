@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.gmi.rnaseqwebapp.client.dispatch.RequestBuilderActionImpl;
 import com.gmi.rnaseqwebapp.client.dto.GWASResult;
+import com.gmi.rnaseqwebapp.client.dto.GxEResult;
 import com.gmi.rnaseqwebapp.client.dto.ResultData;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
@@ -15,24 +16,40 @@ import com.google.gwt.visualization.client.DataTable;
 
 public class GetGWASDataAction extends RequestBuilderActionImpl<GetGWASDataActionResult> {
 
+	public enum TYPE {GxE,GWAS}
 	private final String phenotype;
 	private final String environment;
 	private final String dataset;
 	private final String transformation;
 	private final String result;
+	private final TYPE type;
+	
 	
 	public GetGWASDataAction(final GWASResult result) {
+		this(result.getPhenotype(),result.getEnvironment(),result.getDataset(),result.getTransformation(),result.getName(),TYPE.GWAS);
+	}
+	
+	public GetGWASDataAction(final GxEResult result) {
+		this(result.getPhenotype(),"","","",result.getType().toString(),TYPE.GxE);
+	}
+	
+	protected GetGWASDataAction(final String phenotype,final String environment, 
+			final String dataset,final String transformation, final String result,final TYPE type) {
 		super();
-		this.phenotype = result.getPhenotype();
-		this.environment = result.getEnvironment();
-		this.dataset = result.getDataset();
-		this.transformation = result.getTransformation();
-		this.result = result.getName();
+		this.result = result;
+		this.phenotype = phenotype;
+		this.dataset = dataset;
+		this.environment = environment;
+		this.transformation = transformation;
+		this.type = type;
 	}
 
 	@Override
 	public String getUrl() {
-		return getUrl(phenotype,environment, dataset, transformation,result);
+		if (type == TYPE.GWAS)
+			return getUrl(phenotype,environment, dataset, transformation,result);
+		else
+			return getUrl(phenotype, result);
 	}
 
 	@Override
@@ -62,6 +79,10 @@ public class GetGWASDataAction extends RequestBuilderActionImpl<GetGWASDataActio
 	
 	public static String getUrl(String Phenotype,String Environment, String Dataset,String Transformation, String Result)  {
 		return BaseURL + "/getGWASData?phenotype="+ Phenotype + "&environment="+Environment+"&dataset="+Dataset + "&transformation=" + Transformation + "&result=" + Result;
+	}
+	
+	public static String getUrl(String phenotype,String result) {
+		return BaseURL +"/getGxEGWASData?phenotype="+phenotype+"&result="+result;
 	}
 	
 	
