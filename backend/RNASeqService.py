@@ -289,6 +289,42 @@ class RNASeqService:
     def getPhenotypeMotionChartData(self,phenotype,environment,dataset,transformation):
         return {"data":self._getPhenotypeExplorerData(phenotype,environment,dataset,transformation)}
 
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def getGxEGWASData(self,phenotype,result):
+        try:
+            import math
+            retval = {}
+            result =  result.lower()
+            association_result = self.rnaseq_records.get_gxe_results_by_chromosome(phenotype,result)
+            if result != 'combined':
+                description = [('position',"number", "Position"),('value','number','-log Pvalue')]
+                columns_order=("position", "value")
+            else:
+                description =  [('position',"number", "Position"),('full_value','number','Full model'),('genetic_value','number','Common effect'),('environ_value','number','Interaction effect')]
+                columns_order=("position", "full_value","genetic_value","environ_value")
+            chr2data ={}
+            for i in range(1,6):
+                if result == 'combined':
+                    data = zip(association_result[i]['position'],association_result[i]['full'],association_result[i]['genetic'],association_result[i]['environ'])
+                else:
+                    data = zip(association_result[i]['position'].tolist(),association_result[i]['score'].tolist())
+                data_table = gviz_api.DataTable(description)
+                data_table.LoadData(data)
+                chr2data[i] =  data_table.ToJSon() 
+            retval['chr2data'] = chr2data
+            retval['chr2length'] = association_result['chromosome_ends']
+            retval['max_value'] = association_result['max_score']
+            if 'no_of_tests' in association_result:
+                retval['bonferroniThreshold'] = -math.log10(1.0/(association_result['no_of_tests']*20.0))
+            else:
+                retval['bonferroniThreshold'] = -math.log10(1.0/(16000000.0*20.0))
+        except Exception, err:
+            retval ={"status":"ERROR","statustext":"%s"%str(err)}
+        return retval
+    
+    
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def getGWASData(self,phenotype,environment,dataset,transformation,result):
