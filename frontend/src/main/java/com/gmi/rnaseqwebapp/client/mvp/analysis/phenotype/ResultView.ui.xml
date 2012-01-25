@@ -15,6 +15,17 @@
 			float:right;
 		}
 		
+	.top_items  {
+		float:left;
+		position:absolute;
+	}
+	
+	.center_item {
+		left:50%;
+
+	}
+	
+		
 		.container, .chart_container{
 			margin-top:10px;
 			clear:both;
@@ -33,7 +44,12 @@
 			<g:DockLayoutPanel>
 				<g:north size="32.0">
 					<g:HTMLPanel>
+						<div class="{style.top_items}">
 						 Genes: <g:SuggestBox ui:field="searchGene"></g:SuggestBox>
+						</div>
+						 <g:HTMLPanel ui:field="model_container" addStyleNames="{style.top_items} {style.center_item}" visible="false">
+						 	<b>Display:</b> <g:CheckBox ui:field="full_check" checked="true"  /> Full model <g:CheckBox ui:field="genetic_check" checked="true" /> Common effect <g:CheckBox ui:field="environ_check" checked="true" /> Interaction effect 
+						 </g:HTMLPanel>
 			         	<a ui:field="download_link" target="_blank" class="{style.download_link}">Download Results</a>
 					</g:HTMLPanel>
 				</g:north>
