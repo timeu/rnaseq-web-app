@@ -27,4 +27,6 @@ public interface Readers {
 	public interface SNPResultReader extends JsonReader<SNPResult> {}
 	
 	public interface SNPResultsReader extends JsonReader<SNPResults> {} 
+	
+	public interface GxEResultReader extends JsonReader<GxEResult> {}
 }
