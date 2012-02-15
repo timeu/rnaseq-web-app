@@ -14,13 +14,12 @@ import com.google.gwt.visualization.client.DataTable;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.PresenterWidget;
-import com.gwtplatform.mvp.client.View;
 
 
 public class CisVsTransPresenter extends PresenterWidget<CisVsTransPresenter.MyView> {
 	
 	
-	public interface MyView extends View {
+	public interface MyView extends com.gwtplatform.mvp.client.View {
 
 		void drawChart(AbstractDataTable data,CHART_TYPE type);
 		void detachCharts();
