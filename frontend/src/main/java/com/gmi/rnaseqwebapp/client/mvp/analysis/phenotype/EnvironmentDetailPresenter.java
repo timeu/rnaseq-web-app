@@ -5,7 +5,7 @@ import com.gmi.rnaseqwebapp.client.command.GetPhenotypeMotionChartDataActionResu
 import com.gmi.rnaseqwebapp.client.dispatch.CustomCallback;
 import com.gmi.rnaseqwebapp.client.dto.Environment;
 import com.gmi.rnaseqwebapp.client.dto.Transformation;
-import com.google.gwt.event.shared.EventBus;
+import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.inject.Inject;
 import com.gwtplatform.dispatch.shared.DispatchAsync;

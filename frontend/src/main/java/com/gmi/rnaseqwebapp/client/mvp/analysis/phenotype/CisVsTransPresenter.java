@@ -2,10 +2,8 @@ package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
 import java.util.List;
 
-import com.gwtplatform.mvp.client.View;
 import com.gmi.rnaseqwebapp.client.dto.CisVsTransStat;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.CisVsTransView.CHART_TYPE;
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -14,7 +12,9 @@ import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.PresenterWidget;
+import com.gwtplatform.mvp.client.View;
 
 
 public class CisVsTransPresenter extends PresenterWidget<CisVsTransPresenter.MyView> {

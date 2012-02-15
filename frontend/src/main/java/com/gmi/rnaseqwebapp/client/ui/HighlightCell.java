@@ -2,7 +2,6 @@ package com.gmi.rnaseqwebapp.client.ui;
 
 import com.gmi.rnaseqwebapp.client.util.SearchTermHighlight;
 import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;

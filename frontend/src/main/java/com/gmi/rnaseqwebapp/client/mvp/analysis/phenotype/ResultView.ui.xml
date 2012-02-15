@@ -34,6 +34,11 @@
 			width:610px;
 		}	
 		
+		.gwas_container {
+			user-select:none;
+			-webkit-user-select:none;
+			-moz-user-select:none;
+		}
 		
 
 	</ui:style>
@@ -55,7 +60,7 @@
 				</g:north>
 				<g:center>
 					<g:ScrollPanel>
-						<gui:ResizeableFlowPanel ui:field="gwas_container"  />
+						<gui:ResizeableFlowPanel ui:field="gwas_container" addStyleNames="{style.gwas_container}"  />
 					</g:ScrollPanel>
 				</g:center>
 			</g:DockLayoutPanel>

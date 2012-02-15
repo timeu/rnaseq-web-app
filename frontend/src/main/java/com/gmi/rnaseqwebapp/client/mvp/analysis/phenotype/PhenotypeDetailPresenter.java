@@ -1,22 +1,22 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
 
-import com.gwtplatform.mvp.client.PresenterWidget;
-import com.gwtplatform.mvp.client.View;
 import com.gmi.rnaseqwebapp.client.NameTokens;
-import com.gwtplatform.mvp.client.proxy.PlaceManager;
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
-import com.google.inject.Inject;
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.visualization.client.DataTable;
 import com.gmi.rnaseqwebapp.client.dto.Environment;
 import com.gmi.rnaseqwebapp.client.dto.GWASResult;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.Transformation;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.visualization.client.DataTable;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.mvp.client.PresenterWidget;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 
 
 

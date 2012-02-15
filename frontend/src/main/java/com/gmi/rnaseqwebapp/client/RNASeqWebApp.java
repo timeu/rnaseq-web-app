@@ -5,7 +5,6 @@ import com.gmi.rnaseqwebapp.client.gin.ClientGinjector;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.i18n.client.Dictionary;
 import com.gwtplatform.mvp.client.DelayedBindRegistry;
 
 public class RNASeqWebApp implements EntryPoint {

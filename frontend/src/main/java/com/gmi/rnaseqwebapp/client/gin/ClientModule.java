@@ -3,6 +3,9 @@ package com.gmi.rnaseqwebapp.client.gin;
 
 
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.DataSource;
+import at.gmi.nordborglab.widgets.geneviewer.client.datasource.LocalStorageImpl;
+import at.gmi.nordborglab.widgets.geneviewer.client.datasource.LocalStorageImpl.TYPE;
+import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.JBrowseCacheDataSourceImpl;
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.JBrowseDataSourceImpl;
 
 import com.gmi.rnaseqwebapp.client.ClientData;
@@ -48,6 +51,7 @@ import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
 import com.gmi.rnaseqwebapp.client.mvp.main.MainPageView;
 import com.gmi.rnaseqwebapp.client.resources.CellTableResources;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
+import com.google.gwt.storage.client.Storage;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.gwtplatform.dispatch.client.actionhandler.caching.Cache;
@@ -84,7 +88,6 @@ public class ClientModule extends AbstractPresenterModule {
 	    bind(GxEResultReader.class).asEagerSingleton();
 	    
 	    bind(DataSource.class).toProvider(JBrowseDataSourceProvider.class).in(Singleton.class);
-	    
 	    bind(ClientData.class).asEagerSingleton();
 	    
 		//Google Analytics
@@ -148,8 +151,17 @@ public class ClientModule extends AbstractPresenterModule {
 	
 	static class JBrowseDataSourceProvider implements Provider<DataSource> {
 	    public DataSource get() {
-	      return new JBrowseDataSourceImpl("/gwas/");
+	    	at.gmi.nordborglab.widgets.geneviewer.client.datasource.Cache cache = null;
+			if (Storage.isSupported()) {
+				try {
+					cache = new LocalStorageImpl(TYPE.SESSION);
+				}
+				catch (Exception e) {}
+			}
+			else {
+				cache = new at.gmi.nordborglab.widgets.geneviewer.client.datasource.DefaultCacheImpl();
+			}
+	      return new JBrowseCacheDataSourceImpl("/gwas/",cache);
 	    }
 	  }
-
 }

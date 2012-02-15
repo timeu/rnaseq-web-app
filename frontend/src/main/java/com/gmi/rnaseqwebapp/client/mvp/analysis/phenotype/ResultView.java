@@ -11,7 +11,6 @@ import at.gmi.nordborglab.widgets.gwasgeneviewer.client.GWASGeneViewer;
 
 import com.gmi.rnaseqwebapp.client.dto.Cofactor;
 import com.gmi.rnaseqwebapp.client.resources.CellTableResources;
-import com.gmi.rnaseqwebapp.client.ui.ResizeableColumnChart;
 import com.gmi.rnaseqwebapp.client.ui.ResizeableFlowPanel;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -24,7 +23,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ListBox;
@@ -39,7 +37,6 @@ import com.google.gwt.visualization.client.DataView;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.google.gwt.visualization.client.visualizations.corechart.Options;
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.ViewImpl;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 
 public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements ResultPresenter.MyView {
@@ -62,6 +59,7 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 	private final DataSource geneDataSource;
 	private final CellTableResources cellTableResources;
 	private String[] colors = {"blue", "green", "red", "cyan", "purple"};
+	private String[] stacked_colors = {"rgba(0,0,255,0.4)","rgba(255,0,0,0.4)","rgba(0,255,0,0.4)"};
 	private String[] gene_mark_colors = {"red", "red", "blue", "red", "green"};
 	protected List<GWASGeneViewer> gwasGeneViewers = new ArrayList<GWASGeneViewer>();
 	@UiField(provided=true)	final SuggestBox searchGene;
@@ -192,6 +190,7 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 			cofactors_to_add.addAll(cofactors.subList(1, cofactors.size()));
 		String[] color = null;
 		if (isStacked) {
+			color = stacked_colors;
 			color = new String[] {colors[0],colors[1],colors[2]};
 		}
 		while(iterator.hasNext())
@@ -213,6 +212,7 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 			else {
 				chart.setColor(color);
 			}
+			chart.clearSelection();
 			Iterator<Cofactor> itr = cofactors_to_add.iterator();
 			while(itr.hasNext()){
 				Cofactor cofactor = itr.next();

@@ -2,21 +2,16 @@ package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
 import java.util.List;
 
-import at.gmi.nordborglab.widgets.geneviewer.client.datasource.DataSource;
-
+import com.gmi.rnaseqwebapp.client.ClientData;
+import com.gmi.rnaseqwebapp.client.dto.Phenotype;
+import com.google.gwt.visualization.client.AbstractDataTable;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+import com.google.gwt.visualization.client.DataTable;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.PresenterWidget;
 import com.gwtplatform.mvp.client.View;
-import com.gmi.rnaseqwebapp.client.ClientData;
-import com.gmi.rnaseqwebapp.client.dto.CisVsTransStat;
-import com.gmi.rnaseqwebapp.client.dto.Phenotype;
-import com.google.inject.Inject;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.view.client.HasData;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.visualization.client.AbstractDataTable;
-import com.google.gwt.visualization.client.DataTable;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 
 public class PhenotypeOverviewPresenter extends
 		PresenterWidget<PhenotypeOverviewPresenter.MyView> {

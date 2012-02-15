@@ -2,23 +2,16 @@ package com.gmi.rnaseqwebapp.client.mvp.analysis.topsnpslist;
 
 import java.util.HashMap;
 
-import at.gmi.nordborglab.widgets.geneviewer.client.datasource.Gene;
-
 import com.gmi.rnaseqwebapp.client.NameTokens;
-
-
-
 import com.gmi.rnaseqwebapp.client.command.GetSNPResultsAction;
 import com.gmi.rnaseqwebapp.client.command.GetSNPResultsActionResult;
 import com.gmi.rnaseqwebapp.client.dispatch.CustomCallback;
-import com.gmi.rnaseqwebapp.client.dto.Phenotype;
+import com.gmi.rnaseqwebapp.client.dto.Readers.SNPResultsReader;
 import com.gmi.rnaseqwebapp.client.dto.SNPResult;
 import com.gmi.rnaseqwebapp.client.dto.SNPResult.SNPResultGeneChrPredicate;
-import com.gmi.rnaseqwebapp.client.dto.SNPResults;
-import com.gmi.rnaseqwebapp.client.dto.Phenotype.PhenotypeChrPredicate;
-import com.gmi.rnaseqwebapp.client.dto.Readers.SNPResultsReader;
 import com.gmi.rnaseqwebapp.client.dto.SNPResult.SNPResultPredicate;
 import com.gmi.rnaseqwebapp.client.dto.SNPResult.SNPResultPredicate.CRITERIA;
+import com.gmi.rnaseqwebapp.client.dto.SNPResults;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisPresenter;
 import com.gmi.rnaseqwebapp.client.ui.HasSearchHandlers;
 import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
@@ -27,13 +20,13 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;

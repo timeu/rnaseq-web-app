@@ -5,31 +5,19 @@ import java.util.List;
 import at.gmi.nordborglab.widgets.geneviewer.client.GeneViewer;
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.DataSource;
 
-import com.gwtplatform.mvp.client.ViewImpl;
-import com.gmi.rnaseqwebapp.client.dto.CisVsTransStat;
-import com.gmi.rnaseqwebapp.client.dto.Cofactor;
-import com.gmi.rnaseqwebapp.client.resources.CellTableResources;
 import com.gmi.rnaseqwebapp.client.ui.ResizeableBarChart;
 import com.gmi.rnaseqwebapp.client.ui.ResizeableColumnChart;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.AbstractDataTable;
-import com.google.gwt.visualization.client.ChartArea;
-import com.google.gwt.visualization.client.DataTable;
-import com.google.gwt.visualization.client.visualizations.corechart.BarChart;
-import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
-import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.google.gwt.visualization.client.visualizations.corechart.Options;
 import com.google.inject.Inject;
+import com.gwtplatform.mvp.client.ViewImpl;
 
 public class PhenotypeOverviewView extends ViewImpl implements
 		PhenotypeOverviewPresenter.MyView {

@@ -1,11 +1,6 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
-import com.gwtplatform.mvp.client.ViewWithUiHandlers;
-import com.gwtplatform.mvp.client.proxy.PlaceManager;
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gmi.rnaseqwebapp.client.NameTokens;
-import com.gmi.rnaseqwebapp.client.dto.Environment;
-import com.gmi.rnaseqwebapp.client.dto.GWASResult;
 import com.gmi.rnaseqwebapp.client.dto.GxEResult;
 import com.gmi.rnaseqwebapp.client.dto.GxEResult.TYPE;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
@@ -21,9 +16,12 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 
 public class GxEDetailView extends ViewWithUiHandlers<GxEUiHandlers> implements
 		GxEDetailPresenter.MyView {

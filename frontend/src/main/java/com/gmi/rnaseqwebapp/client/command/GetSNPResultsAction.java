@@ -1,12 +1,10 @@
 package com.gmi.rnaseqwebapp.client.command;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import com.gmi.rnaseqwebapp.client.dispatch.RequestBuilderActionImpl;
 import com.gmi.rnaseqwebapp.client.dto.Readers.SNPResultsReader;
 import com.gmi.rnaseqwebapp.client.dto.SNPResult.SNPResultPredicate;
-import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
 import com.google.gwt.http.client.Response;
 
 public class GetSNPResultsAction extends RequestBuilderActionImpl<GetSNPResultsActionResult> {

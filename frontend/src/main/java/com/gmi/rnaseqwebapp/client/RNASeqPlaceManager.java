@@ -3,7 +3,7 @@ package com.gmi.rnaseqwebapp.client;
 import at.gmi.nordborglab.widgets.geochart.client.GeoChart;
 
 import com.gmi.rnaseqwebapp.client.gin.DefaultPlace;
-import com.google.gwt.event.shared.EventBus;
+import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.MotionChart;
 import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;

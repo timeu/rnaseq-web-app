@@ -1,7 +1,5 @@
 package com.gmi.rnaseqwebapp.client.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class GWASResult extends BaseModel {
 

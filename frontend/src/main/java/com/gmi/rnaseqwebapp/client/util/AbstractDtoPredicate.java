@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import com.gmi.rnaseqwebapp.client.dto.SNPResult.SNPResultPredicate;
 import com.google.gwt.regexp.shared.RegExp;
 
 

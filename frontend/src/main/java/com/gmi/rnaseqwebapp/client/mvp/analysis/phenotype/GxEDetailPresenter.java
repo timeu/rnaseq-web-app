@@ -1,18 +1,16 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
+import com.gmi.rnaseqwebapp.client.NameTokens;
+import com.gmi.rnaseqwebapp.client.dto.GxEResult;
+import com.gmi.rnaseqwebapp.client.dto.GxEResult.TYPE;
+import com.gmi.rnaseqwebapp.client.dto.Phenotype;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.PresenterWidget;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
-import com.gmi.rnaseqwebapp.client.NameTokens;
-import com.gmi.rnaseqwebapp.client.dto.GWASResult;
-import com.gmi.rnaseqwebapp.client.dto.GxEResult;
-import com.gmi.rnaseqwebapp.client.dto.GxEResult.TYPE;
-import com.gmi.rnaseqwebapp.client.dto.Phenotype;
-import com.gmi.rnaseqwebapp.client.dto.Transformation;
-import com.google.inject.Inject;
-import com.google.gwt.event.shared.EventBus;
 
 public class GxEDetailPresenter extends
 		PresenterWidget<GxEDetailPresenter.MyView> implements GxEUiHandlers {

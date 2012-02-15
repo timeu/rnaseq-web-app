@@ -5,9 +5,7 @@ import java.util.Iterator;
 
 import com.gmi.rnaseqwebapp.client.dispatch.RequestBuilderActionImpl;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype.PhenotypePredicate;
-import com.gmi.rnaseqwebapp.client.dto.Readers.AccessionsReader;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypesReader;
-import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
 import com.google.gwt.http.client.Response;
 
 public class GetPhenotypesAction extends RequestBuilderActionImpl<GetPhenotypesActionResult> {

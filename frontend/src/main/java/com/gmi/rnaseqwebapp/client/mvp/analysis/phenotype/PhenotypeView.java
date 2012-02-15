@@ -1,21 +1,19 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
-import com.gwtplatform.mvp.client.ViewImpl;
-import com.gwtplatform.mvp.client.proxy.PlaceManager;
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.gmi.rnaseqwebapp.client.ui.SlidingPanel;
 import com.google.gwt.dom.client.LIElement;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.gwtplatform.mvp.client.ViewImpl;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 
 public class PhenotypeView extends ViewImpl implements
 		PhenotypePresenter.MyView {

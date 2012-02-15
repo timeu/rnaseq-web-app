@@ -2,7 +2,7 @@ package com.gmi.rnaseqwebapp.client.dispatch;
 
 
 import com.gmi.rnaseqwebapp.client.event.LoadingIndicatorEvent;
-import com.google.gwt.event.shared.EventBus;
+import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.rpc.AsyncCallback;

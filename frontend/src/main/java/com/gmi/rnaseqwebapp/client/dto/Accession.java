@@ -1,6 +1,5 @@
 package com.gmi.rnaseqwebapp.client.dto;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,8 +10,8 @@ import name.pehl.piriti.commons.client.Format;
 
 import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
 import com.google.gwt.view.client.ProvidesKey;
-import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+import com.google.gwt.visualization.client.DataTable;
 
 public class Accession extends BaseModel implements Comparable<Object>{
 	
