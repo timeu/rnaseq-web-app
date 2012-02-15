@@ -1,14 +1,10 @@
 package com.gmi.rnaseqwebapp.client.command;
 
 import com.gmi.rnaseqwebapp.client.dispatch.RequestBuilderActionImpl;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.visualization.client.DataTable;
-import com.gwtplatform.dispatch.shared.Action;
 
 public class GetPhenotypeMotionChartDataAction extends 	RequestBuilderActionImpl<GetPhenotypeMotionChartDataActionResult> {
 

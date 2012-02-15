@@ -1,18 +1,11 @@
 package com.gmi.rnaseqwebapp.client.ui;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.Phenotypes;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypesReader;
-import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle;
 
 public class PhenotypeSuggestOracle extends MultiWordSuggestOracle {
 

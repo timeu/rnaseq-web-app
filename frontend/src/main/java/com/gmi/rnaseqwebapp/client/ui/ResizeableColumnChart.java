@@ -2,7 +2,6 @@ package com.gmi.rnaseqwebapp.client.ui;
 
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.visualization.client.AbstractDataTable;
-import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.google.gwt.visualization.client.visualizations.corechart.Options;
 

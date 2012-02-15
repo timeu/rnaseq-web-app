@@ -1,7 +1,5 @@
 package com.gmi.rnaseqwebapp.client.dto;
 
-import com.gmi.rnaseqwebapp.client.dto.Phenotype.PhenotypePredicate;
-import com.gmi.rnaseqwebapp.client.dto.Phenotype.PhenotypePredicate.CRITERIA;
 import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
 import com.google.gwt.view.client.ProvidesKey;
 

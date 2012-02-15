@@ -7,7 +7,7 @@ import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.google.inject.Inject;
-import com.google.gwt.event.shared.EventBus;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
 

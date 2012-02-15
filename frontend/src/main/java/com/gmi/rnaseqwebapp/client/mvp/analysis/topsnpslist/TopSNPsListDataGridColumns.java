@@ -1,6 +1,5 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.topsnpslist;
 
-import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.SNPResult;
 import com.gmi.rnaseqwebapp.client.ui.ColoredCell;
 import com.gmi.rnaseqwebapp.client.ui.HighlightCell;

@@ -1,21 +1,13 @@
 package com.gmi.rnaseqwebapp.client;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-
 import com.gmi.rnaseqwebapp.client.dto.Accession;
-import com.gmi.rnaseqwebapp.client.dto.Phenotype.PhenotypePredicate;
-import com.gmi.rnaseqwebapp.client.dto.Phenotype.PhenotypePredicate.CRITERIA;
 import com.gmi.rnaseqwebapp.client.dto.Readers.AccessionReader;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.i18n.client.Dictionary;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.visualization.client.DataTable;
 import com.google.inject.Inject;
 
 

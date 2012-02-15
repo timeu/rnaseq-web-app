@@ -12,7 +12,7 @@ import com.gmi.rnaseqwebapp.client.dto.GWASResult;
 import com.gmi.rnaseqwebapp.client.dto.GxEResult;
 import com.gmi.rnaseqwebapp.client.dto.ResultData;
 import com.gmi.rnaseqwebapp.client.events.DisplayNotificationEvent;
-import com.google.gwt.event.shared.EventBus;
+import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.visualization.client.DataTable;
@@ -70,7 +70,7 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 		super.onReset();
 		this.initStatistics();
 		if ((gwasResult == null && type == TYPE.GWAS) || (gxeResult == null && type == TYPE.GxE)) {
-			DisplayNotificationEvent.fireError(getEventBus(), "Error", "No GWAS result found");
+			DisplayNotificationEvent.fireError(this, "Error", "No GWAS result found");
 		}
 		else if (refresh)
 		{
@@ -107,11 +107,11 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 	protected String getDataUrl() {
 		String url = "/gwas/downloadAssociationData?phenotype=";
 		if (type == TYPE.GWAS) {
-			url = url+gwasResult.getPhenotype()+"&environment="+gwasResult.getEnvironment()+"&dataset="+gwasResult.getDataset()+"&transformation="+gwasResult.getTransformation()+"&result"+gwasResult.getName();
+			url = url+gwasResult.getPhenotype()+"&environment="+gwasResult.getEnvironment()+"&dataset="+gwasResult.getDataset()+"&transformation="+gwasResult.getTransformation()+"&result="+gwasResult.getName();
 		}
 		else
 		{
-			url = url + gxeResult.getPhenotype()+"&result="+gxeResult.getType().toString();
+			url = url + gxeResult.getPhenotype()+"&environment=GxE&result="+gxeResult.getType().toString();
 		}
 		return url;
 	}

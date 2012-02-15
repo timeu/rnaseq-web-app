@@ -4,16 +4,12 @@ import java.util.HashMap;
 
 import at.gmi.nordborglab.widgets.geochart.client.GeoChart;
 
-import com.gwtplatform.mvp.client.ViewImpl;
 import com.gmi.rnaseqwebapp.client.dto.Accession;
 import com.gmi.rnaseqwebapp.client.dto.Accession.AccessionPredicate;
-import com.gmi.rnaseqwebapp.client.dto.Accession.AccessionPredicate.CRITERIA;
 import com.gmi.rnaseqwebapp.client.resources.CellTableResources;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.gmi.rnaseqwebapp.client.ui.HasSearchHandlers;
 import com.gmi.rnaseqwebapp.client.ui.SearchTextBox;
-import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
-import com.gmi.rnaseqwebapp.client.util.SearchTermHighlight;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.maps.client.HasJso;
 import com.google.gwt.maps.client.HasMap;
@@ -33,13 +29,12 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.SingleSelectionModel;
-import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.inject.Inject;
+import com.gwtplatform.mvp.client.ViewImpl;
 
 public class AccessionView extends ViewImpl implements
 		AccessionPresenter.MyView {

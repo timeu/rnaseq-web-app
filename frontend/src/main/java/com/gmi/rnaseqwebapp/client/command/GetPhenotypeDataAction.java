@@ -3,7 +3,6 @@ package com.gmi.rnaseqwebapp.client.command;
 import com.gmi.rnaseqwebapp.client.dispatch.RequestBuilderActionImpl;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypeReader;
-import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;

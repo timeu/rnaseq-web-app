@@ -143,10 +143,15 @@ class RNASeqService:
     
     
     @cherrypy.expose
-    @cherrypy.tools.response_headers(headers=[('Content-Type','application/csv'),('Content-disposition','attachment;filename=results.csv')])
-    def downloadAssociationData(self,phenotype,environment,dataset,transformation,result):
+    @cherrypy.tools.response_headers(headers=[('Content-Type','application/csv')])
+    def downloadAssociationData(self,phenotype,environment,dataset=None,transformation=None,result=None):
         import StringIO,csv
         results = self.rnaseq_records.get_results_for_csv(phenotype,environment,dataset,transformation,result)
+        result_name = result
+        if environment != 'GxE' and result not in ['LM','KW','EX']:
+            result_name = 'EX_step%s' % result[-1]
+        filename = '%s_%s_%s.csv' % (phenotype,environment,result_name)
+        cherrypy.response.headers['Content-disposition'] = 'attachment;filename=%s' %filename
         content = ''
         tempfile = StringIO.StringIO()
         writer = csv.writer(tempfile,delimiter=',')
@@ -337,6 +342,7 @@ class RNASeqService:
             chr2data ={}
             for i in range(1,6):
                 data = zip(association_result[i]['position'].tolist(),association_result[i]['score'].tolist())
+                data.sort()
                 data_table = gviz_api.DataTable(description)
                 data_table.LoadData(data)
                 chr2data[i] =  data_table.ToJSon(columns_order=("position", "value")) 

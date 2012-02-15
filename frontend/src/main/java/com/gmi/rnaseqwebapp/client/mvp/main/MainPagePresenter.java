@@ -14,7 +14,7 @@ import com.gmi.rnaseqwebapp.client.event.LoadingIndicatorEvent.LoadingIndicatorH
 import com.gmi.rnaseqwebapp.client.events.DisplayNotificationEvent;
 import com.gmi.rnaseqwebapp.client.events.DisplayNotificationEvent.DisplayNotificationHandler;
 import com.google.inject.Inject;
-import com.google.gwt.event.shared.EventBus;
+import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.gwtplatform.mvp.client.proxy.RevealRootLayoutContentEvent;
 

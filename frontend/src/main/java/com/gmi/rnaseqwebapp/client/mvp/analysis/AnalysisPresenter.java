@@ -1,22 +1,20 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis;
 
+import com.gmi.rnaseqwebapp.client.NameTokens;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisView.NAV_LINKS;
+import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
+import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
-import com.gwtplatform.mvp.client.annotations.NameToken;
-import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.Proxy;
-import com.gwtplatform.mvp.client.proxy.ProxyPlace;
-import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
-import com.google.inject.Inject;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisView.NAV_LINKS;
-import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
+import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
 public class AnalysisPresenter extends
 		Presenter<AnalysisPresenter.MyView, AnalysisPresenter.MyProxy> {

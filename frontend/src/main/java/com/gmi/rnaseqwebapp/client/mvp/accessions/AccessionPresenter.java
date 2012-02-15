@@ -3,17 +3,15 @@ package com.gmi.rnaseqwebapp.client.mvp.accessions;
 import java.util.HashMap;
 import java.util.List;
 
-import com.gwtplatform.mvp.client.Presenter;
-import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
-import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gmi.rnaseqwebapp.client.ClientData;
 import com.gmi.rnaseqwebapp.client.NameTokens;
-import com.gwtplatform.mvp.client.proxy.ProxyPlace;
-import com.google.inject.Inject;
+import com.gmi.rnaseqwebapp.client.dto.Accession;
+import com.gmi.rnaseqwebapp.client.dto.Accession.AccessionPredicate;
+import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
+import com.gmi.rnaseqwebapp.client.ui.HasSearchHandlers;
+import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.maps.client.HasJso;
 import com.google.gwt.maps.client.HasMap;
 import com.google.gwt.maps.client.base.HasInfoWindow;
@@ -24,13 +22,14 @@ import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.NameToken;
+import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
-import com.gmi.rnaseqwebapp.client.dto.Accession;
-import com.gmi.rnaseqwebapp.client.dto.Accession.AccessionPredicate;
-import com.gmi.rnaseqwebapp.client.dto.Accession.AccessionPredicate.CRITERIA;
-import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
-import com.gmi.rnaseqwebapp.client.ui.HasSearchHandlers;
-import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
 
 public class AccessionPresenter extends
 		Presenter<AccessionPresenter.MyView, AccessionPresenter.MyProxy> {

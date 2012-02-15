@@ -1,31 +1,29 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
-import com.gwtplatform.dispatch.shared.DispatchAsync;
-import com.gwtplatform.mvp.client.Presenter;
-import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.annotations.ContentSlot;
-import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
-import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gmi.rnaseqwebapp.client.NameTokens;
-import com.gwtplatform.mvp.client.proxy.PlaceManager;
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
-import com.gwtplatform.mvp.client.proxy.ProxyPlace;
-import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
-import com.google.inject.Inject;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.visualization.client.DataTable;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
-import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gmi.rnaseqwebapp.client.command.GetPhenotypeDataAction;
 import com.gmi.rnaseqwebapp.client.command.GetPhenotypeDataActionResult;
 import com.gmi.rnaseqwebapp.client.dispatch.CustomCallback;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypeReader;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.AnalysisPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeView.NAV_ITEMS;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.resultslist.ResultsListPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
+import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+import com.google.gwt.visualization.client.DataTable;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.dispatch.shared.DispatchAsync;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.ContentSlot;
+import com.gwtplatform.mvp.client.annotations.NameToken;
+import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceRequest;
+import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
+import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
 public class PhenotypePresenter extends
 		Presenter<PhenotypePresenter.MyView, PhenotypePresenter.MyProxy> {
