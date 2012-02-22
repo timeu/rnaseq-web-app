@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.DataSource;
+import at.gmi.nordborglab.widgets.geneviewer.client.datasource.Gene;
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.GeneSuggestion;
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.ServerSuggestOracle;
 import at.gmi.nordborglab.widgets.gwasgeneviewer.client.GWASGeneViewer;
 
 import com.gmi.rnaseqwebapp.client.dto.Cofactor;
+import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.resources.CellTableResources;
 import com.gmi.rnaseqwebapp.client.ui.ResizeableFlowPanel;
 import com.google.gwt.dom.client.AnchorElement;
@@ -62,6 +64,7 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 	private String[] stacked_colors = {"rgba(0,0,255,0.4)","rgba(255,0,0,0.4)","rgba(0,255,0,0.4)"};
 	private String[] gene_mark_colors = {"red", "red", "blue", "red", "green"};
 	protected List<GWASGeneViewer> gwasGeneViewers = new ArrayList<GWASGeneViewer>();
+	protected Phenotype phenotype;
 	@UiField(provided=true)	final SuggestBox searchGene;
 
 	@Inject
@@ -69,17 +72,23 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 		this.geneDataSource = geneDataSource;
 		this.cellTableResources = cellTableResources;
 		searchGene = new SuggestBox(new ServerSuggestOracle(geneDataSource,5));
+		searchGene.getElement().setAttribute("placeHolder", "Search gene");
 		((DefaultSuggestionDisplay)searchGene.getSuggestionDisplay()).setAnimationEnabled(true);
 		searchGene.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
 			
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				GeneSuggestion suggestion =  (GeneSuggestion)event.getSelectedItem();
-				GWASGeneViewer viewer = getGWASGeneViewer(suggestion.getGene().getChromosome());
+				Gene gene = suggestion.getGene();
+				Gene phenotypeGene = getGeneFromPhenotype();
+				GWASGeneViewer viewer = getGWASGeneViewer(gene.getChromosome());
 				if (viewer != null)
 				{
 					viewer.clearDisplayGenes();
-					viewer.addDisplayGene(suggestion.getGene());
+					if (viewer.getChromosome().equals(phenotypeGene.getChromosome())) {
+						viewer.addDisplayGene(getGeneFromPhenotype());
+					}
+					viewer.addDisplayGene(gene);
 					viewer.refresh();
 				}
 			}
@@ -181,8 +190,11 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 	@Override
 	public void drawAssociationCharts(List<DataTable> dataTables,
 			List<Cofactor> cofactors, List<Integer> chrLengths,
-			double maxScore, double bonferroniThreshold,boolean isStacked) {
+			double maxScore, double bonferroniThreshold,boolean isStacked,
+			Phenotype phenotype) {
 		clearAssociationCharts();
+		this.phenotype = phenotype;
+		Gene gene = getGeneFromPhenotype();
 		Integer i = 1;
 		java.util.Iterator<DataTable> iterator = dataTables.iterator();
 		List<Cofactor> cofactors_to_add = new ArrayList<Cofactor>();
@@ -210,6 +222,7 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 				gwas_container.add((IsWidget)chart);
 			}
 			else {
+				chart.clearDisplayGenes();
 				chart.setColor(color);
 			}
 			chart.clearSelection();
@@ -222,6 +235,8 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 					itr.remove();
 				}
 			}
+			if (chart.getChromosome().equals(gene.getChromosome()))
+				chart.addDisplayGene(gene);
 			chart.draw(dataTable,maxScore,0,chrLengths.get(i-1),bonferroniThreshold);
 			i++;
 		}
@@ -316,5 +331,10 @@ public class ResultView extends ViewWithUiHandlers<ResultUiHandlers> implements 
 		environ_check.setValue(true);
 	}
 	
-	
+	protected Gene getGeneFromPhenotype() {
+		if (phenotype != null) {
+			return new Gene(phenotype.getName(),"Chr"+phenotype.getChr().toString(),phenotype.getStart(),phenotype.getEnd(),"");
+		}
+		return null;
+	}
 }

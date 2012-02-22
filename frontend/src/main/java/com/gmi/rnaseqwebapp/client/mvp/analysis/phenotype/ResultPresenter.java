@@ -10,6 +10,7 @@ import com.gmi.rnaseqwebapp.client.dispatch.CustomCallback;
 import com.gmi.rnaseqwebapp.client.dto.Cofactor;
 import com.gmi.rnaseqwebapp.client.dto.GWASResult;
 import com.gmi.rnaseqwebapp.client.dto.GxEResult;
+import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.ResultData;
 import com.gmi.rnaseqwebapp.client.events.DisplayNotificationEvent;
 import com.google.web.bindery.event.shared.EventBus;
@@ -30,7 +31,8 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 		void setDownloadURL(String url);
 		void drawAssociationCharts(List<DataTable> dataTables,List<Cofactor> cofactors,
 				List<Integer> chrLengths, double maxScore,
-				double bonferroniThreshold,boolean isStacked);
+				double bonferroniThreshold,boolean isStacked,
+				Phenotype phenotype);
 		void drawStatisticPlots(DataView view);
 		HasData<Cofactor> getCofactorDisplay();
 		void reset();
@@ -49,6 +51,7 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 	protected ListDataProvider<Cofactor> cofactorDataProvider = new ListDataProvider<Cofactor>();
 	protected DataTable statistics_data = null;
 	protected GxEResult gxeResult;
+	protected Phenotype phenotype;
 
 	@Inject
 	public ResultPresenter(final EventBus eventBus, final MyView view,
@@ -97,7 +100,7 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 						
 					ResultData info = result.getResultData();
 					dataTables = info.getAssociationTables();
-					getView().drawAssociationCharts(dataTables,cofactors,clientData.getChrSizes(),info.getMaxScore(),info.getBonferroniThreshold(),isStacked);
+					getView().drawAssociationCharts(dataTables,cofactors,clientData.getChrSizes(),info.getMaxScore(),info.getBonferroniThreshold(),isStacked,phenotype);
 					cofactorDataProvider.setList(cofactors);
 				}
 			});
@@ -135,21 +138,23 @@ public class ResultPresenter extends PresenterWidget<ResultPresenter.MyView> imp
 		getView().drawStatisticPlots(view);
 	}
 
-	public void setData(GWASResult result,List<Cofactor> cofactors) {
+	public void setData(GWASResult result,Phenotype phenotype,List<Cofactor> cofactors) {
 		this.type = TYPE.GWAS;
+		this.phenotype = phenotype;
 		if (gwasResult != result) {
 			refresh = true;
 			getView().reset();
 		}
 		else
 			refresh = false;
-		
 		this.gwasResult = result;
 		this.cofactors = cofactors;
+		
 	}
 	
-	public void setData(GxEResult gxeResult) {
+	public void setData(GxEResult gxeResult,Phenotype phenotype) {
 		this.type = TYPE.GxE;
+		this.phenotype = phenotype;
 		if (this.gxeResult != gxeResult) {
 			refresh = true;
 			getView().reset();

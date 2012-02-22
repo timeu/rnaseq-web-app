@@ -84,7 +84,7 @@ public class PhenotypeDetailPresenter
 			getView().setActiveLink(result);
 			Transformation transformation = environment.getDatasets().get(0).getTransformations().get(0);
 			GWASResult gwa_result = transformation.getResultFromName(result);
-			resultPresenter.setData(gwa_result,transformation.getCofactors(gwa_result.getStep()+1));
+			resultPresenter.setData(gwa_result,phenotype,transformation.getCofactors(gwa_result.getStep()+1));
 			setInSlot(TYPE_SetMainContent,resultPresenter);
 		}
 	}
