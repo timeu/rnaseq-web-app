@@ -11,6 +11,10 @@
 	
 	<ui:with field="mainRes" type="com.gmi.rnaseqwebapp.client.resources.MyResources" />
 	<ui:style>
+	@external .gwt-SuggestBoxPopup;
+		.gwt-SuggestBoxPopup {
+			z-index:99999;
+		}
 	.download_link {
 			float:right;
 		}
