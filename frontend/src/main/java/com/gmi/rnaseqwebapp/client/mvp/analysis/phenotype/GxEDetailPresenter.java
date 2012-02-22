@@ -56,7 +56,7 @@ public class GxEDetailPresenter extends
 			gxeResult = phenotype.getGxEResultFromType(GxEResult.TYPE.valueOf(result));
 		getView().setLinkParameter(phenotype);
 		getView().setActiveLink(gxeResult.getType());
-		resultPresenter.setData(gxeResult);
+		resultPresenter.setData(gxeResult,phenotype);
 		setInSlot(TYPE_SetMainContent,resultPresenter);
 	}
 
