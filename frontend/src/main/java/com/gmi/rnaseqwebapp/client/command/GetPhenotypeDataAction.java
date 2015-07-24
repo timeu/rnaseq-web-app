@@ -27,9 +27,11 @@ public class GetPhenotypeDataAction extends RequestBuilderActionImpl<GetPhenotyp
 	public GetPhenotypeDataActionResult extractResult(Response response) {
 		JSONObject json =  JSONParser.parseLenient(response.getText()).isObject();
 		Phenotype phenotype = reader.read(json.get("phenotype").isObject());
-		String histogram_str = json.get("histogramdataTable").isString().stringValue();
-		DataTable histogramdataTable = DataTable.create(JSONParser.parseLenient(histogram_str).isObject().getJavaScriptObject());
-		return new GetPhenotypeDataActionResult(phenotype,histogramdataTable);
+		String mRNA_histogram_str = json.get("mRNAHistogramdataTable").isString().stringValue();
+		String bs_histogram_str = json.get("bsHistogramdataTable").isString().stringValue();
+		DataTable mRNAHistogramdataTable = DataTable.create(JSONParser.parseLenient(mRNA_histogram_str).isObject().getJavaScriptObject());
+		DataTable bsHistogramDataTable = DataTable.create(JSONParser.parseLenient(bs_histogram_str).isObject().getJavaScriptObject());
+		return new GetPhenotypeDataActionResult(phenotype,mRNAHistogramdataTable,bsHistogramDataTable);
 	}
 
 	public static String getUrl(String id) {

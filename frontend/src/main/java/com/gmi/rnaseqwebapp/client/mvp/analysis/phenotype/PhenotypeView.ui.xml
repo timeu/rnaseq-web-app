@@ -28,6 +28,9 @@
 			display:inline;
 			padding:7px 5px;
 	    }
+	    .menu2 {
+	        margin-left: 100px;
+	    }
 	    .menu li {
 			display:inline;
 			color:#5793BD;
@@ -53,6 +56,14 @@
 						</li>
 						<li ui:field="gxe_item">
 							<g:InlineHyperlink ui:field="GxELink" >GxE</g:InlineHyperlink> 
+						</li>
+						</ul>
+						<ul class="{style.menu} {style.menu2}" ui:field="sub_menu">
+						<li class="{mainRes.style.indicator_small_icon}" ui:field="mRNA_item">
+						 <g:InlineHyperlink ui:field="mRNALink">mRNA</g:InlineHyperlink> 
+						</li>
+						<li ui:field="bisulfite_item">
+							<g:InlineHyperlink ui:field="bisulfiteLink">bisulfite</g:InlineHyperlink> 
 						</li>
 						</ul>
    					    <g:InlineLabel ui:field="phenotype_info" addStyleNames="{style.header_info}"/>

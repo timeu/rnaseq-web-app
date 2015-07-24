@@ -7,18 +7,23 @@ import com.gwtplatform.dispatch.shared.Result;
 public class GetPhenotypeDataActionResult implements Result{
 	
 	private final Phenotype phenotype;
-	private final DataTable histogramdataTable;
+	private final DataTable bsHistogramDataTable;
+	private final DataTable mRNAHistogramDataTable;
 	
-	public GetPhenotypeDataActionResult(final Phenotype phenotype,final DataTable histogramdataTable) {
+	public GetPhenotypeDataActionResult(final Phenotype phenotype,final DataTable bsHistogramDataTable,final DataTable mRNAHistogramDataTable) {
 		this.phenotype = phenotype;
-		this.histogramdataTable = histogramdataTable;
+		this.bsHistogramDataTable = bsHistogramDataTable;
+		this.mRNAHistogramDataTable = mRNAHistogramDataTable;
 	}
 	
 	public Phenotype getPhenotype() {
 		return phenotype;
 	}
 	
-	public DataTable gethistogramdataTable() {
-		return histogramdataTable;
+	public DataTable getBsHistogramDataTable() {
+		return bsHistogramDataTable;
+	}
+	public DataTable getmRNAHistogramDataTable() {
+		return mRNAHistogramDataTable;
 	}
 }

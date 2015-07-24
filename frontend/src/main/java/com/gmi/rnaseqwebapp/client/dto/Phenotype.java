@@ -1,7 +1,7 @@
 package com.gmi.rnaseqwebapp.client.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.sound.sampled.Control.Type;
 
 import com.gmi.rnaseqwebapp.client.util.AbstractDtoPredicate;
 import com.google.gwt.view.client.ProvidesKey;
@@ -24,13 +24,9 @@ public class Phenotype extends BaseModel {
 	Integer chr;
 	Integer start;
 	Integer end;
-	Float maxScore10C;
-	Float maxScore16C;
-	Float maxScoreFull;
-	Float pseudoHeritability10C;
-	Float pseudoHeritability16C;
-	List<Environment> environments;
-	List<GxEResult> gxeResults = new ArrayList<GxEResult>();
+	Dataset bsDataset;
+	Dataset mRNADataSet;
+
 	
 	@Override
 	public String getId() {
@@ -53,29 +49,15 @@ public class Phenotype extends BaseModel {
 	public Integer getEnd() {
 		return end;
 	}
-	public List<Environment> getEnvironments() {
-		return environments;
+	
+	public Dataset getBsDataset() {
+		return bsDataset;
 	}
 	
-	public Float getMaxScore10C() {
-		return maxScore10C;
-	}
-	public Float getMaxScore16C() {
-		return maxScore16C;
-	}
-	public Float getMaxScoreFull() {
-		return maxScoreFull;
-	}
-	public Float getPseudoHeritability10C() {
-		return pseudoHeritability10C;
-	}
-	public Float getPseudoHeritability16C() {
-		return pseudoHeritability16C;
+	public Dataset getMRNADataset() {
+		return mRNADataSet;
 	}
 	
-	public List<GxEResult> getGxEResults()  {
-		return gxeResults;
-	}
 	
 	public static  abstract class PhenotypePredicate<S> extends AbstractDtoPredicate<Phenotype, S> {
 
@@ -138,23 +120,14 @@ public class Phenotype extends BaseModel {
 		}
 	}
 
-	public Environment getEnvironmentFromName(String name) {
-		for (Environment environment : getEnvironments()) 
-		{
-			if (name != null && environment.getName().equals(name))
-				return environment;
-		}
-		return null;
+	public Dataset getDatasetFromName(Dataset.TYPE dataset) {
+		if (dataset == Dataset.TYPE.bisulfite) 
+			return bsDataset;
+		else
+			return mRNADataSet;
 	}
+
 	
-	public GxEResult getGxEResultFromType(GxEResult.TYPE type) {
-		for (GxEResult gxeResult : getGxEResults()) 
-		{
-			if (type != null && type == gxeResult.type)
-				return gxeResult;
-		}
-		return null;
-	}
 	
 	/*public static <S> List<Phenotype> filter(List<Phenotype> phenotypes, List<PhenotypePredicate<S>> predicates) {
 		List<Phenotype> filtered_list = new ArrayList<Phenotype>();

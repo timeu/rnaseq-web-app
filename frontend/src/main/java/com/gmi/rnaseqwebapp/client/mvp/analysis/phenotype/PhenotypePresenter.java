@@ -4,9 +4,12 @@ import com.gmi.rnaseqwebapp.client.NameTokens;
 import com.gmi.rnaseqwebapp.client.command.GetPhenotypeDataAction;
 import com.gmi.rnaseqwebapp.client.command.GetPhenotypeDataActionResult;
 import com.gmi.rnaseqwebapp.client.dispatch.CustomCallback;
+import com.gmi.rnaseqwebapp.client.dto.Dataset;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.dto.Readers.PhenotypeReader;
+import com.gmi.rnaseqwebapp.client.gin.RNASeqClientActionHandlerRegistry;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeView.NAV_ITEMS;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeView.SUB_NAV_ITEMS;
 import com.gmi.rnaseqwebapp.client.mvp.main.MainPagePresenter;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
@@ -31,7 +34,7 @@ public class PhenotypePresenter extends
 	public interface MyView extends View {
 
 		void showPhenotypeInfo(Phenotype phenotype);
-		void setActiveLink(NAV_ITEMS item);
+		void setActiveLink(NAV_ITEMS item,SUB_NAV_ITEMS sub_item);
 	}
 
 	@ProxyCodeSplit
@@ -50,7 +53,8 @@ public class PhenotypePresenter extends
 	private final GxEDetailPresenter gxeDetailPresenter; 
 	
 	private Phenotype phenotype;
-	private DataTable histogramDataTable;
+	private DataTable mRNAHistogramDataTable;
+	private DataTable bsHistogramDataTable;
 
 	@Inject
 	public PhenotypePresenter(final EventBus eventBus, final MyView view,
@@ -80,30 +84,36 @@ public class PhenotypePresenter extends
 		if (phenotype != null) {
 			getView().showPhenotypeInfo(phenotype);
 			if (currentPlace.getParameterNames().size() == 1) {
-				phenotypeOverviewPresenter.setData(phenotype,histogramDataTable);
+				phenotypeOverviewPresenter.setData(phenotype,mRNAHistogramDataTable,bsHistogramDataTable);
 				setInSlot(TYPE_SetMainContent, phenotypeOverviewPresenter);
-				getView().setActiveLink(NAV_ITEMS.Overview);
+				getView().setActiveLink(NAV_ITEMS.Overview,SUB_NAV_ITEMS.mRNA);
 			}
 			else {
+				Dataset dataset = phenotype.getDatasetFromName(Dataset.TYPE.valueOf(currentPlace.getParameter("dataset", "")));
 				String env = currentPlace.getParameter("env", "");
 				if (env.equals("GxE")) {
-					gxeDetailPresenter.setData(phenotype);
+					gxeDetailPresenter.setData(phenotype,dataset);
 					setInSlot(TYPE_SetMainContent, gxeDetailPresenter);
 				}
 				else{
-					phenotypeDetailPresenter.setData(phenotype,phenotype.getEnvironmentFromName(env),getSingleHistogramDataTable(env));
+					phenotypeDetailPresenter.setData(phenotype,dataset.getEnvironmentFromName(env),getSingleHistogramDataTable(env,dataset.getType()));
 					setInSlot(TYPE_SetMainContent, phenotypeDetailPresenter);
 				}
-				getView().setActiveLink(NAV_ITEMS.valueOf(env));
+				getView().setActiveLink(NAV_ITEMS.valueOf(env),SUB_NAV_ITEMS.mRNA);
 			}
 		}
 	}
 
 
-	private DataTable getSingleHistogramDataTable(String env) {
+	private DataTable getSingleHistogramDataTable(String env,Dataset.TYPE dataset) {
 		DataTable dataTable = DataTable.create();
 		dataTable.addColumn(ColumnType.STRING, "Phenotype Value","x-axis");
 		dataTable.addColumn(ColumnType.NUMBER,"Frequency","y-axis");
+		DataTable histogramDataTable = null;
+		if (dataset == Dataset.TYPE.bisulfite) 
+			histogramDataTable = bsHistogramDataTable;
+		else
+			histogramDataTable = mRNAHistogramDataTable;
 		dataTable.addRows(histogramDataTable.getNumberOfRows());
 		for (int i = 0;i<histogramDataTable.getNumberOfRows();i++) {
 			dataTable.setValue(i, 0, histogramDataTable.getValueString(i, 0));
@@ -135,7 +145,8 @@ public class PhenotypePresenter extends
 				@Override
 				public void onSuccess(GetPhenotypeDataActionResult result) {
 					PhenotypePresenter.this.phenotype = result.getPhenotype();
-					PhenotypePresenter.this.histogramDataTable = result.gethistogramdataTable();
+					PhenotypePresenter.this.mRNAHistogramDataTable = result.getmRNAHistogramDataTable();
+					PhenotypePresenter.this.bsHistogramDataTable = result.getBsHistogramDataTable();
 					getProxy().manualReveal(PhenotypePresenter.this);
 				}
 

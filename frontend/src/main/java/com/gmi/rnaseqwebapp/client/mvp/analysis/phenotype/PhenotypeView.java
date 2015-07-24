@@ -5,6 +5,7 @@ import com.gmi.rnaseqwebapp.client.dto.Phenotype;
 import com.gmi.rnaseqwebapp.client.resources.MyResources;
 import com.gmi.rnaseqwebapp.client.ui.SlidingPanel;
 import com.google.gwt.dom.client.LIElement;
+import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.InlineHyperlink;
@@ -31,13 +32,20 @@ public class PhenotypeView extends ViewImpl implements
 	@UiField InlineHyperlink T16Link;
 	@UiField InlineHyperlink T10Link;
 	@UiField InlineHyperlink GxELink;
+	@UiField InlineHyperlink bisulfiteLink;
+	@UiField InlineHyperlink mRNALink;
 	@UiField LIElement overview_item;
 	@UiField LIElement t16_item;
 	@UiField LIElement t10_item;
 	@UiField LIElement gxe_item;
+	@UiField LIElement mRNA_item;
+	@UiField LIElement bisulfite_item;
+	@UiField UListElement sub_menu;
+	
 	@UiField(provided=true)final MyResources mainRes;
 	
 	public enum NAV_ITEMS {Overview,T16C,T10C,GxE};
+	public enum SUB_NAV_ITEMS  {mRNA,bisulfite};
 	
 	private final PlaceManager placeManager;
 
@@ -76,12 +84,18 @@ public class PhenotypeView extends ViewImpl implements
 	}
 	
 	@Override
-	public void setActiveLink(NAV_ITEMS item) {
+	public void setActiveLink(NAV_ITEMS item,SUB_NAV_ITEMS sub_item) {
 		String selected_class_name = mainRes.style().indicator_small_icon();
 		overview_item.removeClassName(selected_class_name);
 		t16_item.removeClassName(selected_class_name);
 		t10_item.removeClassName(selected_class_name);
 		gxe_item.removeClassName(selected_class_name);
+		mRNA_item.removeClassName(selected_class_name);
+		bisulfite_item.removeClassName(selected_class_name);
+		if (item == NAV_ITEMS.Overview)
+			sub_menu.setAttribute("style", "display:none");
+		else
+			sub_menu.setAttribute("style", "display:inline");
 		switch (item) {
 			case Overview:
 				overview_item.addClassName(selected_class_name);
@@ -94,6 +108,14 @@ public class PhenotypeView extends ViewImpl implements
 				break;
 			case GxE:
 				gxe_item.addClassName(selected_class_name);
+		}
+		switch (sub_item) {
+			case mRNA:
+				mRNA_item.addClassName(selected_class_name);
+				break;
+			case bisulfite:
+				bisulfite_item.addClassName(selected_class_name);
+				break;
 		}
 	}
 }

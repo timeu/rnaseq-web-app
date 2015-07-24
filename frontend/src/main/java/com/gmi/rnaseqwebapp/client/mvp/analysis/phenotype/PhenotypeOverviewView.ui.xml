@@ -27,16 +27,33 @@
 				</g:ResizeLayoutPanel>
 			</g:HTMLPanel>
 			</g:layer>
-			<g:layer top="300px" height="420px">
-				<g:SimpleLayoutPanel  addStyleNames="{style.container} {mainRes.style.box_shadow}" ui:field="phenotype_container" height="400px"/>
-			</g:layer>
-			<g:layer top="720px" height="200px">
+			<g:layer top="300px" height="820px">
 				<g:LayoutPanel>
 					<g:layer left="0px" width="50%">
-						<g:SimpleLayoutPanel ui:field="score_chart_container" addStyleNames="{style.container} {mainRes.style.box_shadow}"></g:SimpleLayoutPanel>
+						<g:LayoutPanel>
+							<g:layer top="0px" height="420px">
+								<g:SimpleLayoutPanel  addStyleNames="{style.container} {mainRes.style.box_shadow}" ui:field="phenotype_container" height="400px"/>
+							</g:layer>
+							<g:layer top="420px" height="200px">
+								<g:SimpleLayoutPanel ui:field="score_chart_container" addStyleNames="{style.container} {mainRes.style.box_shadow}"></g:SimpleLayoutPanel>
+							</g:layer>
+							<g:layer top="620px" height="200px">
+								<g:SimpleLayoutPanel ui:field="pseudoherit_chart_container" addStyleNames="{style.container} {mainRes.style.box_shadow}"></g:SimpleLayoutPanel>
+							</g:layer>
+						</g:LayoutPanel>
 					</g:layer>
 					<g:layer right="0px" width="50%">
-						<g:SimpleLayoutPanel ui:field="pseudoherit_chart_container" addStyleNames="{style.container} {mainRes.style.box_shadow}"></g:SimpleLayoutPanel>
+						<g:LayoutPanel>
+							<g:layer top="0px" height="420px">
+								<g:SimpleLayoutPanel  addStyleNames="{style.container} {mainRes.style.box_shadow}" ui:field="bs_phenotype_container" height="400px"/>
+							</g:layer>
+							<g:layer top="420px" height="200px">
+								<g:SimpleLayoutPanel ui:field="bs_score_chart_container" addStyleNames="{style.container} {mainRes.style.box_shadow}"></g:SimpleLayoutPanel>
+							</g:layer>
+							<g:layer top="620px" height="200px">
+								<g:SimpleLayoutPanel ui:field="bs_pseudoherit_chart_container" addStyleNames="{style.container} {mainRes.style.box_shadow}"></g:SimpleLayoutPanel>
+							</g:layer>
+						</g:LayoutPanel>
 					</g:layer>
 				</g:LayoutPanel>
 			</g:layer>

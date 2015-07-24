@@ -5,14 +5,19 @@ public class GxEResult extends BaseModel {
 	public enum TYPE {Full,Genetic,Environ,Combined};
 	
 	TYPE type;
+	String dataset;
 	String phenotype;
 	
 	public GxEResult() {
 		
 	}
-	public GxEResult(String phenotype,TYPE type) {
+	public GxEResult(String dataset,TYPE type) {
 		this.type = type;
-		this.phenotype = phenotype;
+		this.dataset = dataset;
+	}
+	
+	public String getDataset() {
+		return dataset;
 	}
 	
 	public String getPhenotype() {

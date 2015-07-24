@@ -111,11 +111,6 @@ public class PhenotypeOverviewView extends ViewImpl implements
 		options.setTitle("Phenotype Histogram");
 		options.setHeight(400);
 		options.setBackgroundColor("#FAFAFA");
-		/*ChartArea area = ChartArea.create();
-		area.setLeft("10%");
-		area.setTop("20%");
-		area.setWidth("75%");
-		options.setChartArea(area);*/
 		return options;
 	}
 	

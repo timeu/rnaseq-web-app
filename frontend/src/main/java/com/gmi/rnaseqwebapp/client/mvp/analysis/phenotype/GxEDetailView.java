@@ -1,6 +1,7 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
 import com.gmi.rnaseqwebapp.client.NameTokens;
+import com.gmi.rnaseqwebapp.client.dto.Dataset;
 import com.gmi.rnaseqwebapp.client.dto.GxEResult;
 import com.gmi.rnaseqwebapp.client.dto.GxEResult.TYPE;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
@@ -90,7 +91,7 @@ public class GxEDetailView extends ViewWithUiHandlers<GxEUiHandlers> implements
 	}
 	
 	@Override 
-	public void setLinkParameter(Phenotype phenotype) {
+	public void setLinkParameter(Phenotype phenotype,Dataset dataset) {
 		PlaceRequest request = new PlaceRequest(NameTokens.phenotypepage).with("id", phenotype.getName()).with("env",NAV_ITEMS.GxE.toString());
 		combinedLink.setTargetHistoryToken(placeManager.buildHistoryToken(request));
 		fullLink.setTargetHistoryToken(placeManager.buildHistoryToken(request.with("result", GxEResult.TYPE.Full.toString())));
@@ -99,7 +100,7 @@ public class GxEDetailView extends ViewWithUiHandlers<GxEUiHandlers> implements
 		geneticLink.setVisible(false);
 		environLink.setTargetHistoryToken(placeManager.buildHistoryToken(request.with("result", GxEResult.TYPE.Environ.toString())));
 		environLink.setVisible(false);
-		for (GxEResult result: phenotype.getGxEResults()) {
+		for (GxEResult result: dataset.getGxEResults()) {
 			if (result.getType() == GxEResult.TYPE.Full)
 				fullLink.setVisible(true);
 			else if (result.getType() ==  GxEResult.TYPE.Genetic)

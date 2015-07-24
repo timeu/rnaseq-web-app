@@ -6,7 +6,6 @@ import at.gmi.nordborglab.widgets.geneviewer.client.datasource.DataSource;
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.LocalStorageImpl;
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.LocalStorageImpl.TYPE;
 import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.JBrowseCacheDataSourceImpl;
-import at.gmi.nordborglab.widgets.geneviewer.client.datasource.impl.JBrowseDataSourceImpl;
 
 import com.gmi.rnaseqwebapp.client.ClientData;
 import com.gmi.rnaseqwebapp.client.NameTokens;
@@ -31,6 +30,8 @@ import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.CisVsTransPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.CisVsTransView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.EnvironmentDetailPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.EnvironmentDetailView;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.GxEDetailPresenter;
+import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.GxEDetailView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeDetailPresenter;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeDetailView;
 import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.PhenotypeOverviewPresenter;
@@ -60,8 +61,7 @@ import com.gwtplatform.mvp.client.annotations.GaAccount;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
 import com.gwtplatform.mvp.client.googleanalytics.GoogleAnalyticsNavigationTracker;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.GxEDetailPresenter;
-import com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype.GxEDetailView;
+
 
 
 
@@ -147,6 +147,7 @@ public class ClientModule extends AbstractPresenterModule {
 
 		bindSingletonPresenterWidget(GxEDetailPresenter.class,
 				GxEDetailPresenter.MyView.class, GxEDetailView.class);
+		
 	}
 	
 	static class JBrowseDataSourceProvider implements Provider<DataSource> {
