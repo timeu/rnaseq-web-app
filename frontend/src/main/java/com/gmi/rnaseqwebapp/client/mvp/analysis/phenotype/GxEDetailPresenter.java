@@ -1,6 +1,7 @@
 package com.gmi.rnaseqwebapp.client.mvp.analysis.phenotype;
 
 import com.gmi.rnaseqwebapp.client.NameTokens;
+import com.gmi.rnaseqwebapp.client.dto.Dataset;
 import com.gmi.rnaseqwebapp.client.dto.GxEResult;
 import com.gmi.rnaseqwebapp.client.dto.GxEResult.TYPE;
 import com.gmi.rnaseqwebapp.client.dto.Phenotype;
@@ -19,12 +20,13 @@ public class GxEDetailPresenter extends
 
 		void setActiveLink(TYPE type);
 
-		void setLinkParameter(Phenotype phenotype);
+		void setLinkParameter(Phenotype phenotype,Dataset dataset);
 	}
 	
 	private final ResultPresenter resultPresenter;
 	private final PlaceManager placeManager;
 	private Phenotype phenotype;
+	private Dataset dataset;
 	
 	public static final Object TYPE_SetMainContent = new Object();
 
@@ -53,8 +55,8 @@ public class GxEDetailPresenter extends
 			gxeResult = new GxEResult(phenotype.getName(),GxEResult.TYPE.Combined);
 		}
 		else
-			gxeResult = phenotype.getGxEResultFromType(GxEResult.TYPE.valueOf(result));
-		getView().setLinkParameter(phenotype);
+			gxeResult = dataset.getGxEResultFromType(GxEResult.TYPE.valueOf(result));
+		getView().setLinkParameter(phenotype,dataset);
 		getView().setActiveLink(gxeResult.getType());
 		resultPresenter.setData(gxeResult,phenotype);
 		setInSlot(TYPE_SetMainContent,resultPresenter);
@@ -66,8 +68,9 @@ public class GxEDetailPresenter extends
 		placeManager.revealPlace(request);
 	}
 	
-	void setData(Phenotype phenotype) {
+	void setData(Phenotype phenotype,Dataset dataset) {
 		this.phenotype = phenotype;
+		this.dataset = dataset;
 	}
 	
 	

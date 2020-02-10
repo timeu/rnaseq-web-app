@@ -58,7 +58,7 @@ public class EnvironmentDetailPresenter extends
 	public void setData(Environment environment,DataTable histogramDataTable) {
 		this.environment = environment;
 		this.histogramDataTable = histogramDataTable;
-		Transformation transformation = environment.getDatasets().get(0).getTransformations().get(0);
+		Transformation transformation = environment.getTransformations().get(0);
 		radiusCisVsTransPresenter.setData(transformation.getRadius(),"Radius");
 		tssCisVsTransPresenter.setData(transformation.getTssUpstream(),"TSS-Upstream");
 	}

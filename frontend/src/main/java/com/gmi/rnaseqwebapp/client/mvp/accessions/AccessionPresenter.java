@@ -121,6 +121,8 @@ public class AccessionPresenter extends
 		getView().initMap();
 		accessionId2Marker.clear();
 		for (final Accession accession:clientData.getAccessions()) {
+			if (accession.getLongitude() == null || accession.getLatitude() == null)
+				continue;
 			final HasMarker marker = getView().createMarkerAt(getView().createLatLng(accession.getLatitude(), accession.getLongitude()));
 			marker.setTitle(accession.getAccessionId().toString());
 			accessionId2Marker.put(accession.getAccessionId(),marker);

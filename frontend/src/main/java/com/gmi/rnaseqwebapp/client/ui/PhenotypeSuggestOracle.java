@@ -62,7 +62,6 @@ public class PhenotypeSuggestOracle extends MultiWordSuggestOracle {
 				});
 			
 				requestBuilder.send();
-			
 			}
 			else
 			{

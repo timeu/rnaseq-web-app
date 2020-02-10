@@ -8,8 +8,9 @@ public class Environment extends BaseModel {
 	
 	String name;
 	String phenotype;
+	String dataset;
 	
-	List<Dataset> datasets;
+	List<Transformation> transformations;
 	
 	public String getName() {
 		return name;
@@ -20,7 +21,7 @@ public class Environment extends BaseModel {
 	}
 	
 	
-	public List<Dataset> getDatasets() {
-		return datasets;
+	public List<Transformation> getTransformations() {
+		return transformations;
 	}
 }

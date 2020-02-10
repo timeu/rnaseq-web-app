@@ -82,7 +82,7 @@ public class PhenotypeDetailView extends ViewImpl implements
 		UListElement step_wise_list = Document.get().createULElement();
 		step_wise_container.getElement().appendChild(step_wise_list);
 		step_wise_list.setClassName(mainRes.style().nav_list());
-		Transformation transformation = environment.getDatasets().get(0).getTransformations().get(0);
+		Transformation transformation = environment.getTransformations().get(0);
 		for (GWASResult result: transformation.getGWASResults()) {
 			String resultName = result.getName();
 			if (resultName.equals("KW"))
