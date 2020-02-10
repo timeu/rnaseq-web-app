@@ -17,7 +17,7 @@
 
 	<properties>
 		<!-- Convenience property to set the GWT version -->
-		<gwtVersion>2.4.0</gwtVersion>
+		<gwtVersion>2.6.1</gwtVersion>
 		<!-- GWT needs at least java 1.5 -->
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,20 +25,6 @@
 	</properties>
 
 	<repositories>
-		<repository>
-			<id>pehl-parent</id>
-			<url>http://pehl-parent.googlecode.com/svn/repository</url>
-		</repository>
-		<repository>
-			<id>totoe-repo</id>
-			<name>Totoe Repository</name>
-			<url>http://totoe.googlecode.com/svn/repository</url>
-		</repository>
-		<repository>
-			<id>piriti-repo</id>
-			<name>Piriti Repository</name>
-			<url>http://piriti.googlecode.com/svn/repository</url>
-		</repository>
 		 <repository>
       <id>nordborglab-snapshots</id>
       <url>https://github.com/timeu/maven-repos/raw/master/snapshots/</url>
@@ -49,12 +35,39 @@
     </repository>
 	</repositories>
 
-	<dependencies>
+	<dependencies> 
+
+<dependency>
+    <groupId>name.pehl</groupId>
+    <artifactId>piriti-user</artifactId>
+    <version>0.10</version>
+    <scope>provided</scope>
+</dependency>
+<dependency>
+    <groupId>name.pehl</groupId>
+    <artifactId>piriti-dev</artifactId>
+    <version>0.10</version>
+    <scope>provided</scope>
+</dependency>
+<dependency>
+    <groupId>name.pehl</groupId>
+    <artifactId>totoe</artifactId>
+    <version>0.7</version>
+    <scope>provided</scope>
+</dependency>
+
+
+
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>${gwtVersion}</version>
 			<scope>provided</scope>
+		</dependency>
+                <dependency>
+		<groupId>org.apache.commons</groupId>
+  <artifactId>commons-lang3</artifactId>
+  <version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -63,18 +76,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>name.pehl.piriti</groupId>
-			<artifactId>piriti-core</artifactId>
-			<version>0.7b2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-    <groupId>name.pehl</groupId>
-    <artifactId>totoe</artifactId>
-    <version>0.2.4</version>
-    <scope>provided</scope>
-</dependency>
 		 <dependency>
      <groupId>com.gwtplatform</groupId>
      <artifactId>gwtp-mvp-client</artifactId>
@@ -98,7 +99,7 @@
    <dependency>
     	<groupId>at.gmi.nordborglab.widgets</groupId>
     	<artifactId>gwasgeneviewer</artifactId>
-    	<version>0.4.8-SNAPSHOT</version>
+    	<version>0.4.7</version>
     </dependency>
 <dependency>
     	<groupId>at.gmi.nordborglab.widgets</groupId>
@@ -133,7 +134,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.4.0</version>
+				<version>2.6.1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -183,7 +184,7 @@
 									<pluginExecutionFilter>
 										<groupId>org.codehaus.mojo</groupId>
 										<artifactId>gwt-maven-plugin</artifactId>
-										<versionRange>[2.4.0,)</versionRange>
+										<versionRange>[2.6.1,)</versionRange>
 										<goals>
 											<goal>resources</goal>
 											<goal>compile</goal>
